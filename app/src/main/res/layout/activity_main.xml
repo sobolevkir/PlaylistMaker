@@ -1,18 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/blue_background"
+    android:orientation="vertical"
+    android:paddingBottom="4dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- На будущее решил сделать доп. viewgroup для хедера -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:padding="4dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/title_size"
+                android:text="@string/app_name"
+                android:fontFamily="@font/ys_display_regular"
+                android:textFontWeight="600"
+                android:clickable="false"/>
+        </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+
+        <Button
+            android:id="@+id/button_search"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginVertical="8dp"
+            android:backgroundTint="@color/white"
+            android:outlineProvider="none"
+            android:text="@string/search"
+            android:textAllCaps="false"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/title_size"
+            android:fontFamily="@font/ys_display_regular"
+            android:textFontWeight="600"
+            android:letterSpacing="0.01"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/search"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@color/dark"/>
+        <Button
+            android:id="@+id/button_library"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginVertical="8dp"
+            android:backgroundTint="@color/white"
+            android:outlineProvider="none"
+            android:text="@string/media_library"
+            android:textAllCaps="false"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/title_size"
+            android:fontFamily="@font/ys_display_regular"
+            android:textFontWeight="600"
+            android:letterSpacing="0.01"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/media_library"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@color/dark" />
+        <Button
+            android:id="@+id/button_settings"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_marginVertical="8dp"
+            android:backgroundTint="@color/white"
+            android:outlineProvider="none"
+            android:text="@string/settings"
+            android:textAllCaps="false"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/title_size"
+            android:fontFamily="@font/ys_display_regular"
+            android:textFontWeight="600"
+            android:letterSpacing="0.01"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/settings"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@color/dark" />
+    </LinearLayout>
+
+</LinearLayout>

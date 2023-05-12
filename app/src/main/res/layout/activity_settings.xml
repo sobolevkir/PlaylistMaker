@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:padding="4dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/arrow_back"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:contentDescription="TODO" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingHorizontal="12dp"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/title_size"
+            android:text="@string/settings"
+            android:fontFamily="@font/ys_display_regular"
+            android:textFontWeight="600"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical">
+
+        <Switch
+            android:id="@+id/switch_dark_theme"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:backgroundTint="@color/transparent"
+            android:fontFamily="@font/ys_display_regular"
+            android:letterSpacing="0.01"
+            android:paddingStart="16dp"
+            android:paddingEnd="7dp"
+            android:text="@string/dark_theme"
+            android:textColor="@color/dark"
+            android:textSize="@dimen/list_text_size"
+            tools:ignore="UseSwitchCompatOrMaterialXml"
+            android:thumbTint="@color/icon_grey"
+            android:trackTint="@color/light_grey"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:backgroundTint="@color/transparent"
+            android:paddingHorizontal="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+                android:clickable="false"
+                android:fontFamily="@font/ys_display_regular"
+                android:letterSpacing="0.01"
+                android:text="@string/share"
+                android:textColor="@color/dark"
+                android:textSize="@dimen/list_text_size"/>
+            <ImageButton
+                android:id="@+id/button_share"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/share"
+                android:contentDescription="TODO" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:backgroundTint="@color/transparent"
+            android:paddingHorizontal="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+                android:clickable="false"
+                android:fontFamily="@font/ys_display_regular"
+                android:letterSpacing="0.01"
+                android:text="@string/support"
+                android:textColor="@color/dark"
+                android:textSize="@dimen/list_text_size"/>
+            <ImageButton
+                android:id="@+id/button_support"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/support"
+                android:contentDescription="TODO" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:backgroundTint="@color/transparent"
+            android:paddingHorizontal="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+                android:clickable="false"
+                android:fontFamily="@font/ys_display_regular"
+                android:letterSpacing="0.01"
+                android:text="@string/user_agreement"
+                android:textColor="@color/dark"
+                android:textSize="@dimen/list_text_size"/>
+            <ImageButton
+                android:id="@+id/user_agreement"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/arrow_forward"
+                android:contentDescription="TODO" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
