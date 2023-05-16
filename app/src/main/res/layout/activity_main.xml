@@ -1,102 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/blue_background"
     android:orientation="vertical"
     android:paddingBottom="4dp">
 
-    <!-- На будущее решил сделать доп. LinearLayout для хедера. ПРОШУ ПРОВЕРИТЬ ВЁРСТКУ НА РАЦИОНАЛЬНОСТЬ (ВОЗМОЖНО Я НАМУДРИЛ С ПАРАМЕТРАМИ) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:padding="4dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingHorizontal="12dp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/title_size"
-                android:text="@string/app_name"
-                android:fontFamily="@font/ys_display_regular"
-                android:textFontWeight="600"
-                android:clickable="false"/>
-        </LinearLayout>
+    <!-- ПРОШУ ПРОВЕРИТЬ ВЁРСТКУ НА РАЦИОНАЛЬНОСТЬ (ВОЗМОЖНО Я НАМУДРИЛ С ПАРАМЕТРАМИ)
+     P.S. На будущее решил сделать доп. LinearLayout для хедера -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:fontFamily="@font/ys_display_regular"
+            android:paddingHorizontal="12dp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textFontWeight="600"
+            android:textSize="@dimen/title_size" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/button_search"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/ys_display_regular"
+            android:foreground="?attr/selectableItemBackground"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:layout_marginVertical="8dp"
-            android:backgroundTint="@color/white"
-            android:foreground="?attr/selectableItemBackground"
+            android:letterSpacing="0.01"
             android:outlineProvider="none"
             android:text="@string/search"
             android:textAllCaps="false"
             android:textColor="@color/dark"
-            android:textSize="@dimen/title_size"
-            android:fontFamily="@font/ys_display_regular"
             android:textFontWeight="600"
-            android:letterSpacing="0.01"
+            android:textSize="@dimen/title_size"
             app:cornerRadius="16dp"
             app:icon="@drawable/search"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
-            app:iconTint="@color/dark"/>
+            app:iconTint="@color/dark" />
+
         <Button
             android:id="@+id/button_library"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/ys_display_regular"
+            android:foreground="?attr/selectableItemBackground"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:layout_marginVertical="8dp"
-            android:backgroundTint="@color/white"
-            android:foreground="?attr/selectableItemBackground"
+            android:letterSpacing="0.01"
             android:outlineProvider="none"
             android:text="@string/media_library"
             android:textAllCaps="false"
             android:textColor="@color/dark"
-            android:textSize="@dimen/title_size"
-            android:fontFamily="@font/ys_display_regular"
             android:textFontWeight="600"
-            android:letterSpacing="0.01"
+            android:textSize="@dimen/title_size"
             app:cornerRadius="16dp"
             app:icon="@drawable/media_library"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
             app:iconTint="@color/dark" />
+
         <Button
             android:id="@+id/button_settings"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/ys_display_regular"
+            android:foreground="?attr/selectableItemBackground"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:layout_marginVertical="8dp"
-            android:backgroundTint="@color/white"
-            android:foreground="?attr/selectableItemBackground"
+            android:letterSpacing="0.01"
             android:outlineProvider="none"
             android:text="@string/settings"
             android:textAllCaps="false"
             android:textColor="@color/dark"
-            android:textSize="@dimen/title_size"
-            android:fontFamily="@font/ys_display_regular"
             android:textFontWeight="600"
-            android:letterSpacing="0.01"
+            android:textSize="@dimen/title_size"
             app:cornerRadius="16dp"
             app:icon="@drawable/settings"
             app:iconGravity="textStart"
