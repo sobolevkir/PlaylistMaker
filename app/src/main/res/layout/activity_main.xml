@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingBottom="4dp">
 
-    <!-- На будущее решил сделать доп. viewgroup для хедера -->
+    <!-- На будущее решил сделать доп. LinearLayout для хедера. ПРОШУ ПРОВЕРИТЬ ВЁРСТКУ НА РАЦИОНАЛЬНОСТЬ (ВОЗМОЖНО Я НАМУДРИЛ С ПАРАМЕТРАМИ) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -42,6 +42,7 @@
             android:insetBottom="0dp"
             android:layout_marginVertical="8dp"
             android:backgroundTint="@color/white"
+            android:foreground="?attr/selectableItemBackground"
             android:outlineProvider="none"
             android:text="@string/search"
             android:textAllCaps="false"
@@ -64,6 +65,7 @@
             android:insetBottom="0dp"
             android:layout_marginVertical="8dp"
             android:backgroundTint="@color/white"
+            android:foreground="?attr/selectableItemBackground"
             android:outlineProvider="none"
             android:text="@string/media_library"
             android:textAllCaps="false"
@@ -86,6 +88,7 @@
             android:insetBottom="0dp"
             android:layout_marginVertical="8dp"
             android:backgroundTint="@color/white"
+            android:foreground="?attr/selectableItemBackground"
             android:outlineProvider="none"
             android:text="@string/settings"
             android:textAllCaps="false"
