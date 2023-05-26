@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="title_size">22sp</dimen>
-    <dimen name="list_text_size">16sp</dimen>
+    <dimen name="settings_menu_text_size">16sp</dimen>
     <dimen name="header_height">56dp</dimen>
     <dimen name="standard_padding">16dp</dimen>
     <dimen name="settings_menu_buttons_height">61dp</dimen>

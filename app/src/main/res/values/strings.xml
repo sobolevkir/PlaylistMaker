@@ -4,8 +4,8 @@
     <string name="search">Поиск</string>
     <string name="settings">Настройки</string>
     <string name="dark_theme">Тёмная тема</string>
-    <string name="share">Поделиться приложением</string>
-    <string name="support">Написать в поддержку</string>
-    <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="share_button_text">Поделиться приложением</string>
+    <string name="support_button_text">Написать в поддержку</string>
+    <string name="user_agreement_button_text">Пользовательское соглашение</string>
     <string name="back">Назад</string>
 </resources>
