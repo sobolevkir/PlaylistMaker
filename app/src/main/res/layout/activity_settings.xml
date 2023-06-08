@@ -25,7 +25,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_dark_theme"
+            android:id="@+id/button_switch_dark_theme"
             android:text="@string/dark_theme"
             style="@style/SettingsMenuItemStyle"/>
 
@@ -42,7 +42,7 @@
             app:icon="@drawable/support_icon" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/user_agreement_button"
+            android:id="@+id/button_user_agreement"
             style="@style/SettingsMenuItemStyle"
             android:text="@string/user_agreement_button_text"
             app:icon="@drawable/arrow_forward_icon" />

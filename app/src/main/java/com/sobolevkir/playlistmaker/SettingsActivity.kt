@@ -1,7 +1,10 @@
 package com.sobolevkir.playlistmaker
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 
 class SettingsActivity : AppCompatActivity() {
@@ -10,8 +13,35 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         val backButton = findViewById<ImageButton>(R.id.button_back)
+        val shareButton = findViewById<Button>(R.id.button_share)
+        val supportButton = findViewById<Button>(R.id.button_support)
+        val userAgreementButton = findViewById<Button>(R.id.button_user_agreement)
 
         backButton.setOnClickListener{ finish() }
+
+        shareButton.setOnClickListener{
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.share_link))
+                type = "text/plain"
+            }
+            startActivity(shareIntent)
+        }
+
+        supportButton.setOnClickListener{
+            val supportIntent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.support_mail_text))
+            }
+            startActivity(supportIntent)
+        }
+
+        userAgreementButton.setOnClickListener{
+            val userAgreementIntent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(getString(R.string.user_agreement_link))
+            }
+            startActivity(userAgreementIntent)
+        }
 
     }
 }
