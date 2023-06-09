@@ -10,7 +10,6 @@
         <item name="colorOnPrimaryFixedVariant">@color/black</item>
 
         <item name="colorSecondary">@color/white</item>
-        <item name="colorSecondaryVariant">@color/text_grey</item>
         <item name="colorOnSecondary">@color/black</item>
 
         <item name="android:colorBackground">@color/black</item>

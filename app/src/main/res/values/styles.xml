@@ -37,7 +37,7 @@
     <style name="MainMenuButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
-        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:layout_marginVertical">@dimen/mini_padding</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:insetTop">0dp</item>
@@ -66,6 +66,19 @@
         <item name="android:textSize">@dimen/enlarged_text_size</item>
         <item name="iconGravity">end</item>
         <item name="iconTint">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="SearchFieldStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/search_field_height</item>
+        <item name="android:layout_marginHorizontal">@dimen/standard_padding</item>
+        <item name="android:layout_marginVertical">@dimen/mini_padding</item>
+        <item name="android:background">@drawable/rounded_search_field</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLength">200</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textColor">?attr/colorOnPrimaryFixedVariant</item>
+        <item name="android:textColorHint">?attr/colorOnSecondary</item>
     </style>
 
 </resources>

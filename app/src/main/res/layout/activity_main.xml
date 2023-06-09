@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/ScreenCommonStyle">
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ScreenCommonStyle"
+    tools:context=".MainActivity">
 
     <LinearLayout
         style="@style/HeaderStyle">
@@ -23,7 +25,7 @@
             android:id="@+id/button_search"
             style="@style/MainMenuButtonStyle"
             android:text="@string/search"
-            app:icon="@drawable/search" />
+            app:icon="@drawable/search_icon" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_library"
@@ -35,7 +37,7 @@
             android:id="@+id/button_settings"
             style="@style/MainMenuButtonStyle"
             android:text="@string/settings"
-            app:icon="@drawable/settings" />
+            app:icon="@drawable/settings_icon" />
 
     </LinearLayout>
 

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/ScreenCommonStyle">
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ScreenCommonStyle"
+    tools:context=".SettingsActivity">
 
     <LinearLayout
         style="@style/HeaderStyle">
 
         <ImageButton
             android:id="@+id/button_back"
-            android:src="@drawable/arrow_back"
+            android:src="@drawable/arrow_back_icon"
             android:contentDescription="@string/back"
             style="@style/HeaderButtonStyle"/>
 

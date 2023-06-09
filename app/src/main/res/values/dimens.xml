@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="standard_padding">16dp</dimen>
+    <dimen name="mini_padding">8dp</dimen>
     <dimen name="large_text_size">22sp</dimen>
     <dimen name="enlarged_text_size">16sp</dimen>
     <dimen name="header_height">56dp</dimen>
     <dimen name="settings_button_height">61dp</dimen>
+    <dimen name="search_field_height">36dp</dimen>
+
 </resources>

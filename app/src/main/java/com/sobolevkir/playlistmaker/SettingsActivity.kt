@@ -30,8 +30,9 @@ class SettingsActivity : AppCompatActivity() {
         supportButton.setOnClickListener{
             val supportIntent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
-                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email)))
-                putExtra(Intent.EXTRA_TEXT, getString(R.string.support_mail_text))
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email_address)))
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_mail_subject))
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.support_mail_message))
             }
             startActivity(supportIntent)
         }

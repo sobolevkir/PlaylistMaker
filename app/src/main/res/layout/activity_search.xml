@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/ScreenCommonStyle"
     tools:context=".SearchActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        style="@style/HeaderStyle">
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:src="@drawable/arrow_back_icon"
+            android:contentDescription="@string/back"
+            style="@style/HeaderButtonStyle"/>
+
+        <TextView
+            android:text="@string/search"
+            style="@style/HeaderTitleStyle"/>
+
+    </LinearLayout>
+
+    <EditText
+        style="@style/SearchFieldStyle"
+            android:id="@+id/inputSearch"
+            android:hint="@string/search"
+        />
+<!--
+        <ImageView
+            android:id="@+id/clearIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@android:drawable/clear_icon"
+            android:visibility="gone" /> -->
+
+</LinearLayout>
