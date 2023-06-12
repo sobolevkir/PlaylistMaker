@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ScreenCommonStyle"
     tools:context=".SearchActivity">
@@ -20,18 +19,18 @@
 
     </LinearLayout>
 
-    <EditText
-        style="@style/SearchFieldStyle"
+    <FrameLayout
+        style="@style/SearchFrameStyle">
+        <EditText
+            style="@style/SearchTextFieldStyle"
             android:id="@+id/inputSearch"
             android:hint="@string/search"
-        />
-<!--
+            android:importantForAutofill="no"/>
         <ImageView
-            android:id="@+id/clearIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@android:drawable/clear_icon"
-            android:visibility="gone" /> -->
+            style="@style/SearchClearButtonStyle"
+            android:id="@+id/clearButton"
+            android:visibility="gone"
+            android:contentDescription="@string/clear" />
+    </FrameLayout>
 
 </LinearLayout>
