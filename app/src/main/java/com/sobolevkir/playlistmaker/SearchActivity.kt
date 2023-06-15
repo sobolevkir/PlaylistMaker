@@ -11,16 +11,34 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 
+var searchQueryText = "" // правильно ли я сделал, что объявил глобальную переменную?
+
 class SearchActivity : AppCompatActivity() {
+
+    companion object {
+        const val SEARCH_QUERY_TEXT = "SEARCH_QUERY_TEXT"
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(SEARCH_QUERY_TEXT, searchQueryText)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        searchQueryText = savedInstanceState.getString(SEARCH_QUERY_TEXT,"")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
-        val backButton = findViewById<ImageButton>(R.id.button_back)
         val inputSearch = findViewById<EditText>(R.id.inputSearch)
+        val backButton = findViewById<ImageButton>(R.id.button_back)
         val clearButton = findViewById<ImageView>(R.id.clearButton)
 
         backButton.setOnClickListener{ finish() }
+
+        inputSearch.setText(searchQueryText)
 
         clearButton.setOnClickListener{
             inputSearch.setText("")
@@ -34,6 +52,7 @@ class SearchActivity : AppCompatActivity() {
                clearButton.visibility = clearButtonVisibility(s)
             }
             override fun afterTextChanged(s: Editable?) {
+                searchQueryText = s.toString()
             }
         }
         inputSearch.addTextChangedListener(searchInputTextWatcher)
@@ -48,9 +67,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun closeKeyboard() {
-        this.currentFocus?.run {
+        this.currentFocus?.let {view ->
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.hideSoftInputFromWindow(this.windowToken, 0)
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 

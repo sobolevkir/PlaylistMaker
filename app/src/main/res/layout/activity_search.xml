@@ -25,6 +25,7 @@
             style="@style/SearchTextFieldStyle"
             android:id="@+id/inputSearch"
             android:hint="@string/search"
+            android:saveEnabled="false"
             android:importantForAutofill="no"/>
         <ImageView
             style="@style/SearchClearButtonStyle"
