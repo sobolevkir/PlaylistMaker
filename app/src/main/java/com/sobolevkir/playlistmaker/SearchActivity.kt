@@ -39,6 +39,7 @@ class SearchActivity : AppCompatActivity() {
         backButton.setOnClickListener{ finish() }
 
         inputSearch.setText(searchQueryText)
+        clearButton.visibility = clearButtonVisibility(inputSearch.text)
 
         clearButton.setOnClickListener{
             inputSearch.setText("")
@@ -49,10 +50,10 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-               clearButton.visibility = clearButtonVisibility(s)
+                searchQueryText = s.toString()
+                clearButton.visibility = clearButtonVisibility(s)
             }
             override fun afterTextChanged(s: Editable?) {
-                searchQueryText = s.toString()
             }
         }
         inputSearch.addTextChangedListener(searchInputTextWatcher)
