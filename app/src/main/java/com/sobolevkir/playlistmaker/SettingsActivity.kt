@@ -19,29 +19,29 @@ class SettingsActivity : AppCompatActivity() {
 
         backButton.setOnClickListener{ finish() }
 
-        shareButton.setOnClickListener{
-            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        shareButton.setOnClickListener {
+            Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.share_link))
                 type = "text/plain"
+                startActivity(this)
             }
-            startActivity(shareIntent)
         }
 
         supportButton.setOnClickListener{
-            val supportIntent = Intent(Intent.ACTION_SENDTO).apply {
+            Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_email_address)))
                 putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_mail_subject))
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.support_mail_message))
+                startActivity(this)
             }
-            startActivity(supportIntent)
         }
 
         userAgreementButton.setOnClickListener{
-            val userAgreementIntent = Intent(Intent.ACTION_VIEW).apply {
+            Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(getString(R.string.user_agreement_link))
+                startActivity(this)
             }
-            startActivity(userAgreementIntent)
         }
 
     }

@@ -11,22 +11,22 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 
-var searchQueryText = "" // правильно ли я сделал, что объявил глобальную переменную?
-
 class SearchActivity : AppCompatActivity() {
 
     companion object {
-        const val SEARCH_QUERY_TEXT = "SEARCH_QUERY_TEXT"
+        private const val SEARCH_QUERY_TEXT = "SEARCH_QUERY_TEXT"
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(SEARCH_QUERY_TEXT, findViewById<EditText>(R.id.inputSearch).text.toString())
         super.onSaveInstanceState(outState)
-        outState.putString(SEARCH_QUERY_TEXT, searchQueryText)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        searchQueryText = savedInstanceState.getString(SEARCH_QUERY_TEXT,"")
+        val inputSearch = findViewById<EditText>(R.id.inputSearch)
+        val searchQueryText = savedInstanceState.getString(SEARCH_QUERY_TEXT,"")
+        inputSearch.setText(searchQueryText)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,26 +35,18 @@ class SearchActivity : AppCompatActivity() {
         val inputSearch = findViewById<EditText>(R.id.inputSearch)
         val backButton = findViewById<ImageButton>(R.id.button_back)
         val clearButton = findViewById<ImageView>(R.id.clearButton)
-
         backButton.setOnClickListener{ finish() }
-
-        inputSearch.setText(searchQueryText)
         clearButton.visibility = clearButtonVisibility(inputSearch.text)
-
         clearButton.setOnClickListener{
             inputSearch.setText("")
             closeKeyboard()
         }
-
         val searchInputTextWatcher = object: TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchQueryText = s.toString()
                 clearButton.visibility = clearButtonVisibility(s)
             }
-            override fun afterTextChanged(s: Editable?) {
-            }
+            override fun afterTextChanged(s: Editable?) {}
         }
         inputSearch.addTextChangedListener(searchInputTextWatcher)
     }
