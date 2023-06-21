@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/ScreenCommonStyle"
     tools:context=".SearchActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        style="@style/HeaderStyle">
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:src="@drawable/arrow_back_icon"
+            android:contentDescription="@string/back"
+            style="@style/HeaderButtonStyle"/>
+
+        <TextView
+            android:text="@string/search"
+            style="@style/HeaderTitleStyle"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        style="@style/SearchFrameStyle">
+        <EditText
+            style="@style/SearchTextFieldStyle"
+            android:id="@+id/inputSearch"
+            android:hint="@string/search"
+            android:saveEnabled="false"
+            android:importantForAutofill="no"/>
+        <ImageView
+            style="@style/SearchClearButtonStyle"
+            android:id="@+id/clearButton"
+            android:visibility="gone"
+            android:contentDescription="@string/clear" />
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,41 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
-
-    <!-- ПРОШУ ПРОВЕРИТЬ ВЁРСТКУ НА РАЦИОНАЛЬНОСТЬ (ВОЗМОЖНО Я НАМУДРИЛ С ПАРАМЕТРАМИ)
-     P.S. На будущее решил сделать доп. LinearLayout для хедера -->
+    style="@style/ScreenCommonStyle"
+    tools:context=".SettingsActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/header_height"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="4dp">
+        style="@style/HeaderStyle">
 
         <ImageButton
             android:id="@+id/button_back"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:background="@null"
+            android:src="@drawable/arrow_back_icon"
             android:contentDescription="@string/back"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrow_back" />
+            style="@style/HeaderButtonStyle"/>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:fontFamily="@font/ys_display_regular"
-            android:paddingHorizontal="12dp"
             android:text="@string/settings"
-            android:textColor="@color/dark"
-            android:textFontWeight="600"
-            android:textSize="@dimen/title_size" />
+            style="@style/HeaderTitleStyle"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -44,104 +26,28 @@
         android:layout_marginTop="24dp"
         android:orientation="vertical">
 
-        <Switch
-            android:id="@+id/switch_dark_theme"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/settings_menu_buttons_height"
-            android:fontFamily="@font/ys_display_regular"
-            android:letterSpacing="0.01"
-            android:paddingStart="@dimen/standard_padding"
-            android:paddingEnd="7dp"
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/button_switch_dark_theme"
             android:text="@string/dark_theme"
-            android:textColor="@color/dark"
-            android:textSize="@dimen/list_text_size"
-            android:thumbTint="@color/icon_grey"
-            android:trackTint="@color/light_grey"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            style="@style/SettingsMenuItemStyle"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/settings_menu_buttons_height"
-            android:paddingHorizontal="@dimen/standard_padding">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_share"
+            style="@style/SettingsMenuItemStyle"
+            android:text="@string/share_button_text"
+            app:icon="@drawable/share_icon" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:clickable="false"
-                android:fontFamily="@font/ys_display_regular"
-                android:gravity="center_vertical"
-                android:letterSpacing="0.01"
-                android:text="@string/share"
-                android:textColor="@color/dark"
-                android:textSize="@dimen/list_text_size" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_support"
+            style="@style/SettingsMenuItemStyle"
+            android:text="@string/support_button_text"
+            app:icon="@drawable/support_icon" />
 
-            <ImageButton
-                android:id="@+id/button_share"
-                android:layout_width="@dimen/settings_menu_icons_width"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@null"
-                android:contentDescription="@string/share"
-                android:scaleType="centerInside"
-                android:src="@drawable/share" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/settings_menu_buttons_height"
-            android:paddingHorizontal="@dimen/standard_padding">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:clickable="false"
-                android:fontFamily="@font/ys_display_regular"
-                android:gravity="center_vertical"
-                android:letterSpacing="0.01"
-                android:text="@string/support"
-                android:textColor="@color/dark"
-                android:textSize="@dimen/list_text_size" />
-
-            <ImageButton
-                android:id="@+id/button_support"
-                android:layout_width="@dimen/settings_menu_icons_width"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@null"
-                android:contentDescription="@string/support"
-                android:scaleType="centerInside"
-                android:src="@drawable/support" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/settings_menu_buttons_height"
-            android:paddingHorizontal="@dimen/standard_padding">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:clickable="false"
-                android:fontFamily="@font/ys_display_regular"
-                android:gravity="center_vertical"
-                android:letterSpacing="0.01"
-                android:text="@string/user_agreement"
-                android:textColor="@color/dark"
-                android:textSize="@dimen/list_text_size" />
-
-            <ImageButton
-                android:id="@+id/user_agreement"
-                android:layout_width="@dimen/settings_menu_icons_width"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:background="@null"
-                android:contentDescription="@string/user_agreement"
-                android:scaleType="centerInside"
-                android:src="@drawable/arrow_forward" />
-        </FrameLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_user_agreement"
+            style="@style/SettingsMenuItemStyle"
+            android:text="@string/user_agreement_button_text"
+            app:icon="@drawable/arrow_forward_icon" />
 
     </LinearLayout>
 
