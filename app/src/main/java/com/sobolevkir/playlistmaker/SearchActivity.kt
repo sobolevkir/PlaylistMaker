@@ -13,26 +13,30 @@ import android.widget.ImageView
 
 class SearchActivity : AppCompatActivity() {
 
+    lateinit var inputSearch: EditText
+    private var savedSearchQueryText = ""
+
     companion object {
         private const val SEARCH_QUERY_TEXT = "SEARCH_QUERY_TEXT"
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(SEARCH_QUERY_TEXT, findViewById<EditText>(R.id.inputSearch).text.toString())
+        outState.putString(
+            SEARCH_QUERY_TEXT,
+            savedSearchQueryText)
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val inputSearch = findViewById<EditText>(R.id.inputSearch)
-        val searchQueryText = savedInstanceState.getString(SEARCH_QUERY_TEXT,"")
-        inputSearch.setText(searchQueryText)
+        savedSearchQueryText = savedInstanceState.getString(SEARCH_QUERY_TEXT,"")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        val inputSearch = findViewById<EditText>(R.id.inputSearch)
+        inputSearch = findViewById(R.id.inputSearch)
+        inputSearch.setText(savedSearchQueryText)
         val backButton = findViewById<ImageButton>(R.id.button_back)
         val clearButton = findViewById<ImageView>(R.id.clearButton)
         backButton.setOnClickListener{ finish() }
@@ -45,6 +49,7 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
+                savedSearchQueryText = inputSearch.text.toString()
             }
             override fun afterTextChanged(s: Editable?) {}
         }
