@@ -15,8 +15,8 @@ import com.sobolevkir.playlistmaker.tracklist.*
 
 class SearchActivity : AppCompatActivity() {
 
-    lateinit var inputSearch: EditText
-    lateinit var trackSearchList: RecyclerView
+    private lateinit var inputSearch: EditText
+    private lateinit var trackSearchList: RecyclerView
     private var savedSearchQueryText = ""
 
     companion object {
