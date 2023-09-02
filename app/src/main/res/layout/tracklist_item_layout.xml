@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:showIn="@layout/activity_search">
 
     <ImageView
         android:id="@+id/album_cover"
@@ -32,16 +33,15 @@
             android:textColor="?attr/colorPrimary"
             tools:text="Track name" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/artist_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="13dp"
-                android:layout_toLeftOf="@id/dot_separator"
+                android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAppearance="@style/YS_Regular_11"
@@ -52,7 +52,6 @@
                 android:id="@+id/dot_separator"
                 android:layout_width="13dp"
                 android:layout_height="13dp"
-                android:layout_toLeftOf="@id/track_time"
                 android:src="@drawable/dot_separator"
                 app:tint="?attr/colorPrimaryVariant" />
 
@@ -60,12 +59,11 @@
                 android:id="@+id/track_time"
                 android:layout_width="wrap_content"
                 android:layout_height="13dp"
-                android:layout_alignParentRight="true"
                 android:maxLines="1"
                 android:textAppearance="@style/YS_Regular_11"
                 android:textColor="?attr/colorPrimaryVariant"
                 tools:text="00:00" />
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

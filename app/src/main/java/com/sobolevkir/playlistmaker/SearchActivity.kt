@@ -11,10 +11,12 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.sobolevkir.playlistmaker.tracklist.*
 
 class SearchActivity : AppCompatActivity() {
 
     lateinit var inputSearch: EditText
+    lateinit var trackSearchList: RecyclerView
     private var savedSearchQueryText = ""
 
     companion object {
@@ -57,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
         }
         inputSearch.addTextChangedListener(searchInputTextWatcher)
 
-        val trackSearchList = findViewById<RecyclerView>(R.id.search_track_list)
+        trackSearchList = findViewById(R.id.search_track_list)
 
         val trackListAdapter = TrackListAdapter(
             listOf(
