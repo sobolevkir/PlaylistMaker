@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    tools:showIn="@layout/activity_search">
+
+    <ImageView
+        android:id="@+id/album_cover"
+        android:layout_width="@dimen/album_cover_size_mini"
+        android:layout_height="@dimen/album_cover_size_mini"
+        android:layout_marginStart="13dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/track_name"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginBottom="1dp"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textAppearance="@style/YS_Regular_16"
+            android:textColor="?attr/colorPrimary"
+            tools:text="Track name" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/artist_name"
+                android:layout_width="0dp"
+                android:layout_height="13dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/YS_Regular_11"
+                android:textColor="?attr/colorPrimaryVariant"
+                tools:text="Artist name" />
+
+            <ImageView
+                android:id="@+id/dot_separator"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:src="@drawable/dot_separator"
+                app:tint="?attr/colorPrimaryVariant" />
+
+            <TextView
+                android:id="@+id/track_time"
+                android:layout_width="wrap_content"
+                android:layout_height="13dp"
+                android:maxLines="1"
+                android:textAppearance="@style/YS_Regular_11"
+                android:textColor="?attr/colorPrimaryVariant"
+                tools:text="00:00" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:scaleType="center"
+        android:src="@drawable/arrow_forward_icon"
+        app:tint="?attr/colorPrimaryVariant" />
+
+</LinearLayout>
