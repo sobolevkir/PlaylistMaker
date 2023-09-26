@@ -2,20 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ScreenCommonStyle"
+    style="@style/CommonScreenStyle"
     tools:context=".SettingsActivity">
 
-    <LinearLayout
-        style="@style/HeaderStyle">
+    <LinearLayout style="@style/HeaderStyle">
 
         <ImageButton
-            android:id="@+id/button_back"
-            android:src="@drawable/arrow_back_icon"
-            style="@style/HeaderButtonStyle"/>
+            android:id="@+id/btn_back"
+            style="@style/HeaderButtonStyle"
+            android:src="@drawable/arrow_back_icon" />
 
         <TextView
-            android:text="@string/settings"
-            style="@style/HeaderTitleStyle"/>
+            style="@style/HeaderTitleStyle"
+            android:text="@string/title_settings" />
 
     </LinearLayout>
 
@@ -26,26 +25,26 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/button_switch_dark_theme"
-            android:text="@string/dark_theme"
-            style="@style/SettingsMenuItemStyle"/>
+            android:id="@+id/sw_dark_theme"
+            style="@style/SettingsMenuItemStyle"
+            android:text="@string/btn_dark_theme" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_share"
+            android:id="@+id/btn_share_app"
             style="@style/SettingsMenuItemStyle"
-            android:text="@string/share_button_text"
+            android:text="@string/btn_share_app"
             app:icon="@drawable/share_icon" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_support"
+            android:id="@+id/btn_support"
             style="@style/SettingsMenuItemStyle"
-            android:text="@string/support_button_text"
+            android:text="@string/btn_support"
             app:icon="@drawable/support_icon" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_user_agreement"
+            android:id="@+id/btn_user_agreement"
             style="@style/SettingsMenuItemStyle"
-            android:text="@string/user_agreement_button_text"
+            android:text="@string/btn_user_agreement"
             app:icon="@drawable/arrow_forward_icon" />
 
     </LinearLayout>

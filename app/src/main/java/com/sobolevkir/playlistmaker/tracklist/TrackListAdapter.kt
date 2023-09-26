@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sobolevkir.playlistmaker.R
 
-class TrackListAdapter(private val tracks: List<Track>) :
-    RecyclerView.Adapter<TrackListViewHolder>() {
+class TrackListAdapter() : RecyclerView.Adapter<TrackListViewHolder>() {
+    var tracks = ArrayList<Track>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackListViewHolder {
         val view = LayoutInflater.from(parent.context)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/ScreenCommonStyle"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CommonScreenStyle"
     tools:context=".SearchActivity">
 
     <LinearLayout
@@ -10,37 +10,55 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/button_back"
-            android:src="@drawable/arrow_back_icon"
-            style="@style/HeaderButtonStyle"/>
+            android:id="@+id/btn_back"
+            style="@style/HeaderButtonStyle"
+            android:contentDescription="@string/hint_back"
+            android:src="@drawable/arrow_back_icon" />
 
         <TextView
-            android:text="@string/search"
-            style="@style/HeaderTitleStyle"/>
-
+            style="@style/HeaderTitleStyle"
+            android:text="@string/title_search" />
     </LinearLayout>
 
-    <FrameLayout
-        style="@style/SearchFrameStyle">
+    <FrameLayout style="@style/SearchFrameStyle">
+
         <EditText
+            android:id="@+id/et_search_query"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             style="@style/SearchTextFieldStyle"
-            android:id="@+id/inputSearch"
-            android:hint="@string/search"
-            android:saveEnabled="false"
+            android:hint="@string/hint_search"
+            android:imeOptions="actionDone"
             android:importantForAutofill="no"/>
+
         <ImageView
+            android:id="@+id/btn_clear"
             style="@style/SearchClearButtonStyle"
-            android:id="@+id/clearButton"
-            android:visibility="gone"
-            android:contentDescription="@string/clear" />
+            android:contentDescription="@string/clear"
+            android:visibility="gone" />
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_track_list"
+        android:id="@+id/rv_search_track_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/standard_padding"
+        android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/tracklist_item_layout"/>
+        tools:listitem="@layout/tracklist_item_layout"
+        tools:itemCount="7"/>
+
+    <TextView
+        android:id="@+id/tv_error_message"
+        style="@style/ErrorMessageStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/error_connection_problem"
+        android:visibility="gone"/>
+    
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_update"
+        style="@style/SmallButtonStyle"
+        android:layout_gravity="center"
+        android:text="@string/btn_update"
+        android:visibility="gone"/>
 
 </LinearLayout>
