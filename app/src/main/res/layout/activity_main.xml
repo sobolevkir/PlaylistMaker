@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ScreenCommonStyle"
+    style="@style/CommonScreenStyle"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -22,21 +22,21 @@
         android:paddingBottom="4dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_search"
+            android:id="@+id/btn_search"
             style="@style/MainMenuButtonStyle"
-            android:text="@string/search"
+            android:text="@string/hint_search"
             app:icon="@drawable/search_icon" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_library"
+            android:id="@+id/btn_library"
             style="@style/MainMenuButtonStyle"
-            android:text="@string/media_library"
+            android:text="@string/title_media_library"
             app:icon="@drawable/media_library" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_settings"
+            android:id="@+id/btn_settings"
             style="@style/MainMenuButtonStyle"
-            android:text="@string/settings"
+            android:text="@string/title_settings"
             app:icon="@drawable/settings_icon" />
 
     </LinearLayout>

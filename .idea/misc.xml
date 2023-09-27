@@ -6,10 +6,17 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="Playlist_Maker.app" />
+      </set>
+    </option>
+  </component>
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.310285723650897" />
+        <option name="scale" value="0.25555555555555554" />
       </ProjectState>
     </option>
   </component>
