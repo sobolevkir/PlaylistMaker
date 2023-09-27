@@ -11,4 +11,7 @@
     <dimen name="list_item_height">61dp</dimen>
     <dimen name="search_field_height">36dp</dimen>
     <dimen name="album_cover_mini_size">45dp</dimen>
+    <dimen name="radius_large">54dp</dimen>
+    <dimen name="radius_medium">16dp</dimen>
+    <dimen name="radius_small">2dp</dimen>
 </resources>

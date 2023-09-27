@@ -35,7 +35,7 @@ class SearchActivity : AppCompatActivity() {
         .build()
     private val iTunesApiService = retrofit.create(ITunesApi::class.java)
     private val adapter = TrackListAdapter()
-    private val tracks = ArrayList<Track>()
+    private val tracks = mutableListOf<Track>()
 
     private var savedSearchQueryText = ""
 
@@ -48,6 +48,7 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         private const val SEARCH_QUERY_TEXT = "SEARCH_QUERY_TEXT"
+        private const val OK_RESPONSE = 200
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -118,11 +119,11 @@ class SearchActivity : AppCompatActivity() {
                         call: Call<TracksResponse>,
                         response: Response<TracksResponse>
                     ) {
-                        if (response.code() == 200) {
+                        if (response.code() == OK_RESPONSE) {
                             tracks.clear()
                             updateButton.visibility = View.GONE
                             if (response.body()?.results?.isNotEmpty() == true) {
-                                tracks.addAll(response.body()?.results!!)
+                                tracks.addAll(response.body()?.results ?: mutableListOf<Track>())
                                 adapter.notifyDataSetChanged()
                             }
                             else {

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sobolevkir.playlistmaker.R
 
 class TrackListAdapter() : RecyclerView.Adapter<TrackListViewHolder>() {
-    var tracks = ArrayList<Track>()
+    var tracks = mutableListOf<Track>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackListViewHolder {
         val view = LayoutInflater.from(parent.context)

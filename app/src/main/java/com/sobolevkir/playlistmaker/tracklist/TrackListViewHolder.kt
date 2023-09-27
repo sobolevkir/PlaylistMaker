@@ -20,11 +20,12 @@ class TrackListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         trackName.text = track.trackName
         artistName.text = track.artistName
         trackTime.text = Utils.formatTrackTime(track.trackTimeMillis)
+        val cornerRadius = itemView.resources.getDimensionPixelSize(R.dimen.radius_small)
         Glide.with(itemView)
             .load(track.artworkUrl100)
             .centerInside()
             .placeholder(R.drawable.cover_placeholder)
-            .transform(RoundedCorners(Utils.dpToPx(2f, itemView.context)))
+            .transform(RoundedCorners(cornerRadius))
             .into(albumCover)
     }
 
