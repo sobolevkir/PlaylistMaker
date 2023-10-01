@@ -25,7 +25,7 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sw_dark_theme"
+            android:id="@+id/sw_theme_switcher"
             style="@style/SettingsMenuItemStyle"
             android:text="@string/btn_dark_theme" />
 
@@ -48,5 +48,7 @@
             app:icon="@drawable/arrow_forward_icon" />
 
     </LinearLayout>
+
+
 
 </LinearLayout>
