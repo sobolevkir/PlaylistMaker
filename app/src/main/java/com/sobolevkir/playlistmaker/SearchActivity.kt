@@ -73,7 +73,6 @@ class SearchActivity : AppCompatActivity() {
             searchQueryInput.setText("")
             Utils.closeKeyboard(this@SearchActivity, applicationContext)
             tracksFound.clear()
-            adapterFoundTracks.notifyDataSetChanged()
             trackSearchList.visibility = View.GONE
             errorMessage.visibility = View.GONE
             updateButton.visibility = View.GONE
