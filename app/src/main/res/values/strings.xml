@@ -3,6 +3,7 @@
     <string name="title_media_library">Медиатека</string>
     <string name="title_settings">Настройки</string>
     <string name="title_search">Поиск</string>
+    <string name="title_history_search">Вы искали</string>
     <string name="hint_search">Поиск</string>
     <string name="hint_back">Назад</string>
     <string name="btn_dark_theme">Тёмная тема</string>
@@ -10,6 +11,7 @@
     <string name="btn_support">Написать в поддержку</string>
     <string name="btn_user_agreement">Пользовательское соглашение</string>
     <string name="btn_update">Обновить</string>
+    <string name="btn_clear_history">Очистить историю</string>
     <string name="url_share_app">https://practicum.yandex.ru/android-developer</string>
     <string name="url_user_agreement">https://yandex.ru/legal/practicum_offer</string>
     <string name="support_mail_address">sobolevkir@bk.ru</string>
