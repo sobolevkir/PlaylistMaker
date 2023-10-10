@@ -79,6 +79,7 @@ class SearchActivity : AppCompatActivity() {
         }
         clearHistoryButton.setOnClickListener {
             SearchHistory.clearHistory()
+            historyTracksAdapter.notifyDataSetChanged()
             historyContainer.visibility = View.GONE
         }
 
@@ -87,9 +88,10 @@ class SearchActivity : AppCompatActivity() {
             historyTracksAdapter.notifyDataSetChanged()
         }
         trackSearchList.adapter = foundTracksAdapter
-        SearchHistory.readSavedHistory()
         historyTracksAdapter = TrackListAdapter(SearchHistory.historyTracks)
         historyList.adapter = historyTracksAdapter
+        SearchHistory.readSavedHistory()
+        historyTracksAdapter.notifyDataSetChanged()
 
         searchQueryInput.setOnFocusChangeListener { _, hasFocus ->
             historyContainer.visibility =
