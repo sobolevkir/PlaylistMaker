@@ -12,10 +12,10 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.sobolevkir.playlistmaker.ext.closeKeyboard
 import com.sobolevkir.playlistmaker.iTunesAPI.ITunesApi
 import com.sobolevkir.playlistmaker.iTunesAPI.TracksResponse
 import com.sobolevkir.playlistmaker.tracklist.Track
@@ -40,9 +40,9 @@ class SearchActivity : AppCompatActivity() {
     private val iTunesApiService = retrofit.create(ITunesApi::class.java)
 
     private val tracksFound = mutableListOf<Track>()
-    private val searchHistory = SearchHistory()
 
-    private lateinit var adapterFoundTracks: TrackListAdapter
+    private lateinit var foundTracksAdapter: TrackListAdapter
+    private lateinit var historyTracksAdapter: TrackListAdapter
     private lateinit var searchQueryInput: EditText
     private lateinit var trackSearchList: RecyclerView
     private lateinit var historyList: RecyclerView
@@ -71,32 +71,30 @@ class SearchActivity : AppCompatActivity() {
         clearButton.visibility = setClearButtonVisibility(searchQueryInput.text)
         clearButton.setOnClickListener {
             searchQueryInput.setText("")
-            Utils.closeKeyboard(this@SearchActivity, applicationContext)
+            closeKeyboard()
             tracksFound.clear()
             trackSearchList.visibility = View.GONE
             errorMessage.visibility = View.GONE
             updateButton.visibility = View.GONE
         }
         clearHistoryButton.setOnClickListener {
-            searchHistory.clearHistory()
+            SearchHistory.clearHistory()
             historyContainer.visibility = View.GONE
         }
 
-        adapterFoundTracks = TrackListAdapter(tracksFound) {
-            searchHistory.addTrackToHistory(it)
-            Toast.makeText(
-                applicationContext, "Трек ${it.trackName} добавлен в историю",
-                Toast.LENGTH_SHORT
-            ).show()
+        foundTracksAdapter = TrackListAdapter(tracksFound) {
+            SearchHistory.addTrackToHistory(it)
+            historyTracksAdapter.notifyDataSetChanged()
         }
-        trackSearchList.adapter = adapterFoundTracks
-        searchHistory.readSavedHistory()
-        historyList.adapter = searchHistory.adapterHistoryTracks
+        trackSearchList.adapter = foundTracksAdapter
+        SearchHistory.readSavedHistory()
+        historyTracksAdapter = TrackListAdapter(SearchHistory.historyTracks)
+        historyList.adapter = historyTracksAdapter
 
         searchQueryInput.setOnFocusChangeListener { _, hasFocus ->
             historyContainer.visibility =
                 if (hasFocus && searchQueryInput.text.isEmpty()
-                    && searchHistory.historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
+                    && SearchHistory.historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
         }
 
         searchQueryInput.setOnEditorActionListener { _, actionId, _ ->
@@ -112,7 +110,7 @@ class SearchActivity : AppCompatActivity() {
                 clearButton.visibility = setClearButtonVisibility(s)
                 historyContainer.visibility =
                     if (searchQueryInput.hasFocus() && s?.isEmpty() == true
-                        && searchHistory.historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
+                        && SearchHistory.historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -123,7 +121,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        searchHistory.saveHistory()
+        SearchHistory.saveHistory()
     }
 
     private fun searchTrack() {
@@ -140,7 +138,7 @@ class SearchActivity : AppCompatActivity() {
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 errorMessage.visibility = View.GONE
                                 tracksFound.addAll(response.body()?.results ?: mutableListOf())
-                                adapterFoundTracks.notifyDataSetChanged()
+                                foundTracksAdapter.notifyDataSetChanged()
                                 trackSearchList.visibility = View.VISIBLE
                             } else {
                                 showMessage(

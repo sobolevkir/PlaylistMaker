@@ -6,17 +6,17 @@ import com.sobolevkir.playlistmaker.PrefsManager.IS_DARK_THEME_ON
 
 class App: Application() {
 
-    private var isDarkThemeOn = false
+    private var isDarkTheme = false
 
     override fun onCreate() {
         super.onCreate()
         PrefsManager.init(this.applicationContext)
-        isDarkThemeOn = PrefsManager.read(IS_DARK_THEME_ON, false)
-        switchTheme(isDarkThemeOn)
+        isDarkTheme = PrefsManager.read(IS_DARK_THEME_ON, false)
+        switchTheme(isDarkTheme)
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
-        isDarkThemeOn = darkThemeEnabled
+        isDarkTheme = darkThemeEnabled
         AppCompatDelegate.setDefaultNightMode(
             if (darkThemeEnabled) {
                 AppCompatDelegate.MODE_NIGHT_YES
