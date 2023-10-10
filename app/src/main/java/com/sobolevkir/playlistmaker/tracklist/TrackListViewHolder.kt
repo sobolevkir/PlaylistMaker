@@ -27,6 +27,7 @@ class TrackListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             .placeholder(R.drawable.cover_placeholder)
             .transform(RoundedCorners(cornerRadius))
             .into(albumCover)
+        artistName.requestLayout()
     }
 
 }
