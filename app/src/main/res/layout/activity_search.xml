@@ -38,13 +38,47 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search_track_list"
+    <LinearLayout
+        android:id="@+id/vg_search_track_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_marginTop="@dimen/standard_padding"
+            android:paddingHorizontal="@dimen/standard_padding"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/title_history_search"
+            android:textAppearance="@style/YS_Medium_19"
+            android:textColor="?attr/colorOnBackground"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_track_history_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/mini_padding"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/tracklist_item_layout"
+            tools:itemCount="3" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear_history"
+            style="@style/SmallButtonStyle"
+            android:layout_gravity="center"
+            android:text="@string/btn_clear_history" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_track_search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mini_padding"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/tracklist_item_layout"
-        tools:itemCount="7"/>
+        tools:itemCount="3"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_error_message"

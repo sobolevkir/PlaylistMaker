@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.sobolevkir.playlistmaker.DateFormatter
 import com.sobolevkir.playlistmaker.R
-import com.sobolevkir.playlistmaker.Utils
 
 class TrackListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -19,7 +19,7 @@ class TrackListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun bind(track: Track) {
         trackName.text = track.trackName
         artistName.text = track.artistName
-        trackTime.text = Utils.formatTrackTime(track.trackTimeMillis)
+        trackTime.text = DateFormatter().formatTime(track.trackTimeMillis)
         val cornerRadius = itemView.resources.getDimensionPixelSize(R.dimen.radius_small)
         Glide.with(itemView)
             .load(track.artworkUrl100)
@@ -27,6 +27,7 @@ class TrackListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             .placeholder(R.drawable.cover_placeholder)
             .transform(RoundedCorners(cornerRadius))
             .into(albumCover)
+        artistName.requestLayout()
     }
 
 }
