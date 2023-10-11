@@ -68,15 +68,18 @@ class SearchActivity : AppCompatActivity() {
         clearHistoryButton = findViewById(R.id.btn_clear_history)
 
         backButton.setOnClickListener { finish() }
+
         clearButton.visibility = setClearButtonVisibility(searchQueryInput.text)
         clearButton.setOnClickListener {
             searchQueryInput.setText("")
             closeKeyboard()
             tracksFound.clear()
+            foundTracksAdapter.notifyDataSetChanged()
             trackSearchList.visibility = View.GONE
             errorMessage.visibility = View.GONE
             updateButton.visibility = View.GONE
         }
+
         clearHistoryButton.setOnClickListener {
             SearchHistory.clearHistory()
             historyTracksAdapter.notifyDataSetChanged()
@@ -90,7 +93,6 @@ class SearchActivity : AppCompatActivity() {
         trackSearchList.adapter = foundTracksAdapter
         historyTracksAdapter = TrackListAdapter(SearchHistory.historyTracks)
         historyList.adapter = historyTracksAdapter
-        SearchHistory.readSavedHistory()
         historyTracksAdapter.notifyDataSetChanged()
 
         searchQueryInput.setOnFocusChangeListener { _, hasFocus ->

@@ -8,7 +8,11 @@ object SearchHistory {
 
     val historyTracks = mutableListOf<Track>()
 
-    fun readSavedHistory() {
+    init {
+        readSavedHistory()
+    }
+
+    private fun readSavedHistory() {
         val history = PrefsManager.read(TRACK_HISTORY_LIST, null)
         historyTracks.clear()
         if (history != null) historyTracks.addAll(Gson().fromJson(history, Array<Track>::class.java))
