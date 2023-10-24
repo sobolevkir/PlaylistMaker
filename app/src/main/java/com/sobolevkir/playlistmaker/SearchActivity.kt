@@ -16,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.sobolevkir.playlistmaker.ext.closeKeyboard
-import com.sobolevkir.playlistmaker.iTunesAPI.ITunesApi
-import com.sobolevkir.playlistmaker.iTunesAPI.TracksResponse
+import com.sobolevkir.playlistmaker.iTunesApi.ITunesApi
+import com.sobolevkir.playlistmaker.iTunesApi.TracksResponse
 import com.sobolevkir.playlistmaker.tracklist.Track
 import com.sobolevkir.playlistmaker.tracklist.TrackListAdapter
 import retrofit2.Call
@@ -29,12 +29,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SearchActivity : AppCompatActivity() {
 
     companion object {
-        private const val ITUNES_API_BASEURL = "https://itunes.apple.com"
         private const val OK_RESPONSE_CODE = 200
     }
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(ITUNES_API_BASEURL)
+        .baseUrl(ITunesApi.ITUNES_API_BASEURL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val iTunesApiService = retrofit.create(ITunesApi::class.java)
@@ -68,7 +67,6 @@ class SearchActivity : AppCompatActivity() {
         clearHistoryButton = findViewById(R.id.btn_clear_history)
 
         backButton.setOnClickListener { finish() }
-
         clearButton.visibility = setClearButtonVisibility(searchQueryInput.text)
         clearButton.setOnClickListener {
             searchQueryInput.setText("")
@@ -79,7 +77,6 @@ class SearchActivity : AppCompatActivity() {
             errorMessage.visibility = View.GONE
             updateButton.visibility = View.GONE
         }
-
         clearHistoryButton.setOnClickListener {
             SearchHistory.clearHistory()
             historyTracksAdapter.notifyDataSetChanged()
@@ -91,16 +88,16 @@ class SearchActivity : AppCompatActivity() {
             historyTracksAdapter.notifyDataSetChanged()
         }
         trackSearchList.adapter = foundTracksAdapter
+
         historyTracksAdapter = TrackListAdapter(SearchHistory.historyTracks)
         historyList.adapter = historyTracksAdapter
-        historyTracksAdapter.notifyDataSetChanged()
 
         searchQueryInput.setOnFocusChangeListener { _, hasFocus ->
             historyContainer.visibility =
                 if (hasFocus && searchQueryInput.text.isEmpty()
-                    && SearchHistory.historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
+                    && SearchHistory.historyTracks.isNotEmpty()
+                ) View.VISIBLE else View.GONE
         }
-
         searchQueryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 searchTrack()
@@ -114,7 +111,8 @@ class SearchActivity : AppCompatActivity() {
                 clearButton.visibility = setClearButtonVisibility(s)
                 historyContainer.visibility =
                     if (searchQueryInput.hasFocus() && s?.isEmpty() == true
-                        && SearchHistory.historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
+                        && SearchHistory.historyTracks.isNotEmpty()
+                    ) View.VISIBLE else View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -186,7 +184,7 @@ class SearchActivity : AppCompatActivity() {
         errorMessage.text = errorText
         errorMessage.setCompoundDrawablesWithIntrinsicBounds(null, errorImage, null, null)
         updateButton.setOnClickListener { searchTrack() }
-        if(showUpdateButton) updateButton.visibility = View.VISIBLE else View.GONE
+        if (showUpdateButton) updateButton.visibility = View.VISIBLE else View.GONE
     }
 
     private fun setClearButtonVisibility(s: CharSequence?): Int {

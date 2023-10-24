@@ -47,8 +47,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="52dp"
-            android:layout_marginTop="@dimen/standard_padding"
-            android:paddingHorizontal="@dimen/standard_padding"
+            android:layout_marginTop="@dimen/standard_indent"
+            android:paddingHorizontal="@dimen/standard_indent"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/title_history_search"
@@ -59,9 +59,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="@dimen/mini_padding"
+            android:layout_marginTop="@dimen/mini_indent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/tracklist_item_layout"
+            tools:listitem="@layout/layout_tracklist_item"
             tools:itemCount="3" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_clear_history"
@@ -74,9 +74,9 @@
         android:id="@+id/rv_track_search_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/mini_padding"
+        android:layout_marginTop="@dimen/mini_indent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/tracklist_item_layout"
+        tools:listitem="@layout/layout_tracklist_item"
         tools:itemCount="3"
         android:visibility="gone"/>
 

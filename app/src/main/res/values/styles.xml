@@ -19,14 +19,19 @@
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
 
+    <style name="YS_Medium_14">
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
     <style name="YS_Regular_16">
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
 
-    <style name="YS_Medium_14">
-        <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:fontFamily">@font/ys_display_medium</item>
+    <style name="YS_Regular_13">
+        <item name="android:textSize">@dimen/text_size_13</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
 
     <style name="YS_Regular_11">
@@ -40,12 +45,12 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/header_height</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">4dp</item>
+        <item name="android:padding">@dimen/micro_indent</item>
     </style>
 
     <style name="HeaderButtonStyle">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">@dimen/header_icon_size</item>
+        <item name="android:layout_height">@dimen/header_icon_size</item>
         <item name="android:backgroundTint">@android:color/transparent</item>
         <item name="android:scaleType">centerInside</item>
         <item name="tint">?attr/colorOnBackground</item>
@@ -55,7 +60,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">start</item>
-        <item name="android:layout_marginHorizontal">12dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/medium_indent</item>
         <item name="android:clickable">false</item>
         <item name="android:textAppearance">@style/YS_Medium_22</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
@@ -66,7 +71,7 @@
     <style name="MainMenuButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
-        <item name="android:layout_marginVertical">@dimen/mini_padding</item>
+        <item name="android:layout_marginVertical">@dimen/mini_indent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:insetTop">0dp</item>
@@ -87,7 +92,7 @@
         <item name="android:layout_height">@dimen/list_item_height</item>
         <item name="android:backgroundTint">@android:color/transparent</item>
         <item name="android:paddingHorizontal">0dp</item>
-        <item name="android:layout_marginHorizontal">@dimen/standard_padding</item>
+        <item name="android:layout_marginHorizontal">@dimen/standard_indent</item>
         <item name="android:textColor">?attr/colorPrimaryDark</item>
         <item name="android:textAlignment">textStart</item>
         <item name="android:textAllCaps">false</item>
@@ -117,9 +122,9 @@
     <style name="SearchFrameStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">36dp</item>
-        <item name="android:layout_marginTop">@dimen/mini_padding</item>
-        <item name="android:layout_marginBottom">@dimen/standard_padding</item>
-        <item name="android:layout_marginHorizontal">@dimen/standard_padding</item>
+        <item name="android:layout_marginTop">@dimen/mini_indent</item>
+        <item name="android:layout_marginBottom">@dimen/standard_indent</item>
+        <item name="android:layout_marginHorizontal">@dimen/standard_indent</item>
     </style>
 
     <style name="SearchClearButtonStyle">
@@ -136,12 +141,12 @@
     <!-- Error Styles -->
     <style name="ErrorMessageStyle">
         <item name="android:layout_marginTop">102dp</item>
-        <item name="android:layout_marginHorizontal">24dp</item>
+        <item name="android:layout_marginHorizontal">@dimen/large_indent</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/YS_Medium_19</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="drawableTopCompat">@drawable/nothing_found</item>
-        <item name="android:drawablePadding">@dimen/standard_padding</item>
+        <item name="android:drawablePadding">@dimen/standard_indent</item>
     </style>
 
     <!-- Button Styles -->
@@ -152,13 +157,44 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:paddingHorizontal">14dp</item>
-        <item name="android:layout_marginTop">24dp</item>
-        <item name="android:layout_marginBottom">@dimen/mini_padding</item>
+        <item name="android:layout_marginTop">@dimen/large_indent</item>
+        <item name="android:layout_marginBottom">@dimen/mini_indent</item>
         <item name="android:backgroundTint">?attr/colorOnBackground</item>
         <item name="android:textAppearance">@style/YS_Medium_14</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="cornerRadius">@dimen/radius_large</item>
+    </style>
+
+    <!-- Player Styles -->
+
+    <style name="SmallControlButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:layout_width">@dimen/small_control_btn_size</item>
+        <item name="android:layout_height">@dimen/small_control_btn_size</item>
+    </style>
+
+    <style name="PlayControlButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:layout_width">@dimen/play_control_btn_size</item>
+        <item name="android:layout_height">@dimen/play_control_btn_size</item>
+    </style>
+
+    <style name="TrackParameterTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/YS_Regular_13</item>
+        <item name="android:textColor">?attr/colorPrimaryFixed</item>
+        <item name="android:paddingHorizontal">@dimen/standard_indent</item>
+    </style>
+
+    <style name="TrackParameterValue">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:gravity">end|center_vertical</item>
+        <item name="android:textAppearance">@style/YS_Regular_13</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:paddingHorizontal">@dimen/standard_indent</item>
     </style>
 
 </resources>
