@@ -26,4 +26,9 @@
     <dimen name="radius_large">54dp</dimen>
     <dimen name="radius_medium">16dp</dimen>
     <dimen name="radius_small">2dp</dimen>
+
+    <!-- TrackList dimens -->
+    <dimen name="track_item_first_size">19dp</dimen>
+    <dimen name="track_item_second_size">13dp</dimen>
+    <dimen name="track_item_icon_size">24dp</dimen>
 </resources>
