@@ -28,7 +28,7 @@ class PlayerActivity : AppCompatActivity() {
         } else intent.getParcelableExtra(CURRENT_TRACK)
 
 
-        Glide.with(binding.ivAlbumCoverLarge)
+        Glide.with(binding.root.context)
             .load(track?.getLargeCoverArtwork())
             .centerInside()
             .placeholder(R.drawable.cover_placeholder)
