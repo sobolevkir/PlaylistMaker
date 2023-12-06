@@ -1,23 +1,46 @@
 <resources>
     <string name="app_name">Playlist maker</string>
+
     <string name="title_media_library">Медиатека</string>
     <string name="title_settings">Настройки</string>
     <string name="title_search">Поиск</string>
     <string name="title_history_search">Вы искали</string>
+    <string name="title_track_duration">Длительность</string>
+    <string name="title_collection_name">Альбом</string>
+    <string name="title_release_year">Год</string>
+    <string name="title_genre">Жанр</string>
+    <string name="title_country">Страна</string>
+
     <string name="hint_search">Поиск</string>
     <string name="hint_back">Назад</string>
+    <string name="hint_cover_image">Обложка альбома</string>
+    <string name="hint_track_name">Название трека</string>
+    <string name="hint_artist_name">Имя исполнителя</string>
+    <string name="hint_add_to_playlist">Добавить в плейлист</string>
+    <string name="hint_play_control">Играть/пауза</string>
+    <string name="hint_like">Нравится</string>
+    <string name="hint_track_time">00:00</string>
+    <string name="hint_collection_name">Название альбома</string>
+    <string name="hint_release_year">1984</string>
+    <string name="hint_genre">Рок</string>
+    <string name="hint_country">Великобритания</string>
+
     <string name="btn_dark_theme">Тёмная тема</string>
     <string name="btn_share_app">Поделиться приложением</string>
     <string name="btn_support">Написать в поддержку</string>
     <string name="btn_user_agreement">Пользовательское соглашение</string>
     <string name="btn_update">Обновить</string>
     <string name="btn_clear_history">Очистить историю</string>
+
     <string name="url_share_app">https://practicum.yandex.ru/android-developer</string>
     <string name="url_user_agreement">https://yandex.ru/legal/practicum_offer</string>
     <string name="support_mail_address">sobolevkir@bk.ru</string>
+
     <string name="support_mail_message">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="support_mail_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+
     <string name="clear">Очистить</string>
     <string name="error_nothing_found">Ничего не нашлось</string>
     <string name="error_connection_problem">Проблемы со связью \n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+
 </resources>

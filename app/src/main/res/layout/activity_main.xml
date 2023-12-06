@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/standard_padding"
+        android:layout_margin="@dimen/standard_indent"
         android:orientation="vertical"
         android:paddingBottom="4dp">
 
@@ -31,7 +31,7 @@
             android:id="@+id/btn_library"
             style="@style/MainMenuButtonStyle"
             android:text="@string/title_media_library"
-            app:icon="@drawable/media_library" />
+            app:icon="@drawable/media_library_icon" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_settings"
