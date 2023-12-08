@@ -19,7 +19,7 @@ class SettingsActivity : AppCompatActivity() {
 
             btnBack.setOnClickListener { finish() }
 
-            swThemeSwitcher.apply {
+            with (swThemeSwitcher) {
                 isChecked = PrefsManager.read(IS_DARK_THEME_ON, false)
                 setOnCheckedChangeListener { _, checked ->
                     (applicationContext as App).switchTheme(checked)
@@ -28,7 +28,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             btnShareApp.setOnClickListener {
-                Intent(Intent.ACTION_SEND).apply {
+                Intent(Intent.ACTION_SEND).run {
                     putExtra(Intent.EXTRA_TEXT, getString(R.string.url_share_app))
                     type = "text/plain"
                     startActivity(this)
@@ -36,7 +36,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             btnSupport.setOnClickListener {
-                Intent(Intent.ACTION_SENDTO).apply {
+                Intent(Intent.ACTION_SENDTO).run {
                     data = Uri.parse("mailto:")
                     putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.support_mail_address)))
                     putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_mail_subject))
@@ -46,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             btnUserAgreement.setOnClickListener {
-                Intent(Intent.ACTION_VIEW).apply {
+                Intent(Intent.ACTION_VIEW).run {
                     data = Uri.parse(getString(R.string.url_user_agreement))
                     startActivity(this)
                 }

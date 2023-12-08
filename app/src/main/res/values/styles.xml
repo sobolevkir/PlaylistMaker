@@ -138,15 +138,23 @@
     </style>
 
 
-    <!-- Error Styles -->
+    <!-- Error and Special Features Styles -->
     <style name="ErrorMessageStyle">
-        <item name="android:layout_marginTop">102dp</item>
+        <item name="android:layout_marginTop">@dimen/special_element_top_indent</item>
         <item name="android:layout_marginHorizontal">@dimen/large_indent</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/YS_Medium_19</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="drawableTopCompat">@drawable/nothing_found</item>
         <item name="android:drawablePadding">@dimen/standard_indent</item>
+    </style>
+
+    <style name="ProgressBarStyle">
+        <item name="android:layout_marginTop">@dimen/special_element_top_indent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">@dimen/progress_bar_size</item>
+        <item name="android:layout_height">@dimen/progress_bar_size</item>
+        <item name="android:indeterminateTint">?attr/colorAccent</item>
     </style>
 
     <!-- Button Styles -->

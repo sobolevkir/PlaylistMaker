@@ -2,19 +2,15 @@ package com.sobolevkir.playlistmaker
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
+import com.sobolevkir.playlistmaker.databinding.ActivitySearchBinding
 import com.sobolevkir.playlistmaker.ext.closeKeyboard
 import com.sobolevkir.playlistmaker.iTunesApi.ITunesApi
 import com.sobolevkir.playlistmaker.iTunesApi.TracksResponse
@@ -30,7 +26,11 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         private const val OK_RESPONSE_CODE = 200
+        private const val SEARCH_DEBOUNCE_DELAY = 1000L
     }
+
+    private val handler = Handler(Looper.getMainLooper())
+    private val searchRunnable = Runnable { searchTrack() }
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(ITunesApi.ITUNES_API_BASEURL)
@@ -40,66 +40,58 @@ class SearchActivity : AppCompatActivity() {
 
     private val tracksFound = mutableListOf<Track>()
 
+    private lateinit var binding: ActivitySearchBinding
     private lateinit var foundTracksAdapter: TrackListAdapter
     private lateinit var historyTracksAdapter: TrackListAdapter
-    private lateinit var searchQueryInput: EditText
-    private lateinit var trackSearchList: RecyclerView
-    private lateinit var historyList: RecyclerView
-    private lateinit var historyContainer: ViewGroup
-    private lateinit var backButton: ImageButton
-    private lateinit var clearButton: ImageView
-    private lateinit var errorMessage: TextView
-    private lateinit var updateButton: Button
-    private lateinit var clearHistoryButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        searchQueryInput = findViewById(R.id.et_search_query)
-        backButton = findViewById(R.id.btn_back)
-        clearButton = findViewById(R.id.btn_clear)
-        trackSearchList = findViewById(R.id.rv_track_search_list)
-        historyList = findViewById(R.id.rv_track_history_list)
-        historyContainer = findViewById(R.id.vg_search_track_history)
-        errorMessage = findViewById(R.id.tv_error_message)
-        updateButton = findViewById(R.id.btn_update)
-        clearHistoryButton = findViewById(R.id.btn_clear_history)
+        binding.btnBack.setOnClickListener { finish() }
 
-        backButton.setOnClickListener { finish() }
-        clearButton.visibility = setClearButtonVisibility(searchQueryInput.text)
-        clearButton.setOnClickListener {
-            searchQueryInput.setText("")
-            closeKeyboard()
-            tracksFound.clear()
-            foundTracksAdapter.notifyDataSetChanged()
-            trackSearchList.visibility = View.GONE
-            errorMessage.visibility = View.GONE
-            updateButton.visibility = View.GONE
+        with(binding.btnClearQuery) {
+            visibility = setClearQueryButtonVisibility(binding.etSearchQuery.text)
+            setOnClickListener {
+                binding.etSearchQuery.setText("")
+                closeKeyboard()
+                tracksFound.clear()
+                foundTracksAdapter.notifyDataSetChanged()
+                binding.rvTrackSearchList.visibility = View.GONE
+                binding.tvErrorMessage.visibility = View.GONE
+                binding.btnUpdate.visibility = View.GONE
+                if (SearchHistory.historyTracks.isNotEmpty()) {
+                    historyTracksAdapter.notifyDataSetChanged()
+                    binding.vgSearchTrackHistory.visibility = View.VISIBLE
+                }
+            }
         }
-        clearHistoryButton.setOnClickListener {
+
+        binding.btnClearHistory.setOnClickListener {
             SearchHistory.clearHistory()
-            historyTracksAdapter.notifyDataSetChanged()
-            historyContainer.visibility = View.GONE
+            binding.vgSearchTrackHistory.visibility = View.GONE
         }
 
         foundTracksAdapter = TrackListAdapter(tracksFound) {
             SearchHistory.addTrackToHistory(it)
             historyTracksAdapter.notifyDataSetChanged()
         }
-        trackSearchList.adapter = foundTracksAdapter
-
         historyTracksAdapter = TrackListAdapter(SearchHistory.historyTracks)
-        historyList.adapter = historyTracksAdapter
 
-        searchQueryInput.setOnFocusChangeListener { _, hasFocus ->
-            historyContainer.visibility =
-                if (hasFocus && searchQueryInput.text.isEmpty()
+        binding.rvTrackSearchList.adapter = foundTracksAdapter
+        binding.rvTrackHistoryList.adapter = historyTracksAdapter
+
+        binding.etSearchQuery.setOnFocusChangeListener { _, hasFocus ->
+            binding.vgSearchTrackHistory.visibility =
+                if (hasFocus && binding.etSearchQuery.text.isEmpty()
                     && SearchHistory.historyTracks.isNotEmpty()
                 ) View.VISIBLE else View.GONE
         }
-        searchQueryInput.setOnEditorActionListener { _, actionId, _ ->
+        binding.etSearchQuery.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.etSearchQuery.clearFocus()
+                handler.removeCallbacks(searchRunnable)
                 searchTrack()
             }
             false
@@ -108,40 +100,61 @@ class SearchActivity : AppCompatActivity() {
         val searchInputTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                clearButton.visibility = setClearButtonVisibility(s)
-                historyContainer.visibility =
-                    if (searchQueryInput.hasFocus() && s?.isEmpty() == true
-                        && SearchHistory.historyTracks.isNotEmpty()
-                    ) View.VISIBLE else View.GONE
+                binding.btnClearQuery.visibility = setClearQueryButtonVisibility(s)
+                searchDebounce()
+                if (binding.etSearchQuery.hasFocus() && s?.isEmpty() == true
+                    && SearchHistory.historyTracks.isNotEmpty()
+                ) {
+                    binding.tvErrorMessage.visibility = View.GONE
+                    binding.btnUpdate.visibility = View.GONE
+                    binding.rvTrackSearchList.visibility = View.GONE
+                    binding.vgSearchTrackHistory.visibility = View.VISIBLE
+                } else {
+                    binding.vgSearchTrackHistory.visibility = View.GONE
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {}
         }
-        searchQueryInput.addTextChangedListener(searchInputTextWatcher)
+        binding.etSearchQuery.addTextChangedListener(searchInputTextWatcher)
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.etSearchQuery.requestFocus()
+    }
     override fun onStop() {
         super.onStop()
         SearchHistory.saveHistory()
     }
 
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
     private fun searchTrack() {
-        if (searchQueryInput.text.isNotEmpty()) {
-            iTunesApiService.searchTrack(searchQueryInput.text.toString())
+        if (binding.etSearchQuery.text.isNotEmpty()) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.rvTrackSearchList.visibility = View.GONE
+            binding.tvErrorMessage.visibility = View.GONE
+            binding.btnUpdate.visibility = View.GONE
+            iTunesApiService.searchTrack(binding.etSearchQuery.text.toString())
                 .enqueue(object : Callback<TracksResponse> {
                     override fun onResponse(
                         call: Call<TracksResponse>,
                         response: Response<TracksResponse>
                     ) {
+                        binding.progressBar.visibility = View.GONE
                         if (response.code() == OK_RESPONSE_CODE) {
                             tracksFound.clear()
-                            updateButton.visibility = View.GONE
+                            binding.btnUpdate.visibility = View.GONE
                             if (response.body()?.results?.isNotEmpty() == true) {
-                                errorMessage.visibility = View.GONE
+                                binding.tvErrorMessage.visibility = View.GONE
                                 tracksFound.addAll(response.body()?.results ?: mutableListOf())
                                 foundTracksAdapter.notifyDataSetChanged()
-                                trackSearchList.visibility = View.VISIBLE
+                                binding.rvTrackSearchList.visibility = View.VISIBLE
                             } else {
                                 showMessage(
                                     getString(R.string.error_nothing_found),
@@ -159,12 +172,12 @@ class SearchActivity : AppCompatActivity() {
                                     R.drawable.connection_problem
                                 ), true
                             )
-                            updateButton.setOnClickListener { searchTrack() }
+                            binding.btnUpdate.setOnClickListener { searchTrack() }
                         }
                     }
 
                     override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                        trackSearchList.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         showMessage(
                             getString(R.string.error_connection_problem),
                             ContextCompat.getDrawable(
@@ -179,15 +192,17 @@ class SearchActivity : AppCompatActivity() {
 
     private fun showMessage(errorText: String, errorImage: Drawable?, showUpdateButton: Boolean) {
         tracksFound.clear()
-        trackSearchList.visibility = View.GONE
-        errorMessage.visibility = View.VISIBLE
-        errorMessage.text = errorText
-        errorMessage.setCompoundDrawablesWithIntrinsicBounds(null, errorImage, null, null)
-        updateButton.setOnClickListener { searchTrack() }
-        if (showUpdateButton) updateButton.visibility = View.VISIBLE else View.GONE
+        binding.rvTrackSearchList.visibility = View.GONE
+        with(binding.tvErrorMessage) {
+            visibility = View.VISIBLE
+            text = errorText
+            setCompoundDrawablesWithIntrinsicBounds(null, errorImage, null, null)
+        }
+        binding.btnUpdate.setOnClickListener { searchTrack() }
+        if (showUpdateButton) binding.btnUpdate.visibility = View.VISIBLE else View.GONE
     }
 
-    private fun setClearButtonVisibility(s: CharSequence?): Int {
+    private fun setClearQueryButtonVisibility(s: CharSequence?): Int {
         return if (s.isNullOrEmpty()) {
             View.GONE
         } else {

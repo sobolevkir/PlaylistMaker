@@ -62,7 +62,7 @@
                 android:maxLines="1"
                 android:textAppearance="@style/YS_Regular_11"
                 android:textColor="?attr/colorPrimaryVariant"
-                tools:text="@string/hint_track_time" />
+                tools:text="@string/hint_track_duration" />
         </LinearLayout>
 
     </LinearLayout>
