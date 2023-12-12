@@ -11,9 +11,14 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         PrefsManager.init(this.applicationContext)
-        isDarkTheme = PrefsManager.read(IS_DARK_THEME_ON, false)
-        switchTheme(isDarkTheme)
+        if(PrefsManager.isThemeDataCreated()) {
+            isDarkTheme = PrefsManager.read(IS_DARK_THEME_ON, false)
+            switchTheme(isDarkTheme)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
+
 
     fun switchTheme(darkThemeEnabled: Boolean) {
         isDarkTheme = darkThemeEnabled

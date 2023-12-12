@@ -1,5 +1,6 @@
 package com.sobolevkir.playlistmaker
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -27,7 +28,11 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val OK_RESPONSE_CODE = 200
         private const val SEARCH_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        const val CURRENT_TRACK = "current_track"
     }
+
+    private var isClickAllowed = true
 
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { searchTrack() }
@@ -75,9 +80,9 @@ class SearchActivity : AppCompatActivity() {
 
         foundTracksAdapter = TrackListAdapter(tracksFound) {
             SearchHistory.addTrackToHistory(it)
-            historyTracksAdapter.notifyDataSetChanged()
+            goToPlayer(it)
         }
-        historyTracksAdapter = TrackListAdapter(SearchHistory.historyTracks)
+        historyTracksAdapter = TrackListAdapter(SearchHistory.historyTracks) { goToPlayer(it) }
 
         binding.rvTrackSearchList.adapter = foundTracksAdapter
         binding.rvTrackHistoryList.adapter = historyTracksAdapter
@@ -124,6 +129,7 @@ class SearchActivity : AppCompatActivity() {
         super.onStart()
         binding.etSearchQuery.requestFocus()
     }
+
     override fun onStop() {
         super.onStop()
         SearchHistory.saveHistory()
@@ -207,6 +213,23 @@ class SearchActivity : AppCompatActivity() {
             View.GONE
         } else {
             View.VISIBLE
+        }
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
+    private fun goToPlayer(track: Track) {
+        if (clickDebounce()) {
+            val playerIntent = Intent(this, PlayerActivity::class.java)
+            playerIntent.putExtra(CURRENT_TRACK, track)
+            startActivity(playerIntent)
         }
     }
 

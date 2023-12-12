@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sobolevkir.playlistmaker.PrefsManager.IS_DARK_THEME_ON
 import com.sobolevkir.playlistmaker.databinding.ActivitySettingsBinding
+import com.sobolevkir.playlistmaker.ext.isNightModeOn
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -19,8 +20,12 @@ class SettingsActivity : AppCompatActivity() {
 
             btnBack.setOnClickListener { finish() }
 
-            with (swThemeSwitcher) {
-                isChecked = PrefsManager.read(IS_DARK_THEME_ON, false)
+            with(swThemeSwitcher) {
+                isChecked = if (PrefsManager.isThemeDataCreated()) {
+                    PrefsManager.read(IS_DARK_THEME_ON, false)
+                } else {
+                    applicationContext.isNightModeOn()
+                }
                 setOnCheckedChangeListener { _, checked ->
                     (applicationContext as App).switchTheme(checked)
                     PrefsManager.write(IS_DARK_THEME_ON, checked)
