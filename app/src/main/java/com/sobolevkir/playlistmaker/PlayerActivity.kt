@@ -41,7 +41,7 @@ class PlayerActivity : AppCompatActivity() {
 
         val track = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(CURRENT_TRACK, Track::class.java)
-        } else intent.getParcelableExtra(CURRENT_TRACK)
+        } else intent.getParcelableExtra<Track>(CURRENT_TRACK)
 
         if (!track?.previewUrl.isNullOrEmpty()) {
             preparePlayer(track?.previewUrl)
