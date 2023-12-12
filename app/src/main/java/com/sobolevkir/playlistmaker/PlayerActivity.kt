@@ -8,9 +8,9 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.sobolevkir.playlistmaker.SearchActivity.Companion.CURRENT_TRACK
 import com.sobolevkir.playlistmaker.databinding.ActivityPlayerBinding
 import com.sobolevkir.playlistmaker.tracklist.Track
-import com.sobolevkir.playlistmaker.tracklist.TrackListAdapter.Companion.CURRENT_TRACK
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -48,7 +48,7 @@ class PlayerActivity : AppCompatActivity() {
             binding.btnPlayControl.setOnClickListener {
                 playbackControl()
             }
-            updateCurrentPosition = object: Runnable {
+            updateCurrentPosition = object : Runnable {
                 override fun run() {
                     binding.tvCurrentPosition.text =
                         SimpleDateFormat(
@@ -135,6 +135,7 @@ class PlayerActivity : AppCompatActivity() {
         }
         mediaPlayer.setOnCompletionListener {
             binding.tvCurrentPosition.text = resources.getString(R.string.hint_track_duration)
+            binding.btnPlayControl.setImageResource(R.drawable.btn_play_icon)
             mainThreadHandler.removeCallbacks(updateCurrentPosition)
             playerState = STATE_PREPARED
         }
