@@ -32,7 +32,7 @@
             android:importantForAutofill="no"/>
 
         <ImageView
-            android:id="@+id/btn_clear"
+            android:id="@+id/btn_clear_query"
             style="@style/SearchClearButtonStyle"
             android:contentDescription="@string/clear"
             android:visibility="gone" />
@@ -46,7 +46,7 @@
         android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="52dp"
+            android:layout_height="@dimen/history_header_height"
             android:layout_marginTop="@dimen/standard_indent"
             android:paddingHorizontal="@dimen/standard_indent"
             android:layout_gravity="center"
@@ -70,6 +70,11 @@
             android:text="@string/btn_clear_history" />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/ProgressBarStyle"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_track_search_list"
         android:layout_width="match_parent"
@@ -77,7 +82,7 @@
         android:layout_marginTop="@dimen/mini_indent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/layout_tracklist_item"
-        tools:itemCount="3"
+        tools:itemCount="4"
         android:visibility="gone"/>
 
     <TextView

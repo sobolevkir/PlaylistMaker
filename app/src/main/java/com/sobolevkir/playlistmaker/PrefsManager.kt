@@ -13,6 +13,10 @@ object PrefsManager {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
+    fun isThemeDataCreated(): Boolean {
+        return prefs.contains(IS_DARK_THEME_ON)
+    }
+
     fun read(key: String, value: Boolean): Boolean {
         return prefs.getBoolean(key, value)
     }

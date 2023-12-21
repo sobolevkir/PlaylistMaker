@@ -19,7 +19,7 @@
     <string name="hint_add_to_playlist">Добавить в плейлист</string>
     <string name="hint_play_control">Играть/пауза</string>
     <string name="hint_like">Нравится</string>
-    <string name="hint_track_time">00:00</string>
+    <string name="hint_track_duration">00:00</string>
     <string name="hint_collection_name">Название альбома</string>
     <string name="hint_release_year">1984</string>
     <string name="hint_genre">Рок</string>

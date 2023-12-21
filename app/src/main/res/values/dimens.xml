@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Margins -->
     <dimen name="large_indent">24dp</dimen>
     <dimen name="standard_indent">16dp</dimen>
     <dimen name="medium_indent">12dp</dimen>
     <dimen name="mini_indent">8dp</dimen>
     <dimen name="micro_indent">4dp</dimen>
     <dimen name="player_vertical_indent">30dp</dimen>
+    <dimen name="special_element_top_indent">102dp</dimen>
 
+    <!-- Text sizes -->
     <dimen name="text_size_11">11sp</dimen>
     <dimen name="text_size_13">13sp</dimen>
     <dimen name="text_size_16">16sp</dimen>
@@ -14,15 +18,18 @@
     <dimen name="text_size_14">14sp</dimen>
     <dimen name="text_size_19">19sp</dimen>
 
+    <!-- Special dimens -->
     <dimen name="header_height">56dp</dimen>
     <dimen name="list_item_height">61dp</dimen>
     <dimen name="small_element_height">36dp</dimen>
-
+    <dimen name="history_header_height">52dp</dimen>
     <dimen name="album_cover_mini_size">45dp</dimen>
     <dimen name="header_icon_size">48dp</dimen>
     <dimen name="small_control_btn_size">51dp</dimen>
     <dimen name="play_control_btn_size">100dp</dimen>
+    <dimen name="progress_bar_size">44dp</dimen>
 
+    <!-- Radii -->
     <dimen name="radius_large">54dp</dimen>
     <dimen name="radius_medium">16dp</dimen>
     <dimen name="radius_small">2dp</dimen>
@@ -31,4 +38,5 @@
     <dimen name="track_item_first_size">19dp</dimen>
     <dimen name="track_item_second_size">13dp</dimen>
     <dimen name="track_item_icon_size">24dp</dimen>
+
 </resources>
