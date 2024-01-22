@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CommonScreenStyle"
-    tools:context=".SearchActivity">
+    tools:context=".presentation.ui.search.SearchActivity">
 
     <LinearLayout
         style="@style/HeaderStyle"
