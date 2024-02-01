@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CommonScreenStyle"
-    tools:context=".PlayerActivity">
+    tools:context=".presentation.ui.player.PlayerActivity">
 
     <ImageButton
         android:id="@+id/btn_back"
