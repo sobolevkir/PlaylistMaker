@@ -1,31 +1,33 @@
 package com.sobolevkir.playlistmaker.search.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.databinding.ActivitySearchBinding
 import com.sobolevkir.playlistmaker.ext.hideKeyboard
+import com.sobolevkir.playlistmaker.player.ui.activity.PlayerActivity
 import com.sobolevkir.playlistmaker.search.ui.adapter.TrackListAdapter
 import com.sobolevkir.playlistmaker.search.ui.model.SearchState
 import com.sobolevkir.playlistmaker.search.ui.viewmodel.SearchViewModel
 
 class SearchActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<SearchViewModel> { SearchViewModel.getViewModelFactory() }
+    private val viewModel by lazy { ViewModelProvider(this)[SearchViewModel::class.java] }
     private val foundTracksAdapter = TrackListAdapter {
         viewModel.onFoundTrackClick(it)
-        viewModel.openPlayer(it)
+        openPlayer(it)
     }
     private val historyTracksAdapter = TrackListAdapter {
-        viewModel.openPlayer(it)
+        openPlayer(it)
     }
     private var searchTextWatcher: TextWatcher? = null
     private lateinit var binding: ActivitySearchBinding
@@ -192,6 +194,15 @@ class SearchActivity : AppCompatActivity() {
             rvTrackSearchList.isVisible = false
             tvErrorMessage.isVisible = false
             progressBar.isVisible = true
+        }
+    }
+
+    private fun openPlayer(track: Track) {
+        if (viewModel.clickDebounce()) {
+            Intent(this, PlayerActivity::class.java).run {
+                putExtra(CURRENT_TRACK, track)
+                startActivity(this)
+            }
         }
     }
 

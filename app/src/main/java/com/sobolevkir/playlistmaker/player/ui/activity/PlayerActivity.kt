@@ -14,6 +14,7 @@ import com.sobolevkir.playlistmaker.databinding.ActivityPlayerBinding
 import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
 import com.sobolevkir.playlistmaker.player.ui.viewmodel.PlayerViewModel
 
+@Suppress("DEPRECATION")
 class PlayerActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<PlayerViewModel> {

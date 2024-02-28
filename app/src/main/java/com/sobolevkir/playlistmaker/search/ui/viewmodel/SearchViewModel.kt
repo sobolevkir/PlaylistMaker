@@ -1,28 +1,20 @@
 package com.sobolevkir.playlistmaker.search.ui.viewmodel
 
-import android.app.Application
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.creator.Creator
-import com.sobolevkir.playlistmaker.player.ui.activity.PlayerActivity
 import com.sobolevkir.playlistmaker.search.domain.TracksInteractor
 import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
-import com.sobolevkir.playlistmaker.search.ui.activity.SearchActivity
 import com.sobolevkir.playlistmaker.search.ui.model.SearchState
 
-class SearchViewModel(private val application: Application) : ViewModel() {
+class SearchViewModel : ViewModel() {
 
-    private val tracksInteractor = Creator.provideTracksInteractor(application)
+    private val tracksInteractor = Creator.provideTracksInteractor()
     private val handler = Handler(Looper.getMainLooper())
     private var latestSearchText: String? = null
     private var isSearchRequestCleared = false
@@ -74,14 +66,15 @@ class SearchViewModel(private val application: Application) : ViewModel() {
         }
     }
 
-    fun openPlayer(track: Track) {
-        if(clickDebounce()) {
-            Intent(application, PlayerActivity::class.java).run {
-                putExtra(SearchActivity.CURRENT_TRACK, track)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                application.startActivity(this)
-            }
+    fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed(
+                { isClickAllowed = true }, CLICK_DEBOUNCE_DELAY
+            )
         }
+        return current
     }
 
     private fun search(newRequestText: String) {
@@ -109,17 +102,6 @@ class SearchViewModel(private val application: Application) : ViewModel() {
 
     private fun renderState(state: SearchState) = stateLiveData.postValue(state)
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed(
-                { isClickAllowed = true }, CLICK_DEBOUNCE_DELAY
-            )
-        }
-        return current
-    }
-
     override fun onCleared() {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
@@ -128,11 +110,6 @@ class SearchViewModel(private val application: Application) : ViewModel() {
         private const val SEARCH_DEBOUNCE_DELAY = 500L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
         private val SEARCH_REQUEST_TOKEN = Any()
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
     }
 
 }

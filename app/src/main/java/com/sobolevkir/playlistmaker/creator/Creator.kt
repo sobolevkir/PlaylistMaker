@@ -1,7 +1,6 @@
 package com.sobolevkir.playlistmaker.creator
 
 import android.app.Application
-import android.content.Context
 import com.sobolevkir.playlistmaker.common.data.impl.FavoritesRepositoryImpl
 import com.sobolevkir.playlistmaker.common.data.impl.LocalStorageImpl
 import com.sobolevkir.playlistmaker.common.data.impl.ResourceProviderImpl
@@ -48,51 +47,40 @@ object Creator {
 
     private fun getResourceProvider(): ResourceProvider = ResourceProviderImpl(application)
 
-    fun provideTracksInteractor(context: Context): TracksInteractor {
-        return TracksInteractorImpl(
-            getTracksRepository(context, provideLocalStorage()), getFavoritesRepository(
-                provideLocalStorage()
-            )
-        )
+    fun provideTracksInteractor(): TracksInteractor {
+        return TracksInteractorImpl(getTracksRepository(), getFavoritesRepository())
     }
 
-    private fun getTracksRepository(
-        context: Context,
-        localStorage: LocalStorage
-    ): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient(context), localStorage)
+    private fun getTracksRepository(): TracksRepository {
+        return TracksRepositoryImpl(RetrofitNetworkClient(application), provideLocalStorage())
     }
 
     fun providePlayerInteractor(previewUrl: String): PlayerInteractor {
         return PlayerInteractorImpl(getPlayer(previewUrl))
     }
 
-    private fun getPlayer(previewUrl: String): Player {
-        return PlayerImpl(previewUrl)
-    }
+    private fun getPlayer(previewUrl: String): Player = PlayerImpl(previewUrl)
 
     fun provideFavoritesInteractor(): FavoritesInteractor {
-        return FavoritesInteractorImpl(getFavoritesRepository(provideLocalStorage()))
+        return FavoritesInteractorImpl(getFavoritesRepository())
     }
 
-    private fun getFavoritesRepository(localStorage: LocalStorage): FavoritesRepository {
-        return FavoritesRepositoryImpl(localStorage)
+    private fun getFavoritesRepository(): FavoritesRepository {
+        return FavoritesRepositoryImpl(provideLocalStorage())
     }
 
     fun provideSharingInteractor(): SharingInteractor {
         return SharingInteractorImpl(getExternalNavigator(), getResourceProvider())
     }
 
-    private fun getExternalNavigator(): ExternalNavigator {
-        return ExternalNavigatorImpl(application)
-    }
+    private fun getExternalNavigator(): ExternalNavigator = ExternalNavigatorImpl(application)
 
     fun provideSettingsInteractor(): SettingsInteractor {
-        return SettingsInteractorImpl(getSettingsRepository(provideLocalStorage()))
+        return SettingsInteractorImpl(getSettingsRepository())
     }
 
-    private fun getSettingsRepository(localStorage: LocalStorage): SettingsRepository {
-        return SettingsRepositoryImpl(localStorage)
+    private fun getSettingsRepository(): SettingsRepository {
+        return SettingsRepositoryImpl(provideLocalStorage(), application)
     }
 
 }

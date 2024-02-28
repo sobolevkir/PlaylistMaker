@@ -14,8 +14,7 @@ import com.sobolevkir.playlistmaker.creator.Creator
 import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 
-class PlayerViewModel(track: Track) : ViewModel(),
-    DefaultLifecycleObserver {
+class PlayerViewModel(track: Track) : ViewModel(), DefaultLifecycleObserver {
 
     private val playerInteractor = Creator.providePlayerInteractor(track.previewUrl)
     private val favoritesInteractor = Creator.provideFavoritesInteractor()
