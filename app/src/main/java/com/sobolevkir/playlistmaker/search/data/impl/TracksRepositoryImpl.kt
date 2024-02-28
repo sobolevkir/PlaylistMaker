@@ -1,8 +1,8 @@
 package com.sobolevkir.playlistmaker.search.data.impl
 
 import com.google.gson.Gson
-import com.sobolevkir.playlistmaker.common.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
+import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.search.data.mapper.TrackMapper
 import com.sobolevkir.playlistmaker.search.data.network.NetworkClient
 import com.sobolevkir.playlistmaker.search.data.network.TracksSearchRequest
@@ -10,12 +10,10 @@ import com.sobolevkir.playlistmaker.search.data.network.TracksSearchResponse
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
 import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.search.domain.model.Resource
-import com.sobolevkir.playlistmaker.common.domain.model.Track
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
-    private val localStorage: LocalStorage,
-    private val favoritesInteractor: FavoritesInteractor
+    private val localStorage: LocalStorage
 ) : TracksRepository {
     override fun searchTrack(searchQueryText: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TracksSearchRequest(searchQueryText))
@@ -25,7 +23,7 @@ class TracksRepositoryImpl(
                 if ((response as TracksSearchResponse).results.isEmpty()) {
                     Resource.Error(ErrorType.NOTHING_FOUND)
                 } else {
-                    Resource.Success(TrackMapper.map(response.results, favoritesInteractor.getSavedFavoritesId()))
+                    Resource.Success(TrackMapper.map(response.results))
                 }
             }
 

@@ -49,18 +49,18 @@ object Creator {
     private fun getResourceProvider(): ResourceProvider = ResourceProviderImpl(application)
 
     fun provideTracksInteractor(context: Context): TracksInteractor {
-        return TracksInteractorImpl(getTracksRepository(context, provideLocalStorage()))
+        return TracksInteractorImpl(
+            getTracksRepository(context, provideLocalStorage()), getFavoritesRepository(
+                provideLocalStorage()
+            )
+        )
     }
 
     private fun getTracksRepository(
         context: Context,
         localStorage: LocalStorage
     ): TracksRepository {
-        return TracksRepositoryImpl(
-            RetrofitNetworkClient(context),
-            localStorage,
-            provideFavoritesInteractor()
-        )
+        return TracksRepositoryImpl(RetrofitNetworkClient(context), localStorage)
     }
 
     fun providePlayerInteractor(previewUrl: String): PlayerInteractor {
