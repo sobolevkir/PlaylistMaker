@@ -2,6 +2,7 @@ package com.sobolevkir.playlistmaker.search.data.network
 
 import android.content.Context
 import com.sobolevkir.playlistmaker.ext.isNetworkConnected
+import com.sobolevkir.playlistmaker.search.data.model.ResultCode
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,10 +18,10 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
     override fun doRequest(dto: Any): NetworkResponse {
         try {
             if (!context.isNetworkConnected) {
-                return NetworkResponse().apply { resultCode = -1 }
+                return NetworkResponse().apply { resultCode = ResultCode.CONNECTION_PROBLEM_CODE }
             }
             if (dto !is TracksSearchRequest) {
-                return NetworkResponse().apply { resultCode = 400 }
+                return NetworkResponse().apply { resultCode = ResultCode.BAD_REQUEST_CODE }
             }
 
             val resp = iTunesApiService.searchTrack(dto.searchQueryText).execute()
@@ -30,21 +31,5 @@ class RetrofitNetworkClient(private val context: Context) : NetworkClient {
             return NetworkResponse().apply { resultCode = -1 }
         }
     }
-
-    /*private fun isConnected(): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
-            }
-        }
-
-        return false
-    }*/
 
 }

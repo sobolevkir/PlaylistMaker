@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.search.data.mapper.TrackMapper
+import com.sobolevkir.playlistmaker.search.data.model.ResultCode
 import com.sobolevkir.playlistmaker.search.data.network.NetworkClient
 import com.sobolevkir.playlistmaker.search.data.network.TracksSearchRequest
 import com.sobolevkir.playlistmaker.search.data.network.TracksSearchResponse
@@ -18,8 +19,8 @@ class TracksRepositoryImpl(
     override fun searchTrack(searchQueryText: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TracksSearchRequest(searchQueryText))
         return when (response.resultCode) {
-            -1 -> Resource.Error(ErrorType.CONNECTION_PROBLEM)
-            200 -> {
+            ResultCode.CONNECTION_PROBLEM_CODE -> Resource.Error(ErrorType.CONNECTION_PROBLEM)
+            ResultCode.SUCCESS_CODE -> {
                 if ((response as TracksSearchResponse).results.isEmpty()) {
                     Resource.Error(ErrorType.NOTHING_FOUND)
                 } else {
@@ -27,8 +28,8 @@ class TracksRepositoryImpl(
                 }
             }
 
-            400 -> Resource.Error(ErrorType.BAD_REQUEST)
-            404 -> Resource.Error(ErrorType.NOTHING_FOUND)
+            ResultCode.BAD_REQUEST_CODE -> Resource.Error(ErrorType.BAD_REQUEST)
+            ResultCode.NOTHING_FOUND_CODE -> Resource.Error(ErrorType.NOTHING_FOUND)
 
             else -> Resource.Error(ErrorType.SERVER_ERROR)
         }

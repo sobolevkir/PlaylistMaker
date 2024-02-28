@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -35,9 +34,19 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initAdapters()
+        initListeners()
+        if (savedInstanceState == null) binding.etSearchRequest.requestFocus()
+        initTextWatchers()
+        viewModel.getStateLiveData().observe(this) { render(it) }
+    }
 
-        binding.rvTrackSearchList.adapter = foundTracksAdapter
-        binding.rvTrackHistoryList.adapter = historyTracksAdapter
+    override fun onDestroy() {
+        super.onDestroy()
+        searchTextWatcher?.let { binding.etSearchRequest.removeTextChangedListener(it) }
+    }
+
+    private fun initListeners() {
         with(binding.btnClearRequest) {
             setOnClickListener {
                 hideKeyboard()
@@ -62,9 +71,9 @@ class SearchActivity : AppCompatActivity() {
                 viewModel.showHistoryOrDefault()
             }
         }
-        if (savedInstanceState == null) {
-            binding.etSearchRequest.requestFocus()
-        }
+    }
+
+    private fun initTextWatchers() {
         searchTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -82,16 +91,16 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         }
         searchTextWatcher?.let { binding.etSearchRequest.addTextChangedListener(it) }
-        viewModel.getStateLiveData().observe(this) { render(it) }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        searchTextWatcher?.let { binding.etSearchRequest.removeTextChangedListener(it) }
+    private fun initAdapters() {
+        with(binding) {
+            rvTrackSearchList.adapter = foundTracksAdapter
+            rvTrackHistoryList.adapter = historyTracksAdapter
+        }
     }
 
     private fun render(state: SearchState) {
-        Log.d("activity-search", "state: $state")
         when (state) {
             is SearchState.Default -> showDefault()
             is SearchState.SearchResult -> showSearchResult(state.tracks)
@@ -103,42 +112,54 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showDefault() {
-        binding.btnUpdate.isVisible = false
-        binding.vgSearchTrackHistory.isVisible = false
-        binding.tvErrorMessage.isVisible = false
-        binding.progressBar.isVisible = false
-        binding.rvTrackSearchList.isVisible = false
+        with(binding) {
+            btnUpdate.isVisible = false
+            vgSearchTrackHistory.isVisible = false
+            tvErrorMessage.isVisible = false
+            progressBar.isVisible = false
+            rvTrackSearchList.isVisible = false
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun showSearchResult(tracks: List<Track>) {
-        binding.btnUpdate.isVisible = false
-        binding.vgSearchTrackHistory.isVisible = false
-        binding.tvErrorMessage.isVisible = false
-        binding.progressBar.isVisible = false
-        foundTracksAdapter.tracks.clear()
-        foundTracksAdapter.tracks.addAll(tracks)
-        foundTracksAdapter.notifyDataSetChanged()
-        binding.rvTrackSearchList.isVisible = true
+        with(foundTracksAdapter) {
+            this.tracks.clear()
+            this.tracks.addAll(tracks)
+            notifyDataSetChanged()
+        }
+        with(binding) {
+            btnUpdate.isVisible = false
+            vgSearchTrackHistory.isVisible = false
+            tvErrorMessage.isVisible = false
+            progressBar.isVisible = false
+            rvTrackSearchList.isVisible = true
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun showHistory(historyTracks: List<Track>) {
-        binding.btnUpdate.isVisible = false
-        binding.tvErrorMessage.isVisible = false
-        binding.progressBar.isVisible = false
-        binding.rvTrackSearchList.isVisible = false
-        historyTracksAdapter.tracks.clear()
-        historyTracksAdapter.tracks.addAll(historyTracks)
-        historyTracksAdapter.notifyDataSetChanged()
-        binding.vgSearchTrackHistory.isVisible = true
+        with(historyTracksAdapter) {
+            this.tracks.clear()
+            this.tracks.addAll(historyTracks)
+            notifyDataSetChanged()
+        }
+        with(binding) {
+            btnUpdate.isVisible = false
+            tvErrorMessage.isVisible = false
+            progressBar.isVisible = false
+            rvTrackSearchList.isVisible = false
+            vgSearchTrackHistory.isVisible = true
+        }
     }
 
     private fun showError() {
-        binding.btnUpdate.isVisible = true
-        binding.vgSearchTrackHistory.isVisible = false
-        binding.rvTrackSearchList.isVisible = false
-        binding.progressBar.isVisible = false
+        with(binding) {
+            btnUpdate.isVisible = true
+            vgSearchTrackHistory.isVisible = false
+            rvTrackSearchList.isVisible = false
+            progressBar.isVisible = false
+        }
         with(binding.tvErrorMessage) {
             isVisible = true
             text = getString(R.string.error_connection_problem)
@@ -149,10 +170,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showNothingFound() {
-        binding.btnUpdate.isVisible = false
-        binding.vgSearchTrackHistory.isVisible = false
-        binding.rvTrackSearchList.isVisible = false
-        binding.progressBar.isVisible = false
+        with(binding) {
+            btnUpdate.isVisible = false
+            vgSearchTrackHistory.isVisible = false
+            rvTrackSearchList.isVisible = false
+            progressBar.isVisible = false
+        }
         with(binding.tvErrorMessage) {
             isVisible = true
             text = getString(R.string.error_nothing_found)
@@ -163,11 +186,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showLoading() {
-        binding.btnUpdate.isVisible = false
-        binding.vgSearchTrackHistory.isVisible = false
-        binding.rvTrackSearchList.isVisible = false
-        binding.tvErrorMessage.isVisible = false
-        binding.progressBar.isVisible = true
+        with(binding) {
+            btnUpdate.isVisible = false
+            vgSearchTrackHistory.isVisible = false
+            rvTrackSearchList.isVisible = false
+            tvErrorMessage.isVisible = false
+            progressBar.isVisible = true
+        }
     }
 
     companion object {

@@ -29,7 +29,6 @@ class PlayerActivity : AppCompatActivity() {
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         lifecycle.addObserver(viewModel)
-
         viewModel.getCurrentTrackLiveData().observe(this) { setTrackInfo(it) }
         viewModel.getPlayerStateLiveData().observe(this) { playerState ->
             changePlayButtonStyle(playerState)
@@ -37,6 +36,10 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.getProgressLiveData().observe(this) { progress ->
             binding.tvCurrentPosition.text = progress
         }
+        initListeners()
+    }
+
+    private fun initListeners() {
         with(binding) {
             btnBack.setOnClickListener { finish() }
             btnPlayControl.setOnClickListener { viewModel.playbackControl() }

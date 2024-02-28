@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -20,9 +20,9 @@ import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.search.ui.activity.SearchActivity
 import com.sobolevkir.playlistmaker.search.ui.model.SearchState
 
-class SearchViewModel(application: Application) : AndroidViewModel(application) {
+class SearchViewModel(private val application: Application) : ViewModel() {
 
-    private val tracksInteractor = Creator.provideTracksInteractor(getApplication())
+    private val tracksInteractor = Creator.provideTracksInteractor(application)
     private val handler = Handler(Looper.getMainLooper())
     private var latestSearchText: String? = null
     private var isSearchRequestCleared = false
@@ -76,10 +76,10 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     fun openPlayer(track: Track) {
         if(clickDebounce()) {
-            Intent(getApplication(), PlayerActivity::class.java).run {
+            Intent(application, PlayerActivity::class.java).run {
                 putExtra(SearchActivity.CURRENT_TRACK, track)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                getApplication<Application>().startActivity(this)
+                application.startActivity(this)
             }
         }
     }

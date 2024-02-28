@@ -16,10 +16,13 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         lifecycle.addObserver(viewModel)
-
         viewModel.getDarkThemeLiveData().observe(this) {
             binding.swThemeSwitcher.isChecked = it
         }
+        initListeners()
+    }
+
+    private fun initListeners() {
         with(binding) {
             btnBack.setOnClickListener { finish() }
             swThemeSwitcher.setOnCheckedChangeListener { switch, isChecked ->

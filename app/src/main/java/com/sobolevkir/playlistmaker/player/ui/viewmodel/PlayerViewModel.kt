@@ -1,23 +1,20 @@
 package com.sobolevkir.playlistmaker.player.ui.viewmodel
 
-import android.app.Application
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.sobolevkir.playlistmaker.creator.Creator
 import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 
-class PlayerViewModel(track: Track, application: Application) : AndroidViewModel(application),
+class PlayerViewModel(track: Track) : ViewModel(),
     DefaultLifecycleObserver {
 
     private val playerInteractor = Creator.providePlayerInteractor(track.previewUrl)
@@ -39,7 +36,6 @@ class PlayerViewModel(track: Track, application: Application) : AndroidViewModel
             mainThreadHandler.removeCallbacks(updateCurrentPosition)
             progressLiveData.value = ""
             playerStateLiveData.value = state
-            Log.d("vm-player", "preparePlayer, PlayerState: " + playerStateLiveData.value)
             if (playerStateLiveData.value == PlayerState.ERROR) playerInteractor.releasePlayer()
         }
         if (favoritesInteractor.isTrackFavorite(track.trackId)) {
@@ -104,7 +100,7 @@ class PlayerViewModel(track: Track, application: Application) : AndroidViewModel
         private const val UPDATER_DELAY = 200L
         fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                PlayerViewModel(track, (this[APPLICATION_KEY] as Application))
+                PlayerViewModel(track)
             }
         }
     }

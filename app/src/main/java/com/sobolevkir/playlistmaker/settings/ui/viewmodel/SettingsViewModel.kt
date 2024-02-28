@@ -1,6 +1,5 @@
 package com.sobolevkir.playlistmaker.settings.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -25,7 +24,6 @@ class SettingsViewModel(
     fun getDarkThemeLiveData(): LiveData<Boolean> = darkThemeLiveData
 
     fun onThemeSwitcherCheckChange(isDarkThemeOn: Boolean) {
-        Log.d("vm-settings", "onThemeSwitcherCheckChange()")
         app.switchTheme(isDarkThemeOn)
         settingsInteractor.saveThemeData(isDarkThemeOn)
         darkThemeLiveData.value = isDarkThemeOn
