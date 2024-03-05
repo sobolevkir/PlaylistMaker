@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -18,10 +17,11 @@ import com.sobolevkir.playlistmaker.player.ui.activity.PlayerActivity
 import com.sobolevkir.playlistmaker.search.ui.adapter.TrackListAdapter
 import com.sobolevkir.playlistmaker.search.ui.model.SearchState
 import com.sobolevkir.playlistmaker.search.ui.viewmodel.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<SearchViewModel> { SearchViewModel.getViewModelFactory() }
+    private val viewModel by viewModel<SearchViewModel>()
     private val foundTracksAdapter = TrackListAdapter {
         viewModel.onFoundTrackClick(it)
         openPlayer(it)

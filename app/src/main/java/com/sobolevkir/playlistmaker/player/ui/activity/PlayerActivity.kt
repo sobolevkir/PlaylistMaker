@@ -3,7 +3,6 @@ package com.sobolevkir.playlistmaker.player.ui.activity
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -13,15 +12,18 @@ import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.databinding.ActivityPlayerBinding
 import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
 import com.sobolevkir.playlistmaker.player.ui.viewmodel.PlayerViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 @Suppress("DEPRECATION")
 class PlayerActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<PlayerViewModel> {
-        val track = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getSerializableExtra(CURRENT_TRACK, Track::class.java)
-        } else intent.getSerializableExtra(CURRENT_TRACK) as Track
-        PlayerViewModel.getViewModelFactory(track ?: Track())
+    private val viewModel: PlayerViewModel by viewModel {
+        parametersOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getSerializableExtra(CURRENT_TRACK, Track::class.java)
+            } else intent.getSerializableExtra(CURRENT_TRACK) as Track
+        )
     }
     private lateinit var binding: ActivityPlayerBinding
 

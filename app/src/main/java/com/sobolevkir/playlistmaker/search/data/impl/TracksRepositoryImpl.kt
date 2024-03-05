@@ -14,7 +14,8 @@ import com.sobolevkir.playlistmaker.search.domain.model.Resource
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
-    private val localStorage: LocalStorage
+    private val localStorage: LocalStorage,
+    private val gson: Gson
 ) : TracksRepository {
     override fun searchTrack(searchQueryText: String): Resource<List<Track>> {
         val response = networkClient.doRequest(TracksSearchRequest(searchQueryText))
@@ -38,7 +39,7 @@ class TracksRepositoryImpl(
     override fun getSavedHistory(): MutableList<Track> {
         val history = localStorage.read(TRACK_HISTORY_LIST, null)
         if (history != null) {
-            return Gson().fromJson(history, Array<Track>::class.java).toMutableList()
+            return gson.fromJson(history, Array<Track>::class.java).toMutableList()
         }
         return mutableListOf()
     }
@@ -52,11 +53,11 @@ class TracksRepositoryImpl(
                 this.removeLast()
             }
         }
-        localStorage.write(TRACK_HISTORY_LIST, Gson().toJson(historyTracks))
+        localStorage.write(TRACK_HISTORY_LIST, gson.toJson(historyTracks))
     }
 
     override fun clearHistory() {
-        localStorage.write(TRACK_HISTORY_LIST, Gson().toJson(emptyList<Track>()))
+        localStorage.write(TRACK_HISTORY_LIST, gson.toJson(emptyList<Track>()))
     }
 
     companion object {
