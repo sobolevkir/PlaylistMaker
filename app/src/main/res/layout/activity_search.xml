@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CommonScreenStyle"
-    tools:context=".presentation.ui.search.SearchActivity">
+    tools:context=".search.ui.activity.SearchActivity">
 
     <LinearLayout
         style="@style/HeaderStyle"
@@ -23,7 +23,7 @@
     <FrameLayout style="@style/SearchFrameStyle">
 
         <EditText
-            android:id="@+id/et_search_query"
+            android:id="@+id/et_search_request"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/SearchTextFieldStyle"
@@ -32,7 +32,7 @@
             android:importantForAutofill="no"/>
 
         <ImageView
-            android:id="@+id/btn_clear_query"
+            android:id="@+id/btn_clear_request"
             style="@style/SearchClearButtonStyle"
             android:contentDescription="@string/clear"
             android:visibility="gone" />
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:text="@string/error_connection_problem"
         android:visibility="gone"/>
-    
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_update"
         style="@style/SmallButtonStyle"

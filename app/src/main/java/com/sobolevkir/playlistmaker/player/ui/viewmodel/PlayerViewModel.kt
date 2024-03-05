@@ -1,0 +1,114 @@
+package com.sobolevkir.playlistmaker.player.ui.viewmodel
+
+import android.os.Handler
+import android.os.Looper
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.sobolevkir.playlistmaker.common.domain.FavoritesInteractor
+import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.creator.Creator
+import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
+import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
+
+class PlayerViewModel(
+    track: Track,
+    private val playerInteractor: PlayerInteractor,
+    private val favoritesInteractor: FavoritesInteractor
+) : ViewModel(), DefaultLifecycleObserver {
+
+    private val playerStateLiveData = MutableLiveData<PlayerState>()
+    private val progressLiveData = MutableLiveData<String>()
+    private val currentTrackLiveData = MutableLiveData<Track>()
+
+    private val mainThreadHandler = Handler(Looper.getMainLooper())
+    private var updateCurrentPosition = object : Runnable {
+        override fun run() {
+            progressLiveData.value = playerInteractor.getCurrentPosition()
+            mainThreadHandler.postDelayed(this, UPDATER_DELAY)
+        }
+    }
+
+    init {
+        playerInteractor.preparePlayer { state ->
+            mainThreadHandler.removeCallbacks(updateCurrentPosition)
+            progressLiveData.value = ""
+            playerStateLiveData.value = state
+            if (playerStateLiveData.value == PlayerState.ERROR) playerInteractor.releasePlayer()
+        }
+        if (favoritesInteractor.isTrackFavorite(track.trackId)) {
+            currentTrackLiveData.value = track.copy(isFavorite = true)
+        } else {
+            currentTrackLiveData.value = track.copy(isFavorite = false)
+        }
+    }
+
+    fun getPlayerStateLiveData(): LiveData<PlayerState> = playerStateLiveData
+    fun getProgressLiveData(): LiveData<String> = progressLiveData
+    fun getCurrentTrackLiveData(): LiveData<Track> = currentTrackLiveData
+
+    fun playbackControl() {
+        when (playerStateLiveData.value) {
+            PlayerState.PLAYING -> {
+                playerInteractor.pausePlayer { state ->
+                    playerStateLiveData.value = state
+                    mainThreadHandler.removeCallbacks(updateCurrentPosition)
+                }
+            }
+
+            PlayerState.PREPARED, PlayerState.PAUSED -> {
+                playerInteractor.startPlayer { state ->
+                    playerStateLiveData.value = state
+                    mainThreadHandler.postDelayed(updateCurrentPosition, UPDATER_DELAY)
+                }
+            }
+
+            else -> {}
+        }
+    }
+
+    fun onFavoriteButtonClick() {
+        val changedTrack = currentTrackLiveData.value
+        changedTrack?.let {
+            if (it.isFavorite) {
+                favoritesInteractor.removeTrackFromFavorites(it.trackId)
+            } else {
+                favoritesInteractor.addTrackToFavorites(it.trackId)
+            }
+            currentTrackLiveData.value = it.copy(isFavorite = !it.isFavorite)
+        }
+    }
+
+    override fun onCleared() {
+        mainThreadHandler.removeCallbacks(updateCurrentPosition)
+        playerInteractor.releasePlayer()
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        if (playerStateLiveData.value == PlayerState.PLAYING) {
+            playerInteractor.pausePlayer { state ->
+                playerStateLiveData.value = state
+                mainThreadHandler.removeCallbacks(updateCurrentPosition)
+            }
+        }
+        super.onPause(owner)
+    }
+
+    companion object {
+        private const val UPDATER_DELAY = 200L
+        fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                PlayerViewModel(
+                    track,
+                    Creator.providePlayerInteractor(track.previewUrl),
+                    Creator.provideFavoritesInteractor()
+                )
+            }
+        }
+    }
+}

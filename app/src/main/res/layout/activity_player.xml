@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CommonScreenStyle"
-    tools:context=".presentation.ui.player.PlayerActivity">
+    tools:context=".player.ui.activity.PlayerActivity">
 
     <ImageButton
         android:id="@+id/btn_back"
@@ -87,12 +87,12 @@
         android:alpha="0.25"/>
 
     <ImageButton
-        android:id="@+id/btn_like"
+        android:id="@+id/btn_favorite"
         style="@style/SmallControlButtonStyle"
         android:contentDescription="@string/hint_like"
         app:layout_constraintTop_toTopOf="@id/btn_add_to_playlist"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
-        android:src="@drawable/btn_like_icon" />
+        android:src="@drawable/btn_favorite_inactive_icon" />
 
     <TextView
         android:id="@+id/tv_current_position"
@@ -103,8 +103,7 @@
         android:textColor="?attr/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@id/tv_duration_title"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintEnd_toStartOf="@id/right_guideline"
-        android:text="@string/hint_track_duration" />
+        app:layout_constraintEnd_toStartOf="@id/right_guideline" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/param_titles_barrier"
