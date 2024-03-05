@@ -51,7 +51,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun setTrackInfo(track: Track) {
         with(binding) {
             btnFavorite.setImageDrawable(getFavoriteButtonDrawable(track.isFavorite))
-            Glide.with(root.context).load(track.artworkUrl512).centerInside()
+            Glide.with(this@PlayerActivity).load(track.artworkUrl512).centerInside()
                 .placeholder(R.drawable.cover_placeholder).into(ivAlbumCoverLarge)
             tvTrackName.text = track.trackName
             tvArtistName.text = track.artistName

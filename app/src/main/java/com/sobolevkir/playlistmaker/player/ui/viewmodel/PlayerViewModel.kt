@@ -10,14 +10,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.sobolevkir.playlistmaker.creator.Creator
-import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
+import com.sobolevkir.playlistmaker.common.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.creator.Creator
+import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
+import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
 
-class PlayerViewModel(track: Track) : ViewModel(), DefaultLifecycleObserver {
+class PlayerViewModel(
+    track: Track,
+    private val playerInteractor: PlayerInteractor,
+    private val favoritesInteractor: FavoritesInteractor
+) : ViewModel(), DefaultLifecycleObserver {
 
-    private val playerInteractor = Creator.providePlayerInteractor(track.previewUrl)
-    private val favoritesInteractor = Creator.provideFavoritesInteractor()
     private val playerStateLiveData = MutableLiveData<PlayerState>()
     private val progressLiveData = MutableLiveData<String>()
     private val currentTrackLiveData = MutableLiveData<Track>()
@@ -99,7 +103,11 @@ class PlayerViewModel(track: Track) : ViewModel(), DefaultLifecycleObserver {
         private const val UPDATER_DELAY = 200L
         fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                PlayerViewModel(track)
+                PlayerViewModel(
+                    track,
+                    Creator.providePlayerInteractor(track.previewUrl),
+                    Creator.provideFavoritesInteractor()
+                )
             }
         }
     }
