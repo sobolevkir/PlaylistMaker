@@ -35,7 +35,7 @@ class PlayerViewModel(
             mainThreadHandler.removeCallbacks(updateCurrentPosition)
             progressLiveData.value = ""
             playerStateLiveData.value = state
-            if (playerStateLiveData.value == PlayerState.ERROR) playerInteractor.releasePlayer()
+            if (playerStateLiveData.value == PlayerState.ERROR) playerInteractor.resetPlayer()
         }
         if (favoritesInteractor.isTrackFavorite(track.trackId)) {
             currentTrackLiveData.value = track.copy(isFavorite = true)
@@ -82,7 +82,7 @@ class PlayerViewModel(
 
     override fun onCleared() {
         mainThreadHandler.removeCallbacks(updateCurrentPosition)
-        playerInteractor.releasePlayer()
+        playerInteractor.resetPlayer()
     }
 
     override fun onPause(owner: LifecycleOwner) {

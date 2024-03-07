@@ -4,6 +4,6 @@ interface PlayerInteractor {
     fun preparePlayer(previewUrl: String, consumer: Player.Consumer)
     fun startPlayer(consumer: Player.Consumer)
     fun pausePlayer(consumer: Player.Consumer)
-    fun releasePlayer()
+    fun resetPlayer()
     fun getCurrentPosition(): String
 }

@@ -13,9 +13,9 @@ import com.sobolevkir.playlistmaker.settings.domain.impl.SharingInteractorImpl
 import org.koin.dsl.module
 
 val interactorModule = module {
-    single<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
-    single<TracksInteractor> { TracksInteractorImpl(get(), get()) }
+    factory<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
+    factory<TracksInteractor> { TracksInteractorImpl(get(), get()) }
     factory<PlayerInteractor> { PlayerInteractorImpl(get()) }
-    single<SettingsInteractor> { SettingsInteractorImpl(get()) }
-    single<SharingInteractor> { SharingInteractorImpl(get(), get()) }
+    factory<SettingsInteractor> { SettingsInteractorImpl(get()) }
+    factory<SharingInteractor> { SharingInteractorImpl(get(), get()) }
 }

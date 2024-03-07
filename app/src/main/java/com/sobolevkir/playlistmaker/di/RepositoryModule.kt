@@ -15,7 +15,7 @@ import org.koin.dsl.module
 val repositoryModule = module {
     single<FavoritesRepository> { FavoritesRepositoryImpl(get()) }
     single<TracksRepository> { TracksRepositoryImpl(get(), get(), get()) }
-    factory<Player> { PlayerImpl(get()) }
+    single<Player> { PlayerImpl(get()) }
     single<SettingsRepository> { SettingsRepositoryImpl(get(), get()) }
     single<ExternalNavigator> { ExternalNavigatorImpl(get()) }
 }

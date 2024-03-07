@@ -44,9 +44,9 @@ class PlayerImpl(private val mediaPlayer: MediaPlayer) : Player {
         consumer.consume(playerState)
     }
 
-    override fun releasePlayer() {
+    override fun resetPlayer() {
         if (playerState != PlayerState.DEFAULT) {
-            mediaPlayer.release()
+            mediaPlayer.reset()
             playerState = PlayerState.DEFAULT
         }
     }

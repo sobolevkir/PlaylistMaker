@@ -12,7 +12,7 @@ class PlayerInteractorImpl(private val repository: Player) : PlayerInteractor {
 
     override fun pausePlayer(consumer: Player.Consumer) = repository.pausePlayer(consumer)
 
-    override fun releasePlayer() = repository.releasePlayer()
+    override fun resetPlayer() = repository.resetPlayer()
 
     override fun getCurrentPosition() = repository.getCurrentPosition()
 }
