@@ -4,7 +4,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ITunesApi {
+interface ITunesApiService {
     companion object {
         const val ITUNES_API_BASEURL = "https://itunes.apple.com"
     }

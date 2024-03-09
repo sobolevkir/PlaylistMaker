@@ -5,10 +5,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.sobolevkir.playlistmaker.creator.Creator
 import com.sobolevkir.playlistmaker.settings.domain.SettingsInteractor
 import com.sobolevkir.playlistmaker.settings.domain.SharingInteractor
 
@@ -46,16 +42,5 @@ class SettingsViewModel(
             } else {
                 settingsInteractor.isSystemThemeDark()
             }
-    }
-
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SettingsViewModel(
-                    Creator.provideSharingInteractor(),
-                    Creator.provideSettingsInteractor()
-                )
-            }
-        }
     }
 }

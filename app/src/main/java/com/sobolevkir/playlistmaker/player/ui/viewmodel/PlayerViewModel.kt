@@ -7,12 +7,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.sobolevkir.playlistmaker.common.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.creator.Creator
 import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
 import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
 
@@ -35,11 +31,11 @@ class PlayerViewModel(
     }
 
     init {
-        playerInteractor.preparePlayer { state ->
+        playerInteractor.preparePlayer(track.previewUrl) { state ->
             mainThreadHandler.removeCallbacks(updateCurrentPosition)
             progressLiveData.value = ""
             playerStateLiveData.value = state
-            if (playerStateLiveData.value == PlayerState.ERROR) playerInteractor.releasePlayer()
+            if (playerStateLiveData.value == PlayerState.ERROR) playerInteractor.resetPlayer()
         }
         if (favoritesInteractor.isTrackFavorite(track.trackId)) {
             currentTrackLiveData.value = track.copy(isFavorite = true)
@@ -86,7 +82,7 @@ class PlayerViewModel(
 
     override fun onCleared() {
         mainThreadHandler.removeCallbacks(updateCurrentPosition)
-        playerInteractor.releasePlayer()
+        playerInteractor.resetPlayer()
     }
 
     override fun onPause(owner: LifecycleOwner) {
@@ -101,14 +97,5 @@ class PlayerViewModel(
 
     companion object {
         private const val UPDATER_DELAY = 200L
-        fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PlayerViewModel(
-                    track,
-                    Creator.providePlayerInteractor(track.previewUrl),
-                    Creator.provideFavoritesInteractor()
-                )
-            }
-        }
     }
 }
