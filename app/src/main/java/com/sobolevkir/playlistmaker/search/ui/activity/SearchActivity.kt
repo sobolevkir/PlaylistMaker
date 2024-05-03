@@ -59,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.btnBack.setOnClickListener { finish() }
+        binding.toolbar.setNavigationOnClickListener { finish() }
         binding.btnClearHistory.setOnClickListener { viewModel.onClearHistoryButtonClick() }
         binding.btnUpdate.setOnClickListener {
             viewModel.repeatSearch(binding.etSearchRequest.text.toString().trim())

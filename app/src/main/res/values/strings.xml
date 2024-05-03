@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Playlist maker</string>
 
-    <string name="title_media_library">Медиатека</string>
+    <string name="title_media">Медиатека</string>
     <string name="title_settings">Настройки</string>
     <string name="title_search">Поиск</string>
     <string name="title_history_search">Вы искали</string>
@@ -10,9 +10,12 @@
     <string name="title_release_year">Год</string>
     <string name="title_genre">Жанр</string>
     <string name="title_country">Страна</string>
+    <string name="title_playlists">Плейлисты</string>
+    <string name="title_favorites">Избранные треки</string>
 
     <string name="hint_search">Поиск</string>
     <string name="hint_back">Назад</string>
+    <string name="hint_clear">Очистить</string>
     <string name="hint_cover_image">Обложка альбома</string>
     <string name="hint_track_name">Название трека</string>
     <string name="hint_artist_name">Имя исполнителя</string>
@@ -31,6 +34,7 @@
     <string name="btn_user_agreement">Пользовательское соглашение</string>
     <string name="btn_update">Обновить</string>
     <string name="btn_clear_history">Очистить историю</string>
+    <string name="btn_create_playlist">Новый плейлист</string>
 
     <string name="url_share_app">https://practicum.yandex.ru/android-developer</string>
     <string name="url_user_agreement">https://yandex.ru/legal/practicum_offer</string>
@@ -39,8 +43,9 @@
     <string name="support_mail_message">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="support_mail_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
 
-    <string name="clear">Очистить</string>
     <string name="error_nothing_found">Ничего не нашлось</string>
     <string name="error_connection_problem">Проблемы со связью \n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="error_media_empty">Ваша медиатека пуста</string>
+    <string name="error_no_playlists">Вы не создали \nни одного плейлиста</string>
 
 </resources>

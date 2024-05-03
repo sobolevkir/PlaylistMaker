@@ -26,7 +26,7 @@ val dataModule = module {
         )
     }
 
-    single { Gson() }
+    factory { Gson() }
 
     single { MediaPlayer() }
 
@@ -38,7 +38,7 @@ val dataModule = module {
             .create(ITunesApiService::class.java)
     }
 
-    single<NetworkClient> { RetrofitNetworkClient(get(), androidContext()) }
+    single<NetworkClient> { RetrofitNetworkClient(get(), get()) }
 
     single<ResourceProvider> { ResourceProviderImpl(get()) }
 

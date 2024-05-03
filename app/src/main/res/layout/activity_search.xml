@@ -5,20 +5,10 @@
     style="@style/CommonScreenStyle"
     tools:context=".search.ui.activity.SearchActivity">
 
-    <LinearLayout
-        style="@style/HeaderStyle"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/btn_back"
-            style="@style/HeaderButtonStyle"
-            android:contentDescription="@string/hint_back"
-            android:src="@drawable/arrow_back_icon" />
-
-        <TextView
-            style="@style/HeaderTitleStyle"
-            android:text="@string/title_search" />
-    </LinearLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        app:title="@string/title_search"
+        style="@style/Toolbar"/>
 
     <FrameLayout style="@style/SearchFrameStyle">
 
@@ -34,7 +24,7 @@
         <ImageView
             android:id="@+id/btn_clear_request"
             style="@style/SearchClearButtonStyle"
-            android:contentDescription="@string/clear"
+            android:contentDescription="@string/hint_clear"
             android:visibility="gone" />
     </FrameLayout>
 
