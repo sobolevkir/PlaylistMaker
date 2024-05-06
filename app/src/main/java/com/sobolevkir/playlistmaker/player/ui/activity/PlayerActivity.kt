@@ -39,7 +39,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun initListeners() {
         with(binding) {
-            btnBack.setOnClickListener { finish() }
+            binding.toolbar.setNavigationOnClickListener { finish() }
             btnPlayControl.setOnClickListener { viewModel.playbackControl() }
             btnFavorite.setOnClickListener { viewModel.onFavoriteButtonClick() }
         }

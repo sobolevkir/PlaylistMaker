@@ -5,14 +5,9 @@
     style="@style/CommonScreenStyle"
     tools:context=".main.ui.activity.MainActivity">
 
-    <LinearLayout
-        style="@style/HeaderStyle">
-
-    <TextView
-        android:text="@string/app_name"
-        style="@style/HeaderTitleStyle"/>
-
-    </LinearLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        app:title="@string/app_name"
+        style="@style/NoIconToolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +25,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_library"
             style="@style/MainMenuButtonStyle"
-            android:text="@string/title_media_library"
+            android:text="@string/title_media"
             app:icon="@drawable/media_library_icon" />
 
         <com.google.android.material.button.MaterialButton

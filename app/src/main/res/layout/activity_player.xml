@@ -5,14 +5,11 @@
     style="@style/CommonScreenStyle"
     tools:context=".player.ui.activity.PlayerActivity">
 
-    <ImageButton
-        android:id="@+id/btn_back"
-        style="@style/HeaderButtonStyle"
-        android:contentDescription="@string/hint_back"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="@dimen/micro_indent"
-        android:src="@drawable/arrow_back_icon" />
+        style="@style/Toolbar"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -38,7 +35,7 @@
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="@+id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/tv_track_name" />
 
     <TextView

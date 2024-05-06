@@ -24,7 +24,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun initListeners() {
         with(binding) {
-            btnBack.setOnClickListener { finish() }
+            binding.toolbar.setNavigationOnClickListener { finish() }
             swThemeSwitcher.setOnCheckedChangeListener { switch, isChecked ->
                 if (switch.isPressed) viewModel.onThemeSwitcherCheckChange(isChecked)
             }

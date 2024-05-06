@@ -19,13 +19,14 @@
         <activity
             android:name=".player.ui.activity.PlayerActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".search.ui.activity.SearchActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".medialibrary.ui.activity.MediaLibraryActivity"
+            android:name=".media.ui.activity.MediaActivity"
             android:exported="false" />
         <activity
             android:name=".settings.ui.activity.SettingsActivity"
