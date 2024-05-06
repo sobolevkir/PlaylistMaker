@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.sobolevkir.playlistmaker.common.ui.BindingFragment
 import com.sobolevkir.playlistmaker.databinding.FragmentPlaylistsBinding
-import com.sobolevkir.playlistmaker.media.ui.model.MediaState
+import com.sobolevkir.playlistmaker.media.ui.model.PlaylistsState
 import com.sobolevkir.playlistmaker.media.ui.viewmodel.PlaylistsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,8 +27,8 @@ class PlaylistsFragment : BindingFragment<FragmentPlaylistsBinding>() {
 
         viewModel.observeState().observe(viewLifecycleOwner) {
             when (it) {
-                is MediaState.PlaylistsContent -> showNothingFound()
-                else -> showNothingFound()
+                is PlaylistsState.Content -> showNothingFound()
+                is PlaylistsState.NothingFound -> showNothingFound()
             }
         }
     }

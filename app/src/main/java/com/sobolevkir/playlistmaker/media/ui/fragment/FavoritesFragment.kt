@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.sobolevkir.playlistmaker.common.ui.BindingFragment
 import com.sobolevkir.playlistmaker.databinding.FragmentFavoritesBinding
-import com.sobolevkir.playlistmaker.media.ui.model.MediaState
+import com.sobolevkir.playlistmaker.media.ui.model.FavoritesState
 import com.sobolevkir.playlistmaker.media.ui.viewmodel.FavoritesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,8 +27,8 @@ class FavoritesFragment : BindingFragment<FragmentFavoritesBinding>() {
 
         viewModel.observeState().observe(viewLifecycleOwner) {
             when (it) {
-                is MediaState.FavoritesContent -> showNothingFound()
-                else -> showNothingFound()
+                is FavoritesState.Content -> showNothingFound()
+                is FavoritesState.NothingFound -> showNothingFound()
             }
         }
     }
