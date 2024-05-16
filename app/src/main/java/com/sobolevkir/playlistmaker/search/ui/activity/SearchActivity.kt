@@ -26,9 +26,7 @@ class SearchActivity : AppCompatActivity() {
         viewModel.onFoundTrackClick(it)
         openPlayer(it)
     }
-    private val historyTracksAdapter = TrackListAdapter {
-        openPlayer(it)
-    }
+    private val historyTracksAdapter = TrackListAdapter { openPlayer(it) }
     private var searchTextWatcher: TextWatcher? = null
     private lateinit var binding: ActivitySearchBinding
 

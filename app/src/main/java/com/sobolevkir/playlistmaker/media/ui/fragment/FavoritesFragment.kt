@@ -1,26 +1,27 @@
 package com.sobolevkir.playlistmaker.media.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.sobolevkir.playlistmaker.common.ui.BindingFragment
+import androidx.fragment.app.Fragment
+import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.databinding.FragmentFavoritesBinding
+import com.sobolevkir.playlistmaker.ext.viewBinding
 import com.sobolevkir.playlistmaker.media.ui.model.FavoritesState
 import com.sobolevkir.playlistmaker.media.ui.viewmodel.FavoritesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoritesFragment : BindingFragment<FragmentFavoritesBinding>() {
+class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     private val viewModel: FavoritesViewModel by viewModel()
+    private val binding by viewBinding(FragmentFavoritesBinding::bind)
 
-    override fun createBinding(
+    /*override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentFavoritesBinding {
         return FragmentFavoritesBinding.inflate(inflater, container, false)
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

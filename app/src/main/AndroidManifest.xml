@@ -18,7 +18,7 @@
         tools:targetApi="33">
         <activity
             android:name=".player.ui.activity.PlayerActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity

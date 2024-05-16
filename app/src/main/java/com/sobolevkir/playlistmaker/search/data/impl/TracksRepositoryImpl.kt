@@ -10,7 +10,7 @@ import com.sobolevkir.playlistmaker.search.data.network.TracksSearchRequest
 import com.sobolevkir.playlistmaker.search.data.network.TracksSearchResponse
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
 import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
-import com.sobolevkir.playlistmaker.search.domain.model.Resource
+import com.sobolevkir.playlistmaker.common.domain.model.Resource
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,

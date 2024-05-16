@@ -18,4 +18,5 @@ class MediaViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
             else -> PlaylistsFragment.newInstance()
         }
     }
+
 }

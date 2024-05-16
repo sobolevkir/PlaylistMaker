@@ -81,12 +81,12 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
             tracksInteractor.searchTrack(newRequestText, object : TracksInteractor.TracksConsumer {
                 override fun consume(tracksFound: List<Track>?, errorType: ErrorType?) {
                     if (!isSearchRequestCleared) {
+                        // Можно будет упростить
                         val tracks = mutableListOf<Track>()
                         tracksFound?.let { tracks.addAll(it) }
                         when (errorType) {
-                            ErrorType.SERVER_ERROR, ErrorType.BAD_REQUEST, ErrorType.CONNECTION_PROBLEM -> renderState(
-                                SearchState.Error
-                            )
+                            ErrorType.SERVER_ERROR, ErrorType.BAD_REQUEST,
+                            ErrorType.CONNECTION_PROBLEM -> renderState(SearchState.Error)
 
                             ErrorType.NOTHING_FOUND -> renderState(SearchState.NothingFound)
                             null -> renderState(SearchState.SearchResult(tracks.sortedByDescending { it.isFavorite }))
