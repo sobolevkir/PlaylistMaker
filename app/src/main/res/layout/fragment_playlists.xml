@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".media.ui.fragment.PlaylistsFragment">
+    tools:context=".media.ui.PlaylistsFragment">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create_playlist"

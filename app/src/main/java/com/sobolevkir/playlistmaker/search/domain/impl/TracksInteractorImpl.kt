@@ -1,10 +1,10 @@
 package com.sobolevkir.playlistmaker.search.domain.impl
 
-import com.sobolevkir.playlistmaker.common.domain.FavoritesRepository
+import com.sobolevkir.playlistmaker.favorites.domain.FavoritesRepository
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.search.domain.TracksInteractor
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
-import com.sobolevkir.playlistmaker.common.domain.model.Resource
+import com.sobolevkir.playlistmaker.search.domain.model.Resource
 import java.util.concurrent.Executors
 
 class TracksInteractorImpl(

@@ -1,10 +1,10 @@
 package com.sobolevkir.playlistmaker.di
 
-import com.sobolevkir.playlistmaker.media.ui.viewmodel.FavoritesViewModel
-import com.sobolevkir.playlistmaker.media.ui.viewmodel.PlaylistsViewModel
-import com.sobolevkir.playlistmaker.player.ui.viewmodel.PlayerViewModel
-import com.sobolevkir.playlistmaker.search.ui.viewmodel.SearchViewModel
-import com.sobolevkir.playlistmaker.settings.ui.viewmodel.SettingsViewModel
+import com.sobolevkir.playlistmaker.media.presentation.FavoritesViewModel
+import com.sobolevkir.playlistmaker.media.presentation.PlaylistsViewModel
+import com.sobolevkir.playlistmaker.player.presentation.PlayerViewModel
+import com.sobolevkir.playlistmaker.search.presentation.SearchViewModel
+import com.sobolevkir.playlistmaker.settings.presentation.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
