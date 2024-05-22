@@ -27,6 +27,11 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initObservers()
+        initListeners()
+    }
+
+    private fun initObservers() {
         lifecycle.addObserver(viewModel)
         viewModel.getCurrentTrackLiveData().observe(this) { setTrackInfo(it) }
         viewModel.getPlayerStateLiveData().observe(this) { playerState ->
@@ -35,7 +40,6 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.getProgressLiveData().observe(this) { progress ->
             binding.tvCurrentPosition.text = progress
         }
-        initListeners()
     }
 
     private fun initListeners() {
