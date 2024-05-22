@@ -51,14 +51,21 @@
                 android:textAppearance="@style/YS_Medium_19"
                 android:textColor="?attr/colorOnBackground" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_track_history_list"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mini_indent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/layout_tracklist_item" />
+                android:descendantFocusability="blocksDescendants">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_track_history_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mini_indent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/layout_tracklist_item"
+                    android:nestedScrollingEnabled="false"/>
+            </RelativeLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_clear_history"
@@ -66,6 +73,7 @@
                 android:layout_gravity="center"
                 android:text="@string/btn_clear_history" />
         </LinearLayout>
+
     </ScrollView>
 
     <ProgressBar

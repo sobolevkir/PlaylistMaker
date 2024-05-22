@@ -72,7 +72,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 viewModel.showHistoryOrDefault()
             }
         }
-        binding.rvTrackHistoryList.setOnScrollChangeListener { _: View, _: Int, _: Int, _: Int, _: Int ->
+        binding.vgSearchTrackHistory.setOnScrollChangeListener { _: View, _: Int, _: Int, _: Int, _: Int ->
             activity?.hideKeyboard()
             binding.etSearchRequest.clearFocus()
         }
