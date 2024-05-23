@@ -87,8 +87,7 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
                         ErrorType.NOTHING_FOUND -> renderState(SearchState.NothingFound)
                         null -> {
                             val result =
-                                tracksFound?.sortedByDescending { track -> track.isFavorite }
-                                    ?: listOf()
+                                tracksFound?.sortedByDescending { it.isFavorite } ?: listOf()
                             renderState(SearchState.SearchResult(result))
                         }
                     }
