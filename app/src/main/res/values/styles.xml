@@ -181,13 +181,13 @@
 
     <!-- Player Styles -->
     <style name="SmallControlButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:layout_width">@dimen/small_control_btn_size</item>
-        <item name="android:layout_height">@dimen/small_control_btn_size</item>
+        <item name="android:layout_width">@dimen/small_control_player_btn_size</item>
+        <item name="android:layout_height">@dimen/small_control_player_btn_size</item>
     </style>
 
     <style name="PlayControlButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:layout_width">@dimen/play_control_btn_size</item>
-        <item name="android:layout_height">@dimen/play_control_btn_size</item>
+        <item name="android:layout_width">@dimen/play_control_player_btn_size</item>
+        <item name="android:layout_height">@dimen/play_control_player_btn_size</item>
     </style>
 
     <style name="TrackParameterTitle">

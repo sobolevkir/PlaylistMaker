@@ -26,8 +26,8 @@
     <dimen name="history_header_height">48dp</dimen>
     <dimen name="album_cover_mini_size">45dp</dimen>
     <dimen name="header_icon_size">48dp</dimen>
-    <dimen name="small_control_btn_size">48dp</dimen>
-    <dimen name="play_control_btn_size">100dp</dimen>
+    <dimen name="small_control_player_btn_size">51dp</dimen>
+    <dimen name="play_control_player_btn_size">100dp</dimen>
     <dimen name="progress_bar_size">44dp</dimen>
 
     <!-- Radii -->
