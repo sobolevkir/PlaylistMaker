@@ -1,7 +1,7 @@
 package com.sobolevkir.playlistmaker.search.data.network
 
 import android.content.Context
-import com.sobolevkir.playlistmaker.ext.isNetworkConnected
+import com.sobolevkir.playlistmaker.common.ext.isNetworkConnected
 import com.sobolevkir.playlistmaker.search.data.model.ResultCode
 
 class RetrofitNetworkClient(

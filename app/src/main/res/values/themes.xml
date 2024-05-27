@@ -2,43 +2,33 @@
 
     <style name="PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/soft_black</item>
         <item name="colorPrimaryDark">@color/absolute_black</item>
-        <item name="colorPrimaryVariant">@color/text_grey</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/soft_grey</item>
+        <item name="colorOnPrimary">@color/absolute_white</item>
 
-        <item name="colorPrimaryFixed">@color/text_grey</item>
-        <item name="colorOnPrimaryFixedVariant">@color/black</item>
+        <item name="colorPrimaryFixed">@color/soft_grey</item>
+        <item name="colorOnPrimaryFixedVariant">@color/soft_black</item>
 
         <item name="colorSecondary">@color/light_grey</item>
-        <item name="colorOnSecondary">@color/text_grey</item>
+        <item name="colorSecondaryFixed">@color/light_grey</item>
+        <item name="colorOnSecondary">@color/soft_grey</item>
 
-        <item name="android:colorBackground">@color/white</item>
-        <item name="colorOnBackground">@color/black</item>
+        <item name="android:colorBackground">@color/absolute_white</item>
+        <item name="colorOnBackground">@color/soft_black</item>
 
         <item name="colorAccent">@color/blue</item>
 
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/absolute_white</item>
+        <item name="android:navigationBarColor">@color/absolute_white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
 
-        <item name="colorSwitchThumbNormal">@color/text_grey</item>
+        <item name="colorSwitchThumbNormal">@color/soft_grey</item>
         <item name="android:colorForeground">?attr/colorSwitchThumbNormal</item>
 
         <item name="android:letterSpacing">0.01</item>
-        <item name="android:textColorPrimary">@color/black</item>
-
-    </style>
-
-    <style name="PlaylistMaker.MainScreen">
-
-        <item name="android:colorBackground">?attr/colorAccent</item>
-        <item name="colorOnBackground">?attr/colorOnPrimary</item>
-        <item name="android:statusBarColor">?attr/colorAccent</item>
-        <item name="android:navigationBarColor">?attr/colorAccent</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:textColorPrimary">@color/soft_black</item>
 
     </style>
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CommonScreenStyle"
+    tools:context=".search.ui.SearchFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarSimpleStyle"
+        app:title="@string/title_search" />
+
+    <FrameLayout style="@style/SearchFrameStyle">
+
+        <EditText
+            android:id="@+id/et_search_request"
+            style="@style/SearchTextFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/hint_search"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no" />
+
+        <ImageView
+            android:id="@+id/btn_clear_request"
+            style="@style/SearchClearButtonStyle"
+            android:contentDescription="@string/hint_clear"
+            android:visibility="gone" />
+    </FrameLayout>
+
+
+    <ScrollView
+        android:id="@+id/vg_search_track_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/history_header_height"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/standard_indent"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/standard_indent"
+                android:text="@string/title_history_search"
+                android:textAppearance="@style/YS_Medium_19"
+                android:textColor="?attr/colorOnBackground" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_track_history_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mini_indent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/layout_tracklist_item"
+                    android:nestedScrollingEnabled="false"/>
+            </RelativeLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_clear_history"
+                style="@style/SmallButtonStyle"
+                android:layout_gravity="center"
+                android:text="@string/btn_clear_history" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/ProgressBarStyle"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_track_search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mini_indent"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="4"
+        tools:listitem="@layout/layout_tracklist_item" />
+
+    <TextView
+        android:id="@+id/tv_error_message"
+        style="@style/ErrorMessageStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/error_connection_problem"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_update"
+        style="@style/SmallButtonStyle"
+        android:layout_gravity="center"
+        android:text="@string/btn_update"
+        android:visibility="gone" />
+
+</LinearLayout>

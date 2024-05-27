@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CommonScreenStyle"
+    tools:context=".settings.ui.SettingsFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarSimpleStyle"
+        app:title="@string/title_settings" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/large_indent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/sw_theme_switcher"
+                style="@style/SettingsMenuItemStyle"
+                android:text="@string/btn_dark_theme" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_share_app"
+                style="@style/SettingsMenuItemStyle"
+                android:text="@string/btn_share_app"
+                app:icon="@drawable/ic_share" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_support"
+                style="@style/SettingsMenuItemStyle"
+                android:text="@string/btn_support"
+                app:icon="@drawable/ic_support" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_user_agreement"
+                style="@style/SettingsMenuItemStyle"
+                android:text="@string/btn_user_agreement"
+                app:icon="@drawable/ic_arrow_forward" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

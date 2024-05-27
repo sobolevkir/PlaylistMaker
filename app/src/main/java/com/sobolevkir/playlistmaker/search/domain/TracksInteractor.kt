@@ -9,7 +9,7 @@ interface TracksInteractor {
     fun addTrackToHistory(track: Track)
     fun clearHistory()
 
-    interface TracksConsumer {
+    fun interface TracksConsumer {
         fun consume(tracksFound: List<Track>?, errorType: ErrorType?)
     }
 }
