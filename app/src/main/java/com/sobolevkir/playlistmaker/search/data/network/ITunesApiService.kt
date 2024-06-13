@@ -1,5 +1,6 @@
 package com.sobolevkir.playlistmaker.search.data.network
 
+import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

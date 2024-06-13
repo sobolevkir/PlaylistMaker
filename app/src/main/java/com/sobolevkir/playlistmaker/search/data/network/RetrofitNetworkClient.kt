@@ -2,7 +2,8 @@ package com.sobolevkir.playlistmaker.search.data.network
 
 import android.content.Context
 import com.sobolevkir.playlistmaker.common.ext.isNetworkConnected
-import com.sobolevkir.playlistmaker.search.data.model.ResultCode
+import com.sobolevkir.playlistmaker.search.data.dto.NetworkResponse
+import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchRequest
 
 class RetrofitNetworkClient(
     private val iTunesApiService: ITunesApiService,

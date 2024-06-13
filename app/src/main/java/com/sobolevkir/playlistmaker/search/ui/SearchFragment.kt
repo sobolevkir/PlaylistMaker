@@ -9,12 +9,14 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.common.ext.hideKeyboard
 import com.sobolevkir.playlistmaker.common.ext.showKeyboard
-import com.sobolevkir.playlistmaker.common.ext.viewBinding
+import com.sobolevkir.playlistmaker.common.util.debounce
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentSearchBinding
 import com.sobolevkir.playlistmaker.search.presentation.SearchState
 import com.sobolevkir.playlistmaker.search.presentation.SearchViewModel
@@ -30,9 +32,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
     private val historyTracksAdapter = TrackListAdapter { openPlayer(it) }
     private var searchTextWatcher: TextWatcher? = null
+    private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        onTrackClickDebounce = debounce<Track>(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope,
+            false
+        ) { track ->
+            val action = SearchFragmentDirections.actionSearchFragmentToPlayerActivity(track)
+            findNavController().navigate(action)
+        }
         initAdapters()
         initListeners()
         if (savedInstanceState == null) {
@@ -201,10 +212,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun openPlayer(track: Track) {
-        if (viewModel.clickDebounce()) {
-            val action = SearchFragmentDirections.actionSearchFragmentToPlayerActivity(track)
-            findNavController().navigate(action)
-        }
+        onTrackClickDebounce(track)
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
 }

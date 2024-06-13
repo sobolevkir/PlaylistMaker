@@ -1,6 +1,6 @@
 package com.sobolevkir.playlistmaker.search.domain
 
-import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
+import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 
 interface TracksInteractor {

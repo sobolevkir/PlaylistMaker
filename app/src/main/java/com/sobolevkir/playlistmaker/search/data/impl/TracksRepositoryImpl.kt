@@ -4,13 +4,13 @@ import com.google.gson.Gson
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.search.data.mapper.TrackMapper
-import com.sobolevkir.playlistmaker.search.data.model.ResultCode
+import com.sobolevkir.playlistmaker.search.data.network.ResultCode
 import com.sobolevkir.playlistmaker.search.data.network.NetworkClient
-import com.sobolevkir.playlistmaker.search.data.network.TracksSearchRequest
-import com.sobolevkir.playlistmaker.search.data.network.TracksSearchResponse
+import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchRequest
+import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchResponse
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
-import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
-import com.sobolevkir.playlistmaker.search.domain.model.Resource
+import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
+import com.sobolevkir.playlistmaker.common.util.Resource
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
