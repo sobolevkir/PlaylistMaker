@@ -1,18 +1,39 @@
 package com.sobolevkir.playlistmaker.player.domain.impl
 
+import com.sobolevkir.playlistmaker.player.data.model.PlayerStatus
 import com.sobolevkir.playlistmaker.player.domain.Player
 import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
+import com.sobolevkir.playlistmaker.player.presentation.PlayerState
 
-class PlayerInteractorImpl(private val repository: Player) : PlayerInteractor {
+class PlayerInteractorImpl(private val player: Player) : PlayerInteractor {
 
-    override fun preparePlayer(previewUrl: String, consumer: Player.Consumer) =
-        repository.preparePlayer(previewUrl, consumer)
+    override fun preparePlayer(previewUrl: String, consumer: PlayerInteractor.Consumer) =
+        player.preparePlayer(previewUrl) { playerStatus ->
+            consumer.consume(getPlayerState(playerStatus))
+        }
 
-    override fun startPlayer(consumer: Player.Consumer) = repository.startPlayer(consumer)
+    override fun startPlayer(consumer: PlayerInteractor.Consumer) =
+        player.startPlayer { playerStatus ->
+            consumer.consume(getPlayerState(playerStatus))
+        }
 
-    override fun pausePlayer(consumer: Player.Consumer) = repository.pausePlayer(consumer)
+    override fun pausePlayer(consumer: PlayerInteractor.Consumer) =
+        player.pausePlayer { playerStatus ->
+            consumer.consume(getPlayerState(playerStatus))
+        }
 
-    override fun resetPlayer() = repository.resetPlayer()
+    override fun isPlaying(): Boolean = player.isPlaying()
 
-    override fun getCurrentPosition() = repository.getCurrentPosition()
+    override fun resetPlayer() = player.resetPlayer()
+
+    override fun getCurrentPlayerPosition() = player.getCurrentPlayerPosition()
+
+    private fun getPlayerState(playerStatus: PlayerStatus): PlayerState {
+        return when (playerStatus) {
+            PlayerStatus.PREPARED -> PlayerState.Prepared()
+            PlayerStatus.PLAYING -> PlayerState.Playing(player.getCurrentPlayerPosition())
+            PlayerStatus.PAUSED -> PlayerState.Paused(player.getCurrentPlayerPosition())
+            else -> PlayerState.Default()
+        }
+    }
 }

@@ -4,27 +4,43 @@ import android.content.Context
 import com.sobolevkir.playlistmaker.common.ext.isNetworkConnected
 import com.sobolevkir.playlistmaker.search.data.dto.NetworkResponse
 import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RetrofitNetworkClient(
     private val iTunesApiService: ITunesApiService,
     private val context: Context
 ) : NetworkClient {
 
-    override fun doRequest(dto: Any): NetworkResponse {
-        try {
-            if (!context.isNetworkConnected) {
-                return NetworkResponse().apply { resultCode = ResultCode.CONNECTION_PROBLEM_CODE }
-            }
-            if (dto !is TracksSearchRequest) {
-                return NetworkResponse().apply { resultCode = ResultCode.BAD_REQUEST_CODE }
-            }
+    override suspend fun doRequest(dto: Any): NetworkResponse {
+        if (!context.isNetworkConnected) {
+            return NetworkResponse().apply { resultCode = ResultCode.CONNECTION_PROBLEM_CODE }
+        }
+        if (dto !is TracksSearchRequest) {
+            return NetworkResponse().apply { resultCode = ResultCode.BAD_REQUEST_CODE }
+        }
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = iTunesApiService.searchTrack(dto.searchQueryText)
+                response.apply { resultCode = ResultCode.SUCCESS_CODE }
+            } catch (ex: Exception) {
+                when (ex) {
+                    is retrofit2.HttpException -> {
+                        if (ex.code() == ResultCode.NOTHING_FOUND_CODE) {
+                            NetworkResponse().apply { resultCode = ResultCode.NOTHING_FOUND_CODE }
+                        } else {
+                            NetworkResponse().apply {
+                                resultCode = ResultCode.CONNECTION_PROBLEM_CODE
+                            }
+                        }
+                    }
 
-            val resp = iTunesApiService.searchTrack(dto.searchQueryText).execute()
-            val body = resp.body() ?: NetworkResponse()
-            return body.apply { resultCode = resp.code() }
-        } catch (ex: Exception) {
-            return NetworkResponse().apply { resultCode = -1 }
+                    else -> NetworkResponse().apply {
+                        resultCode = ResultCode.CONNECTION_PROBLEM_CODE
+                    }
+                }
+
+            }
         }
     }
-
 }

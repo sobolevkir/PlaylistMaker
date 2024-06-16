@@ -2,37 +2,39 @@ package com.sobolevkir.playlistmaker.search.data.impl
 
 import com.google.gson.Gson
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
+import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.search.data.mapper.TrackMapper
-import com.sobolevkir.playlistmaker.search.data.network.ResultCode
-import com.sobolevkir.playlistmaker.search.data.network.NetworkClient
+import com.sobolevkir.playlistmaker.common.util.Resource
 import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchRequest
 import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchResponse
+import com.sobolevkir.playlistmaker.search.data.mapper.TrackMapper
+import com.sobolevkir.playlistmaker.search.data.network.NetworkClient
+import com.sobolevkir.playlistmaker.search.data.network.ResultCode
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
-import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
-import com.sobolevkir.playlistmaker.common.util.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
     private val localStorage: LocalStorage,
     private val gson: Gson
 ) : TracksRepository {
-    override fun searchTrack(searchQueryText: String): Resource<List<Track>> {
+    override fun searchTrack(searchQueryText: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequest(TracksSearchRequest(searchQueryText))
-        return when (response.resultCode) {
-            ResultCode.CONNECTION_PROBLEM_CODE -> Resource.Error(ErrorType.CONNECTION_PROBLEM)
+        when (response.resultCode) {
+            ResultCode.CONNECTION_PROBLEM_CODE -> emit(Resource.Error(ErrorType.CONNECTION_PROBLEM))
             ResultCode.SUCCESS_CODE -> {
                 if ((response as TracksSearchResponse).results.isEmpty()) {
-                    Resource.Error(ErrorType.NOTHING_FOUND)
+                    emit(Resource.Error(ErrorType.NOTHING_FOUND))
                 } else {
-                    Resource.Success(TrackMapper.map(response.results))
+                    emit(Resource.Success(TrackMapper.map(response.results)))
                 }
             }
 
-            ResultCode.BAD_REQUEST_CODE -> Resource.Error(ErrorType.BAD_REQUEST)
-            ResultCode.NOTHING_FOUND_CODE -> Resource.Error(ErrorType.NOTHING_FOUND)
+            ResultCode.BAD_REQUEST_CODE -> emit(Resource.Error(ErrorType.BAD_REQUEST))
+            ResultCode.NOTHING_FOUND_CODE -> emit(Resource.Error(ErrorType.NOTHING_FOUND))
 
-            else -> Resource.Error(ErrorType.SERVER_ERROR)
+            else -> emit(Resource.Error(ErrorType.SERVER_ERROR))
         }
     }
 

@@ -4,10 +4,10 @@ import com.sobolevkir.playlistmaker.common.domain.model.Track
 
 sealed interface SearchState {
 
-    object Default : SearchState
-    object Loading : SearchState
-    object Error : SearchState
-    object NothingFound : SearchState
+    data object Default : SearchState
+    data object Loading : SearchState
+    data object Error : SearchState
+    data object NothingFound : SearchState
 
     data class SearchResult(
         val tracks: List<Track>

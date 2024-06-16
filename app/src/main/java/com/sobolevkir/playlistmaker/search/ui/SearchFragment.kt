@@ -72,7 +72,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
         binding.btnClearHistory.setOnClickListener { viewModel.onClearHistoryButtonClick() }
         binding.btnUpdate.setOnClickListener {
-            viewModel.repeatSearch(binding.etSearchRequest.text.toString().trim())
+            viewModel.searchDebounce(binding.etSearchRequest.text.toString())
         }
         binding.etSearchRequest.setOnEditorActionListener { view, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) view.clearFocus()
@@ -96,11 +96,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 if (s.isNullOrEmpty()) {
                     binding.btnClearRequest.isVisible = false
                     if (binding.etSearchRequest.hasFocus()) {
-                        viewModel.onSearchRequestFieldCleared()
+                        viewModel.showHistoryOrDefault()
                     }
                 } else {
                     binding.btnClearRequest.isVisible = true
-                    viewModel.searchDebounce(s.toString().trim())
+                    viewModel.searchDebounce(s.toString())
                 }
             }
 
@@ -216,7 +216,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY = 200L
     }
 
 }
