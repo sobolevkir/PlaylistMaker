@@ -15,7 +15,7 @@ import org.koin.dsl.module
 val interactorModule = module {
     factory<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
     factory<TracksInteractor> { TracksInteractorImpl(get(), get()) }
-    factory<PlayerInteractor> { PlayerInteractorImpl(get()) }
+    factory<PlayerInteractor> { PlayerInteractorImpl(get(), get()) }
     factory<SettingsInteractor> { SettingsInteractorImpl(get()) }
     factory<SharingInteractor> { SharingInteractorImpl(get(), get()) }
 }

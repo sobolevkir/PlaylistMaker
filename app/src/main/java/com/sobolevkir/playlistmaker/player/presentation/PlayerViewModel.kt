@@ -1,6 +1,5 @@
 package com.sobolevkir.playlistmaker.player.presentation
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -21,15 +20,12 @@ class PlayerViewModel(
 ) : ViewModel(), DefaultLifecycleObserver {
 
     private var timerJob: Job? = null
-    private val playerStateLiveData = MutableLiveData<PlayerState>(PlayerState.Default())
+    private val playerStateLiveData = MutableLiveData<PlayerState>()
     private val currentTrackLiveData = MutableLiveData<Track>()
 
     init {
         playerInteractor.preparePlayer(track.previewUrl) { playerState ->
             playerStateLiveData.postValue(playerState)
-            if (playerState !is PlayerState.Playing) {
-                timerJob?.cancel()
-            }
         }
         if (favoritesInteractor.isTrackFavorite(track.trackId)) {
             currentTrackLiveData.value = track.copy(isFavorite = true)
@@ -62,13 +58,15 @@ class PlayerViewModel(
     }
 
     private fun startTimer() {
+        timerJob?.cancel()
         timerJob = viewModelScope.launch {
-            while (true) {
+            while (playerInteractor.isPlaying()) {
                 delay(UPDATER_DELAY)
-                playerStateLiveData.postValue(
-                    PlayerState.Playing(playerInteractor.getCurrentPlayerPosition())
-                )
-                Log.d("timersss", "working")
+                if (playerInteractor.isPlaying()) {
+                    playerStateLiveData.postValue(
+                        PlayerState.Playing(playerInteractor.getCurrentPlayerPosition())
+                    )
+                }
             }
         }
     }
@@ -99,6 +97,6 @@ class PlayerViewModel(
     }
 
     companion object {
-        private const val UPDATER_DELAY = 300L
+        private const val UPDATER_DELAY = 100L
     }
 }
