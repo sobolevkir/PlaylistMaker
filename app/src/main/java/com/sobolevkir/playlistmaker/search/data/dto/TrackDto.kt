@@ -1,4 +1,4 @@
-package com.sobolevkir.playlistmaker.search.data.model
+package com.sobolevkir.playlistmaker.search.data.dto
 
 data class TrackDto(
     val trackId: Int,

@@ -1,4 +1,4 @@
-package com.sobolevkir.playlistmaker.common.ui
+package com.sobolevkir.playlistmaker.root.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

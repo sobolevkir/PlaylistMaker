@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.databinding.ActivityPlayerBinding
-import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
+import com.sobolevkir.playlistmaker.player.presentation.PlayerState
 import com.sobolevkir.playlistmaker.player.presentation.PlayerViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -35,10 +35,8 @@ class PlayerActivity : AppCompatActivity() {
         lifecycle.addObserver(viewModel)
         viewModel.getCurrentTrackLiveData().observe(this) { setTrackInfo(it) }
         viewModel.getPlayerStateLiveData().observe(this) { playerState ->
-            changePlayButtonStyle(playerState)
-        }
-        viewModel.getProgressLiveData().observe(this) { progress ->
-            binding.tvCurrentPosition.text = progress
+            changePlayControlButton(playerState)
+            binding.tvCurrentPosition.text = playerState.progress
         }
     }
 
@@ -90,17 +88,16 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun changePlayButtonStyle(playerState: PlayerState) {
+    private fun changePlayControlButton(playerState: PlayerState) {
         binding.btnPlayControl.run {
             when (playerState) {
-                PlayerState.PREPARED -> {
+                is PlayerState.Prepared, is PlayerState.Paused -> {
                     this.alpha = 1.0f
                     this.isEnabled = true
                     this.setImageResource(R.drawable.btn_play_icon)
                 }
 
-                PlayerState.PLAYING -> this.setImageResource(R.drawable.btn_pause_icon)
-                PlayerState.PAUSED -> this.setImageResource(R.drawable.btn_play_icon)
+                is PlayerState.Playing -> this.setImageResource(R.drawable.btn_pause_icon)
                 else -> {
                     this.alpha = 0.25f
                     this.isEnabled = false
