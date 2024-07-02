@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.sobolevkir.playlistmaker.R
-import com.sobolevkir.playlistmaker.common.ext.viewBinding
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentFavoritesBinding
 import com.sobolevkir.playlistmaker.media.presentation.FavoritesViewModel
 import com.sobolevkir.playlistmaker.media.presentation.model.FavoritesState

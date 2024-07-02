@@ -1,9 +1,15 @@
 package com.sobolevkir.playlistmaker.player.domain
 
+import com.sobolevkir.playlistmaker.player.presentation.PlayerState
+
 interface PlayerInteractor {
-    fun preparePlayer(previewUrl: String, consumer: Player.Consumer)
-    fun startPlayer(consumer: Player.Consumer)
-    fun pausePlayer(consumer: Player.Consumer)
+    fun preparePlayer(previewUrl: String, consumer: Consumer)
+    fun startPlayer(consumer: Consumer)
+    fun pausePlayer(consumer: Consumer)
+    fun isPlaying(): Boolean
     fun resetPlayer()
-    fun getCurrentPosition(): String
+    fun getCurrentPlayerPosition(): String
+    fun interface Consumer {
+        fun consume(playerState: PlayerState)
+    }
 }

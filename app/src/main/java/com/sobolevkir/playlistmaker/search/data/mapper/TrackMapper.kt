@@ -1,7 +1,7 @@
 package com.sobolevkir.playlistmaker.search.data.mapper
 
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.search.data.model.TrackDto
+import com.sobolevkir.playlistmaker.search.data.dto.TrackDto
 import java.text.SimpleDateFormat
 import java.util.Locale
 
