@@ -36,7 +36,12 @@ class PlayerActivity : AppCompatActivity() {
         viewModel.getCurrentTrackLiveData().observe(this) { setTrackInfo(it) }
         viewModel.getPlayerStateLiveData().observe(this) { playerState ->
             changePlayControlButton(playerState)
-            binding.tvCurrentPosition.text = playerState.progress
+            when (playerState) {
+                is PlayerState.Playing -> binding.tvCurrentPosition.text = playerState.progress
+                is PlayerState.Paused -> binding.tvCurrentPosition.text = playerState.progress
+                else -> binding.tvCurrentPosition.text = ""
+            }
+
         }
     }
 

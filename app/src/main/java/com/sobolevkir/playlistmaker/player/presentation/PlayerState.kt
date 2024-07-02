@@ -1,13 +1,11 @@
 package com.sobolevkir.playlistmaker.player.presentation
 
-sealed class PlayerState(val progress: String) {
+sealed interface PlayerState {
 
-    class Default(progress: String) : PlayerState(progress)
+    data object Default : PlayerState
+    data object Prepared : PlayerState
 
-    class Prepared(progress: String) : PlayerState(progress)
-
-    class Playing(progress: String) : PlayerState(progress)
-
-    class Paused(progress: String) : PlayerState(progress)
+    data class Playing(val progress: String) : PlayerState
+    data class Paused(val progress: String) : PlayerState
 
 }

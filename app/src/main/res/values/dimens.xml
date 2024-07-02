@@ -7,7 +7,6 @@
     <dimen name="medium_indent">12dp</dimen>
     <dimen name="mini_indent">8dp</dimen>
     <dimen name="micro_indent">4dp</dimen>
-    <dimen name="player_vertical_indent">30dp</dimen>
     <dimen name="special_element_top_indent">102dp</dimen>
 
     <!-- Text sizes -->
