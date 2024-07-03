@@ -1,14 +1,15 @@
 package com.sobolevkir.playlistmaker.player.domain
 
-import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
+import com.sobolevkir.playlistmaker.player.data.model.PlayerStatus
 
 interface Player {
     fun preparePlayer(previewUrl: String, consumer: Consumer)
     fun startPlayer(consumer: Consumer)
     fun pausePlayer(consumer: Consumer)
+    fun isPlaying(): Boolean
     fun resetPlayer()
-    fun getCurrentPosition(): String
+    fun getCurrentPlayerPosition(): String
     fun interface Consumer {
-        fun consume(state: PlayerState)
+        fun consume(playerStatus: PlayerStatus)
     }
 }

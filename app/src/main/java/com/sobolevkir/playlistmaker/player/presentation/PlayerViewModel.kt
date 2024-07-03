@@ -1,16 +1,18 @@
 package com.sobolevkir.playlistmaker.player.presentation
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
+import androidx.lifecycle.viewModelScope
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
-import com.sobolevkir.playlistmaker.player.domain.model.PlayerState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class PlayerViewModel(
     track: Track,
@@ -18,24 +20,14 @@ class PlayerViewModel(
     private val favoritesInteractor: FavoritesInteractor
 ) : ViewModel(), DefaultLifecycleObserver {
 
+    private var timerJob: Job? = null
     private val playerStateLiveData = MutableLiveData<PlayerState>()
-    private val progressLiveData = MutableLiveData<String>()
     private val currentTrackLiveData = MutableLiveData<Track>()
 
-    private val mainThreadHandler = Handler(Looper.getMainLooper())
-    private var updateCurrentPosition = object : Runnable {
-        override fun run() {
-            progressLiveData.value = playerInteractor.getCurrentPosition()
-            mainThreadHandler.postDelayed(this, UPDATER_DELAY)
-        }
-    }
-
     init {
-        playerInteractor.preparePlayer(track.previewUrl) { state ->
-            mainThreadHandler.removeCallbacks(updateCurrentPosition)
-            progressLiveData.value = ""
-            playerStateLiveData.value = state
-            if (playerStateLiveData.value == PlayerState.ERROR) playerInteractor.resetPlayer()
+        playerInteractor.preparePlayer(track.previewUrl) { playerState ->
+            playerStateLiveData.postValue(playerState)
+            if (playerState !is PlayerState.Playing) timerJob?.cancel()
         }
         if (favoritesInteractor.isTrackFavorite(track.trackId)) {
             currentTrackLiveData.value = track.copy(isFavorite = true)
@@ -45,25 +37,12 @@ class PlayerViewModel(
     }
 
     fun getPlayerStateLiveData(): LiveData<PlayerState> = playerStateLiveData
-    fun getProgressLiveData(): LiveData<String> = progressLiveData
     fun getCurrentTrackLiveData(): LiveData<Track> = currentTrackLiveData
 
     fun playbackControl() {
         when (playerStateLiveData.value) {
-            PlayerState.PLAYING -> {
-                playerInteractor.pausePlayer { state ->
-                    playerStateLiveData.value = state
-                    mainThreadHandler.removeCallbacks(updateCurrentPosition)
-                }
-            }
-
-            PlayerState.PREPARED, PlayerState.PAUSED -> {
-                playerInteractor.startPlayer { state ->
-                    playerStateLiveData.value = state
-                    mainThreadHandler.postDelayed(updateCurrentPosition, UPDATER_DELAY)
-                }
-            }
-
+            is PlayerState.Playing -> pausePlayer()
+            is PlayerState.Prepared, is PlayerState.Paused -> startPlayer()
             else -> {}
         }
     }
@@ -80,22 +59,46 @@ class PlayerViewModel(
         }
     }
 
-    override fun onCleared() {
-        mainThreadHandler.removeCallbacks(updateCurrentPosition)
-        playerInteractor.resetPlayer()
+    private fun startTimer() {
+        timerJob?.cancel()
+        timerJob = viewModelScope.launch {
+            while (playerInteractor.isPlaying()) {
+                delay(UPDATER_DELAY)
+                if (this.isActive) {
+                    playerStateLiveData.postValue(
+                        PlayerState.Playing(playerInteractor.getCurrentPlayerPosition())
+                    )
+                }
+            }
+        }
+    }
+
+    private fun startPlayer() {
+        playerInteractor.startPlayer { playerState ->
+            playerStateLiveData.postValue(playerState)
+        }
+        startTimer()
+    }
+
+    private fun pausePlayer() {
+        timerJob?.cancel()
+        playerInteractor.pausePlayer { playerState ->
+            playerStateLiveData.postValue(playerState)
+        }
     }
 
     override fun onPause(owner: LifecycleOwner) {
-        if (playerStateLiveData.value == PlayerState.PLAYING) {
-            playerInteractor.pausePlayer { state ->
-                playerStateLiveData.value = state
-                mainThreadHandler.removeCallbacks(updateCurrentPosition)
-            }
+        if (playerStateLiveData.value is PlayerState.Playing) {
+            pausePlayer()
         }
         super.onPause(owner)
     }
 
+    override fun onCleared() {
+        playerInteractor.resetPlayer()
+    }
+
     companion object {
-        private const val UPDATER_DELAY = 200L
+        private const val UPDATER_DELAY = 100L
     }
 }

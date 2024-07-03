@@ -1,4 +1,4 @@
-package com.sobolevkir.playlistmaker.search.domain.model
+package com.sobolevkir.playlistmaker.common.domain.model
 
 enum class ErrorType {
     CONNECTION_PROBLEM,

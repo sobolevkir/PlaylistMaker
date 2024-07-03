@@ -1,33 +1,31 @@
 package com.sobolevkir.playlistmaker.search.domain.impl
 
-import com.sobolevkir.playlistmaker.favorites.domain.FavoritesRepository
+import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.common.util.Resource
+import com.sobolevkir.playlistmaker.favorites.domain.FavoritesRepository
 import com.sobolevkir.playlistmaker.search.domain.TracksInteractor
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
-import com.sobolevkir.playlistmaker.search.domain.model.Resource
-import java.util.concurrent.Executors
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class TracksInteractorImpl(
     private val tracksRepository: TracksRepository,
     private val favoritesRepository: FavoritesRepository
 ) : TracksInteractor {
 
-    private val executor = Executors.newCachedThreadPool()
-
-    override fun searchTrack(searchQueryText: String, consumer: TracksInteractor.TracksConsumer) {
-        executor.execute {
-            when (val resource = tracksRepository.searchTrack(searchQueryText)) {
+    override fun searchTrack(searchQueryText: String): Flow<Pair<List<Track>?, ErrorType?>> {
+        return tracksRepository.searchTrack(searchQueryText).map { result ->
+            when (result) {
                 is Resource.Success -> {
                     val savedFavoritesId = favoritesRepository.getSavedFavoritesId()
-                    val dataWithFavorites = resource.data?.map {
+                    val dataWithFavorites = result.data?.map {
                         it.copy(isFavorite = savedFavoritesId.contains(it.trackId))
                     }
-                    consumer.consume(dataWithFavorites, null)
+                    Pair(dataWithFavorites, null)
                 }
 
-                is Resource.Error -> {
-                    consumer.consume(null, resource.errorType)
-                }
+                is Resource.Error -> Pair(null, result.errorType)
             }
         }
     }
