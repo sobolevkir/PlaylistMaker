@@ -18,18 +18,18 @@ class PlayerImpl(private val mediaPlayer: MediaPlayer) : Player {
                 playerState = PlayerStatus.PREPARED
                 consumer.consume(playerState)
             }
+            mediaPlayer.setOnErrorListener { player, _, _ ->
+                playerState = PlayerStatus.ERROR
+                consumer.consume(playerState)
+                player.reset()
+                true
+            }
             mediaPlayer.setOnCompletionListener {
                 playerState = PlayerStatus.PREPARED
                 consumer.consume(playerState)
             }
-            mediaPlayer.setOnErrorListener { player, _, _ ->
-                playerState = PlayerStatus.ERROR
-                player.reset()
-                true
-            }
         } catch (ex: Exception) {
             playerState = PlayerStatus.ERROR
-            consumer.consume(playerState)
             return
         }
     }

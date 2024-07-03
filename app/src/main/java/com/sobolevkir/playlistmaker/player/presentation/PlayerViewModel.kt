@@ -11,6 +11,7 @@ import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
@@ -26,6 +27,7 @@ class PlayerViewModel(
     init {
         playerInteractor.preparePlayer(track.previewUrl) { playerState ->
             playerStateLiveData.postValue(playerState)
+            if (playerState !is PlayerState.Playing) timerJob?.cancel()
         }
         if (favoritesInteractor.isTrackFavorite(track.trackId)) {
             currentTrackLiveData.value = track.copy(isFavorite = true)
@@ -62,7 +64,7 @@ class PlayerViewModel(
         timerJob = viewModelScope.launch {
             while (playerInteractor.isPlaying()) {
                 delay(UPDATER_DELAY)
-                if (playerInteractor.isPlaying()) {
+                if (this.isActive) {
                     playerStateLiveData.postValue(
                         PlayerState.Playing(playerInteractor.getCurrentPlayerPosition())
                     )
