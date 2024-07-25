@@ -1,4 +1,4 @@
-package com.sobolevkir.playlistmaker.search.ui
+package com.sobolevkir.playlistmaker.common.ui
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

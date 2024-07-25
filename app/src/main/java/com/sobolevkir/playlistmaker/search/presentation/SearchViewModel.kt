@@ -33,16 +33,18 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
     }
 
     fun onFoundTrackClick(track: Track) {
-        tracksInteractor.addTrackToHistory(track)
+        viewModelScope.launch { tracksInteractor.addTrackToHistory(track) }
     }
 
     fun showHistoryOrDefault() {
         viewModelScope.coroutineContext[Job]?.cancelChildren()
-        val historyTracks = tracksInteractor.getSavedHistory()
-        if (historyTracks.isNotEmpty()) {
-            renderState(SearchState.History(historyTracks))
-        } else {
-            renderState(SearchState.Default)
+        viewModelScope.launch {
+            val historyTracks = tracksInteractor.getSavedHistory()
+            if (historyTracks.isNotEmpty()) {
+                renderState(SearchState.History(historyTracks))
+            } else {
+                renderState(SearchState.Default)
+            }
         }
     }
 
@@ -62,19 +64,19 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
     }
 
     private fun processResult(tracksFound: List<Track>?, errorType: ErrorType?) {
-            when (errorType) {
-                ErrorType.SERVER_ERROR,
-                ErrorType.BAD_REQUEST,
-                ErrorType.CONNECTION_PROBLEM -> renderState(SearchState.Error)
+        when (errorType) {
+            ErrorType.SERVER_ERROR,
+            ErrorType.BAD_REQUEST,
+            ErrorType.CONNECTION_PROBLEM -> renderState(SearchState.Error)
 
-                ErrorType.NOTHING_FOUND -> renderState(SearchState.NothingFound)
-                null -> {
-                    val result =
-                        tracksFound?.sortedByDescending { track -> track.isFavorite }
-                            ?: listOf()
-                    renderState(SearchState.SearchResult(result))
-                }
+            ErrorType.NOTHING_FOUND -> renderState(SearchState.NothingFound)
+            null -> {
+                val result =
+                    tracksFound?.sortedByDescending { track -> track.isFavorite }
+                        ?: listOf()
+                renderState(SearchState.SearchResult(result))
             }
+        }
     }
 
     private fun renderState(state: SearchState) = stateLiveData.postValue(state)

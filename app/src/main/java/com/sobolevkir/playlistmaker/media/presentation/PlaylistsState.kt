@@ -1,4 +1,4 @@
-package com.sobolevkir.playlistmaker.media.presentation.model
+package com.sobolevkir.playlistmaker.media.presentation
 
 import com.sobolevkir.playlistmaker.common.domain.model.Playlist
 

@@ -3,7 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".media.ui.FavoritesFragment">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/ProgressBarStyle"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_nothing_found"
@@ -11,6 +17,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/error_media_empty"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorites_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_indent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/layout_tracklist_item"
         android:visibility="gone"/>
 
 </FrameLayout>

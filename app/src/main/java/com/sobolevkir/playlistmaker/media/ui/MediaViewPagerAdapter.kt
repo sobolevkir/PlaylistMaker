@@ -8,13 +8,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 class MediaViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
+    private val tabs = arrayListOf(
+        FavoritesFragment.newInstance(),
+        PlaylistsFragment.newInstance()
+    )
+
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> FavoritesFragment.newInstance()
-            else -> PlaylistsFragment.newInstance()
-        }
+        return tabs[position]
     }
 
 }

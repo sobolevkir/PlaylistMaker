@@ -41,7 +41,6 @@ class PlayerActivity : AppCompatActivity() {
                 is PlayerState.Paused -> binding.tvCurrentPosition.text = playerState.progress
                 else -> binding.tvCurrentPosition.text = ""
             }
-
         }
     }
 

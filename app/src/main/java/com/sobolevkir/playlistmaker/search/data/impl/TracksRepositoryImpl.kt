@@ -1,6 +1,7 @@
 package com.sobolevkir.playlistmaker.search.data.impl
 
 import com.google.gson.Gson
+import com.sobolevkir.playlistmaker.common.data.db.AppDatabase
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
 import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
@@ -17,8 +18,10 @@ import kotlinx.coroutines.flow.flow
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
     private val localStorage: LocalStorage,
-    private val gson: Gson
+    private val gson: Gson,
+    private val appDatabase: AppDatabase
 ) : TracksRepository {
+
     override fun searchTrack(searchQueryText: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequest(TracksSearchRequest(searchQueryText))
         when (response.resultCode) {
@@ -27,7 +30,11 @@ class TracksRepositoryImpl(
                 if ((response as TracksSearchResponse).results.isEmpty()) {
                     emit(Resource.Error(ErrorType.NOTHING_FOUND))
                 } else {
-                    emit(Resource.Success(TrackMapper.map(response.results)))
+                    val foundTracks = TrackMapper.map(response.results)
+                    val tracksWithFavoriteFlag = foundTracks.map { track ->
+                        track.copy(isFavorite = isTrackFavorite(track))
+                    }
+                    emit(Resource.Success(tracksWithFavoriteFlag))
                 }
             }
 
@@ -38,16 +45,17 @@ class TracksRepositoryImpl(
         }
     }
 
-    override fun getSavedHistory(): MutableList<Track> {
-        val history = localStorage.read(TRACK_HISTORY_LIST, null)
-        if (history != null) {
-            return gson.fromJson(history, Array<Track>::class.java).toMutableList()
+    override suspend fun getSavedHistory(): List<Track> {
+        val history = localStorage.read(TRACK_HISTORY_LIST, "")
+        if (history.isNotEmpty()) {
+            val historyTracks = gson.fromJson(history, Array<Track>::class.java)
+            return historyTracks.map { track -> track.copy(isFavorite = isTrackFavorite(track)) }
         }
         return mutableListOf()
     }
 
-    override fun addTrackToHistory(track: Track) {
-        val historyTracks = getSavedHistory()
+    override suspend fun addTrackToHistory(track: Track) {
+        val historyTracks = getSavedHistory().toMutableList()
         with(historyTracks) {
             this.removeIf { it.trackId == track.trackId }
             this.add(0, track)
@@ -59,11 +67,17 @@ class TracksRepositoryImpl(
     }
 
     override fun clearHistory() {
-        localStorage.write(TRACK_HISTORY_LIST, gson.toJson(emptyList<Track>()))
+        localStorage.write(TRACK_HISTORY_LIST, "")
+    }
+
+    private suspend fun isTrackFavorite(track: Track): Boolean {
+        val favoriteTracksIds = appDatabase.getFavoriteTrackDao().getTracksIds()
+        return favoriteTracksIds.contains(track.trackId)
     }
 
     companion object {
         private const val TRACK_HISTORY_LIST = "track_history_list"
         private const val HISTORY_LIST_MAX_SIZE = 10
     }
+
 }

@@ -3,15 +3,36 @@ package com.sobolevkir.playlistmaker.media.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sobolevkir.playlistmaker.media.presentation.model.FavoritesState
+import androidx.lifecycle.viewModelScope
+import com.sobolevkir.playlistmaker.common.domain.db.FavoritesInteractor
+import com.sobolevkir.playlistmaker.common.domain.model.Track
+import kotlinx.coroutines.launch
 
-class FavoritesViewModel : ViewModel() {
+class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<FavoritesState>()
+
     fun observeState(): LiveData<FavoritesState> = stateLiveData
 
-    init {
-        stateLiveData.postValue(FavoritesState.NothingFound)
+    fun fillData() {
+        renderState(FavoritesState.Loading)
+        viewModelScope.launch {
+            favoritesInteractor
+                .getFavoriteTracks()
+                .collect { favorites ->
+                    processResult(favorites)
+                }
+        }
     }
+
+    private fun processResult(favorites: List<Track>) {
+        if (favorites.isEmpty()) {
+            renderState(FavoritesState.Empty)
+        } else {
+            renderState(FavoritesState.Content(favorites))
+        }
+    }
+
+    private fun renderState(state: FavoritesState) = stateLiveData.postValue(state)
 
 }

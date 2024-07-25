@@ -14,7 +14,6 @@
     <string name="title_favorites">Избранные треки</string>
 
     <string name="hint_search">Поиск</string>
-    <string name="hint_back">Назад</string>
     <string name="hint_clear">Очистить</string>
     <string name="hint_cover_image">Обложка альбома</string>
     <string name="hint_track_name">Название трека</string>
