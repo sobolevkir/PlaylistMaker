@@ -39,7 +39,7 @@ class PlayerActivity : AppCompatActivity() {
             when (playerState) {
                 is PlayerState.Playing -> binding.tvCurrentPosition.text = playerState.progress
                 is PlayerState.Paused -> binding.tvCurrentPosition.text = playerState.progress
-                else -> binding.tvCurrentPosition.text = ""
+                else -> binding.tvCurrentPosition.text = getString(R.string.hint_track_duration)
             }
         }
     }

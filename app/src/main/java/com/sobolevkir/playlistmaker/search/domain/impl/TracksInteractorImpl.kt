@@ -22,9 +22,7 @@ class TracksInteractorImpl(private val tracksRepository: TracksRepository) : Tra
         }
     }
 
-    override suspend fun getSavedHistory(): List<Track> {
-        return tracksRepository.getSavedHistory()
-    }
+    override suspend fun getSavedHistory(): List<Track> = tracksRepository.getSavedHistory()
 
     override suspend fun addTrackToHistory(track: Track) {
         tracksRepository.addTrackToHistory(track)

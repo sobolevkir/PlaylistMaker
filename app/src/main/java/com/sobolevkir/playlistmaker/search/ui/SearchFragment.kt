@@ -125,17 +125,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initObservers() {
-        viewModel.getStateLiveData().observe(viewLifecycleOwner) { render(it) }
+        lifecycle.addObserver(viewModel)
+        viewModel.getStateLiveData().observe(viewLifecycleOwner) { state -> render(state) }
     }
 
     private fun render(state: SearchState) {
         when (state) {
             is SearchState.Default -> showDefault()
-            is SearchState.SearchResult -> showSearchResult(state.tracks)
             is SearchState.History -> showHistory(state.historyTracks)
             is SearchState.Error -> showError()
             is SearchState.NothingFound -> showNothingFound()
             is SearchState.Loading -> showLoading()
+            is SearchState.SearchResult -> showSearchResult(state.tracks)
         }
     }
 

@@ -1,5 +1,7 @@
 package com.sobolevkir.playlistmaker.search.presentation
 
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +14,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel() {
+class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel(),
+    DefaultLifecycleObserver {
 
     private val trackSearchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { requestText ->
@@ -56,8 +59,8 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
             viewModelScope.launch {
                 tracksInteractor
                     .searchTrack(newRequestText)
-                    .collect { pair ->
-                        processResult(pair.first, pair.second)
+                    .collect { (tracksFound, errorType) ->
+                        processResult(tracksFound, errorType)
                     }
             }
         }
@@ -72,14 +75,22 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
             ErrorType.NOTHING_FOUND -> renderState(SearchState.NothingFound)
             null -> {
                 val result =
-                    tracksFound?.sortedByDescending { track -> track.isFavorite }
-                        ?: listOf()
+                    tracksFound?.sortedByDescending {
+                        it.isFavorite
+                    } ?: listOf()
                 renderState(SearchState.SearchResult(result))
             }
         }
     }
 
     private fun renderState(state: SearchState) = stateLiveData.postValue(state)
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        if (stateLiveData.value is SearchState.History) {
+            showHistoryOrDefault()
+        }
+    }
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 1000L

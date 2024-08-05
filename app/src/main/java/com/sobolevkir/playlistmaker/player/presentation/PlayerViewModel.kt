@@ -29,11 +29,7 @@ class PlayerViewModel(
             playerStateLiveData.postValue(playerState)
             if (playerState !is PlayerState.Playing) timerJob?.cancel()
         }
-        viewModelScope.launch {
-            currentTrackLiveData.postValue(
-                track.copy(isFavorite = favoritesInteractor.isTrackFavorite(track.trackId))
-            )
-        }
+        currentTrackLiveData.postValue(track)
     }
 
     fun getPlayerStateLiveData(): LiveData<PlayerState> = playerStateLiveData

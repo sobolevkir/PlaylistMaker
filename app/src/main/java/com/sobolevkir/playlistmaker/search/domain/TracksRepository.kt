@@ -1,7 +1,7 @@
 package com.sobolevkir.playlistmaker.search.domain
 
-import com.sobolevkir.playlistmaker.common.util.Resource
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.common.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface TracksRepository {
