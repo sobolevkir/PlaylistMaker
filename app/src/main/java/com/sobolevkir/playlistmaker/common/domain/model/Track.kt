@@ -3,7 +3,7 @@ package com.sobolevkir.playlistmaker.common.domain.model
 import java.io.Serializable
 
 data class Track(
-    val trackId: String = "-1",
+    val trackId: Long = -1,
     val trackName: String = "",
     val artistName: String = "",
     val formattedTrackTime: String = "",

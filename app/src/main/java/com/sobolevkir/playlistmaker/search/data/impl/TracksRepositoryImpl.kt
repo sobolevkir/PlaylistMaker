@@ -13,7 +13,10 @@ import com.sobolevkir.playlistmaker.search.data.network.NetworkClient
 import com.sobolevkir.playlistmaker.search.data.network.ResultCode
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
@@ -22,22 +25,34 @@ class TracksRepositoryImpl(
     private val appDatabase: AppDatabase
 ) : TracksRepository {
 
+    private val historyList = mutableListOf<Track>()
+
+    init {
+        val history = localStorage.read(TRACK_HISTORY_LIST, "")
+        if (history.isNotEmpty()) {
+            val historyTracks = gson.fromJson(history, Array<Track>::class.java).toList()
+            historyList.addAll(historyTracks)
+        }
+    }
+
     override fun searchTrack(searchQueryText: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequest(TracksSearchRequest(searchQueryText))
         when (response.resultCode) {
-            ResultCode.CONNECTION_PROBLEM_CODE -> emit(Resource.Error(ErrorType.CONNECTION_PROBLEM))
             ResultCode.SUCCESS_CODE -> {
-                if ((response as TracksSearchResponse).results.isEmpty()) {
+                val foundTracks = TrackMapper.map((response as TracksSearchResponse).results)
+                if (foundTracks.isEmpty()) {
                     emit(Resource.Error(ErrorType.NOTHING_FOUND))
                 } else {
-                    val foundTracks = TrackMapper.map(response.results)
-                    val tracksWithFavoriteFlag = foundTracks.map { track ->
-                        track.copy(isFavorite = isTrackFavorite(track))
-                    }
-                    emit(Resource.Success(tracksWithFavoriteFlag))
+                    val tracksWithFavoriteFlag = getFavoriteTrackIds()
+                        .map { favoriteIds ->
+                            foundTracks.withFavoriteFlag(favoriteIds)
+                        }
+                        .map { Resource.Success(it) }
+                    emitAll(tracksWithFavoriteFlag)
                 }
             }
 
+            ResultCode.CONNECTION_PROBLEM_CODE -> emit(Resource.Error(ErrorType.CONNECTION_PROBLEM))
             ResultCode.BAD_REQUEST_CODE -> emit(Resource.Error(ErrorType.BAD_REQUEST))
             ResultCode.NOTHING_FOUND_CODE -> emit(Resource.Error(ErrorType.NOTHING_FOUND))
 
@@ -46,33 +61,33 @@ class TracksRepositoryImpl(
     }
 
     override suspend fun getSavedHistory(): List<Track> {
-        val history = localStorage.read(TRACK_HISTORY_LIST, "")
-        if (history.isNotEmpty()) {
-            val historyTracks = gson.fromJson(history, Array<Track>::class.java)
-            return historyTracks.map { track -> track.copy(isFavorite = isTrackFavorite(track)) }
-        }
-        return mutableListOf()
+        return historyList.withFavoriteFlag(getFavoriteTrackIds().first())
     }
 
     override suspend fun addTrackToHistory(track: Track) {
-        val historyTracks = getSavedHistory().toMutableList()
-        with(historyTracks) {
+        with(historyList) {
             this.removeIf { it.trackId == track.trackId }
             this.add(0, track)
             if (this.size > HISTORY_LIST_MAX_SIZE) {
                 this.removeLast()
             }
         }
-        localStorage.write(TRACK_HISTORY_LIST, gson.toJson(historyTracks))
+        localStorage.write(TRACK_HISTORY_LIST, gson.toJson(historyList))
     }
 
     override fun clearHistory() {
         localStorage.write(TRACK_HISTORY_LIST, "")
+        historyList.clear()
     }
 
-    private suspend fun isTrackFavorite(track: Track): Boolean {
-        val favoriteTracksIds = appDatabase.getFavoriteTrackDao().getTracksIds()
-        return favoriteTracksIds.contains(track.trackId)
+    private fun getFavoriteTrackIds(): Flow<List<Long>> {
+        return appDatabase.getFavoriteTrackDao().getTrackIds()
+    }
+
+    private fun List<Track>.withFavoriteFlag(favoriteTrackIds: List<Long>): List<Track> {
+        return this.map { track ->
+            track.copy(isFavorite = favoriteTrackIds.contains(track.trackId))
+        }
     }
 
     companion object {
