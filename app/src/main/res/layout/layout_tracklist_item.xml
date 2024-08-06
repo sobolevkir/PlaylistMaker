@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    tools:showIn="@layout/fragment_search">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iv_album_cover"
@@ -53,7 +52,8 @@
                 android:layout_width="@dimen/track_item_second_size"
                 android:layout_height="@dimen/track_item_second_size"
                 android:src="@drawable/dot_separator"
-                app:tint="?attr/colorPrimaryVariant" />
+                app:tint="?attr/colorPrimaryVariant"
+                android:importantForAccessibility="no" />
 
             <TextView
                 android:id="@+id/tv_track_time"
@@ -73,6 +73,7 @@
         android:layout_marginEnd="@dimen/medium_indent"
         android:scaleType="center"
         android:src="@drawable/ic_arrow_forward"
-        app:tint="?attr/colorPrimaryVariant" />
+        app:tint="?attr/colorPrimaryVariant"
+        android:importantForAccessibility="no" />
 
 </LinearLayout>

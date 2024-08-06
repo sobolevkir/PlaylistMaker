@@ -1,11 +1,10 @@
-package com.sobolevkir.playlistmaker.search.ui
+package com.sobolevkir.playlistmaker.common.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sobolevkir.playlistmaker.databinding.LayoutTracklistItemBinding
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-
+import com.sobolevkir.playlistmaker.databinding.LayoutTracklistItemBinding
 
 class TrackListAdapter(private val onItemClick: (Track) -> Unit) :
     RecyclerView.Adapter<TrackListViewHolder>() {

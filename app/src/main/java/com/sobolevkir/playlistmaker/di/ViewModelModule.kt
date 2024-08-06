@@ -9,12 +9,17 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
+
     viewModel { SearchViewModel(get()) }
+
     viewModel { params ->
         PlayerViewModel(params.get(), get(), get())
     }
+
     viewModel { SettingsViewModel(get(), get()) }
 
-    viewModel { FavoritesViewModel() }
+    viewModel { FavoritesViewModel(get()) }
+
     viewModel { PlaylistsViewModel() }
+
 }

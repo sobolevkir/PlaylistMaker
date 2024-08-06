@@ -1,8 +1,12 @@
-package com.sobolevkir.playlistmaker.common.domain.model
+package com.sobolevkir.playlistmaker.common.data.db.entity
 
-import java.io.Serializable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-data class Track(
+@Entity(tableName = "favorite_tracks_table")
+data class FavoriteTrackEntity(
+    @PrimaryKey @ColumnInfo(name = "track_id")
     val trackId: Long = -1,
     val trackName: String = "",
     val artistName: String = "",
@@ -14,5 +18,5 @@ data class Track(
     val primaryGenreName: String = "",
     val country: String = "",
     val previewUrl: String = "",
-    val isFavorite: Boolean = false
-) : Serializable
+    val timestamp: Long = System.currentTimeMillis()
+)

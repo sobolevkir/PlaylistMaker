@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sobolevkir.playlistmaker.common.domain.db.FavoritesInteractor
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -29,11 +29,7 @@ class PlayerViewModel(
             playerStateLiveData.postValue(playerState)
             if (playerState !is PlayerState.Playing) timerJob?.cancel()
         }
-        if (favoritesInteractor.isTrackFavorite(track.trackId)) {
-            currentTrackLiveData.value = track.copy(isFavorite = true)
-        } else {
-            currentTrackLiveData.value = track.copy(isFavorite = false)
-        }
+        currentTrackLiveData.postValue(track)
     }
 
     fun getPlayerStateLiveData(): LiveData<PlayerState> = playerStateLiveData
@@ -48,12 +44,14 @@ class PlayerViewModel(
     }
 
     fun onFavoriteButtonClick() {
-        val changedTrack = currentTrackLiveData.value
-        changedTrack?.let {
-            if (it.isFavorite) {
-                favoritesInteractor.removeTrackFromFavorites(it.trackId)
-            } else {
-                favoritesInteractor.addTrackToFavorites(it.trackId)
+        val currentTrack = currentTrackLiveData.value
+        currentTrack?.let {
+            viewModelScope.launch {
+                if (currentTrack.isFavorite) {
+                    favoritesInteractor.removeTrackFromFavorites(currentTrack)
+                } else {
+                    favoritesInteractor.addTrackToFavorites(currentTrack)
+                }
             }
             currentTrackLiveData.value = it.copy(isFavorite = !it.isFavorite)
         }

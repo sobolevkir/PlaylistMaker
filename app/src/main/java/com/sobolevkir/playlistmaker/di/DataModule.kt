@@ -2,7 +2,9 @@ package com.sobolevkir.playlistmaker.di
 
 import android.content.Context
 import android.media.MediaPlayer
+import androidx.room.Room
 import com.google.gson.Gson
+import com.sobolevkir.playlistmaker.common.data.db.AppDatabase
 import com.sobolevkir.playlistmaker.common.data.impl.LocalStorageImpl
 import com.sobolevkir.playlistmaker.common.data.impl.ResourceProviderImpl
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
@@ -26,10 +28,6 @@ val dataModule = module {
         )
     }
 
-    factory { Gson() }
-
-    single { MediaPlayer() }
-
     single<ITunesApiService> {
         Retrofit.Builder()
             .baseUrl(ITunesApiService.ITUNES_API_BASEURL)
@@ -38,8 +36,17 @@ val dataModule = module {
             .create(ITunesApiService::class.java)
     }
 
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .build()
+    }
+
     single<NetworkClient> { RetrofitNetworkClient(get(), get()) }
 
     single<ResourceProvider> { ResourceProviderImpl(get()) }
+
+    single { MediaPlayer() }
+
+    factory { Gson() }
 
 }

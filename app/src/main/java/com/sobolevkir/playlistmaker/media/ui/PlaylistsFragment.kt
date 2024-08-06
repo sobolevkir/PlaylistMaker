@@ -8,7 +8,7 @@ import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentPlaylistsBinding
 import com.sobolevkir.playlistmaker.media.presentation.PlaylistsViewModel
-import com.sobolevkir.playlistmaker.media.presentation.model.PlaylistsState
+import com.sobolevkir.playlistmaker.media.presentation.PlaylistsState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {

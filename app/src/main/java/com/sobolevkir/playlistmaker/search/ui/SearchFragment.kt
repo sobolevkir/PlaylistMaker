@@ -15,6 +15,7 @@ import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.common.ext.hideKeyboard
 import com.sobolevkir.playlistmaker.common.ext.showKeyboard
+import com.sobolevkir.playlistmaker.common.ui.TrackListAdapter
 import com.sobolevkir.playlistmaker.common.util.debounce
 import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentSearchBinding
@@ -26,37 +27,51 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val viewModel by viewModel<SearchViewModel>()
     private val binding by viewBinding(FragmentSearchBinding::bind)
-    private val foundTracksAdapter = TrackListAdapter {
-        viewModel.onFoundTrackClick(it)
-        openPlayer(it)
-    }
-    private val historyTracksAdapter = TrackListAdapter { openPlayer(it) }
+    private var foundTracksAdapter: TrackListAdapter? = null
+    private var historyTracksAdapter: TrackListAdapter? = null
     private var searchTextWatcher: TextWatcher? = null
     private lateinit var onTrackClickDebounce: (Track) -> Unit
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        onTrackClickDebounce = debounce<Track>(
-            CLICK_DEBOUNCE_DELAY,
-            viewLifecycleOwner.lifecycleScope,
-            false
-        ) { track ->
-            val action = SearchFragmentDirections.actionSearchFragmentToPlayerActivity(track)
-            findNavController().navigate(action)
-        }
         initAdapters()
+        initClickDebounce()
         initListeners()
         if (savedInstanceState == null) {
             binding.etSearchRequest.requestFocus()
             activity?.showKeyboard()
         }
         initTextWatchers()
-        viewModel.getStateLiveData().observe(viewLifecycleOwner) { render(it) }
+        initObservers()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        foundTracksAdapter = null
+        historyTracksAdapter = null
+        binding.rvTrackSearchList.adapter = null
+        binding.rvTrackHistoryList.adapter = null
         searchTextWatcher?.let { binding.etSearchRequest.removeTextChangedListener(it) }
+    }
+
+    private fun initClickDebounce() {
+        onTrackClickDebounce = debounce(
+            CLICK_DEBOUNCE_DELAY,
+            viewLifecycleOwner.lifecycleScope,
+            false
+        ) { track -> openPlayer(track) }
+    }
+
+    private fun initAdapters() {
+        foundTracksAdapter = TrackListAdapter {
+            viewModel.onFoundTrackClick(it)
+            onTrackClickDebounce(it)
+        }
+        historyTracksAdapter = TrackListAdapter { onTrackClickDebounce(it) }
+        with(binding) {
+            rvTrackSearchList.adapter = foundTracksAdapter
+            rvTrackHistoryList.adapter = historyTracksAdapter
+        }
     }
 
     private fun initListeners() {
@@ -109,21 +124,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         searchTextWatcher?.let { binding.etSearchRequest.addTextChangedListener(it) }
     }
 
-    private fun initAdapters() {
-        with(binding) {
-            rvTrackSearchList.adapter = foundTracksAdapter
-            rvTrackHistoryList.adapter = historyTracksAdapter
-        }
+    private fun initObservers() {
+        lifecycle.addObserver(viewModel)
+        viewModel.getStateLiveData().observe(viewLifecycleOwner) { state -> render(state) }
     }
 
     private fun render(state: SearchState) {
         when (state) {
             is SearchState.Default -> showDefault()
-            is SearchState.SearchResult -> showSearchResult(state.tracks)
             is SearchState.History -> showHistory(state.historyTracks)
             is SearchState.Error -> showError()
             is SearchState.NothingFound -> showNothingFound()
             is SearchState.Loading -> showLoading()
+            is SearchState.SearchResult -> showSearchResult(state.tracks)
         }
     }
 
@@ -140,9 +153,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     @SuppressLint("NotifyDataSetChanged")
     private fun showSearchResult(tracks: List<Track>) {
         with(foundTracksAdapter) {
-            this.tracks.clear()
-            this.tracks.addAll(tracks)
-            notifyDataSetChanged()
+            this?.tracks?.clear()
+            this?.tracks?.addAll(tracks)
+            this?.notifyDataSetChanged()
         }
         with(binding) {
             btnUpdate.isVisible = false
@@ -156,9 +169,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     @SuppressLint("NotifyDataSetChanged")
     private fun showHistory(historyTracks: List<Track>) {
         with(historyTracksAdapter) {
-            this.tracks.clear()
-            this.tracks.addAll(historyTracks)
-            notifyDataSetChanged()
+            this?.tracks?.clear()
+            this?.tracks?.addAll(historyTracks)
+            this?.notifyDataSetChanged()
         }
         with(binding) {
             btnUpdate.isVisible = false
@@ -212,11 +225,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun openPlayer(track: Track) {
-        onTrackClickDebounce(track)
+        val action = SearchFragmentDirections.actionSearchFragmentToPlayerActivity(track)
+        findNavController().navigate(action)
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 200L
+        private const val CLICK_DEBOUNCE_DELAY = 100L
     }
 
 }

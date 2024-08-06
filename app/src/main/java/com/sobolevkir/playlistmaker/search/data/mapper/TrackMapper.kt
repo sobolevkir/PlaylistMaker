@@ -9,7 +9,7 @@ object TrackMapper {
     fun map(trackListDto: List<TrackDto>): List<Track> {
         return trackListDto.map {
             Track(
-                it.trackId.toString(),
+                it.trackId,
                 it.trackName ?: "",
                 it.artistName ?: "",
                 getFormattedTime(it.trackTimeMillis),

@@ -1,10 +1,11 @@
-package com.sobolevkir.playlistmaker.media.presentation.model
+package com.sobolevkir.playlistmaker.media.presentation
 
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 
 sealed interface FavoritesState {
 
-    object NothingFound : FavoritesState
+    data object Loading: FavoritesState
+    data object Empty : FavoritesState
 
     data class Content(
         val tracks: List<Track>
