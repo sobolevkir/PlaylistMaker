@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
+import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.common.util.debounce
 import com.sobolevkir.playlistmaker.search.domain.TracksInteractor

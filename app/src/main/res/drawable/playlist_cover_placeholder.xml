@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="@dimen/playlist_placeholder_size"
+        android:height="@dimen/playlist_placeholder_size"
+        android:gravity="center">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="@dimen/stroke_thickness"
+                android:color="@color/soft_grey"
+                android:dashWidth="@dimen/dash_size"
+                android:dashGap="@dimen/dash_size" />
+            <corners android:radius="@dimen/radius_medium" />
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/ic_add_photo_size"
+        android:height="@dimen/ic_add_photo_size"
+        android:drawable="@drawable/ic_add_photo"
+        android:gravity="center" />
+</layer-list>

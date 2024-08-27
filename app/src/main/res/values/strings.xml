@@ -12,6 +12,7 @@
     <string name="title_country">Страна</string>
     <string name="title_playlists">Плейлисты</string>
     <string name="title_favorites">Избранные треки</string>
+    <string name="title_new_playlist">Новый плейлист</string>
 
     <string name="hint_search">Поиск</string>
     <string name="hint_clear">Очистить</string>
@@ -26,6 +27,9 @@
     <string name="hint_release_year">1984</string>
     <string name="hint_genre">Рок</string>
     <string name="hint_country">Великобритания</string>
+    <string name="hint_playlist_image">Обложка плейлиста</string>
+    <string name="hint_new_playlist_name">Название *</string>
+    <string name="hint_new_playlist_descr">Описание</string>
 
     <string name="btn_dark_theme">Тёмная тема</string>
     <string name="btn_share_app">Поделиться приложением</string>
@@ -33,7 +37,8 @@
     <string name="btn_user_agreement">Пользовательское соглашение</string>
     <string name="btn_update">Обновить</string>
     <string name="btn_clear_history">Очистить историю</string>
-    <string name="btn_create_playlist">Новый плейлист</string>
+    <string name="btn_new_playlist">Новый плейлист</string>
+    <string name="btn_create">Создать</string>
 
     <string name="url_share_app">https://practicum.yandex.ru/android-developer</string>
     <string name="url_user_agreement">https://yandex.ru/legal/practicum_offer</string>

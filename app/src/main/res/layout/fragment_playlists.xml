@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".media.ui.PlaylistsFragment">
+    tools:context=".playlists.ui.PlaylistsFragment">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create_playlist"
         style="@style/SmallButtonStyle"
         android:layout_gravity="center_horizontal"
-        android:text="@string/btn_create_playlist"
+        android:text="@string/btn_new_playlist"
         android:visibility="gone"
         tools:ignore="TouchTargetSizeCheck" />
 

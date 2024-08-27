@@ -14,6 +14,7 @@
             android:id="@+id/action_searchFragment_to_playerActivity"
             app:destination="@id/playerActivity" />
     </fragment>
+
     <fragment
         android:id="@+id/mediaFragment"
         android:name="com.sobolevkir.playlistmaker.media.ui.MediaFragment"
@@ -22,12 +23,21 @@
         <action
             android:id="@+id/action_mediaFragment_to_playerActivity"
             app:destination="@id/playerActivity" />
+        <action
+            android:id="@+id/action_mediaFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/hold"
+            app:popEnterAnim="@anim/hold"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.sobolevkir.playlistmaker.settings.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+
     <activity
         android:id="@+id/playerActivity"
         android:name="com.sobolevkir.playlistmaker.player.ui.PlayerActivity"
@@ -37,4 +47,11 @@
             android:name="current_track_info"
             app:argType="java.io.Serializable" />
     </activity>
+
+    <fragment
+        android:id="@+id/newPlaylistFragment"
+        android:name="com.sobolevkir.playlistmaker.playlists.ui.NewPlaylistFragment"
+        android:label="fragment_new_playlist"
+        tools:layout="@layout/fragment_new_playlist" />
+
 </navigation>

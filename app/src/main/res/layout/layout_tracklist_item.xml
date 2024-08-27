@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/mini_indent"
+        android:layout_marginHorizontal="@dimen/small_indent"
         android:layout_weight="1"
         android:orientation="vertical">
 

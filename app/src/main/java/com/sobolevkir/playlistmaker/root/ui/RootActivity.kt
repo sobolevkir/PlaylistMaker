@@ -1,7 +1,9 @@
 package com.sobolevkir.playlistmaker.root.ui
 
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sobolevkir.playlistmaker.R
@@ -22,6 +24,23 @@ class RootActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.newPlaylistFragment -> animateBottomNavigationView(false)
+                else -> animateBottomNavigationView(true)
+            }
+        }
+
+    }
+
+    private fun animateBottomNavigationView(show: Boolean) {
+        val animation = if (show) {
+            AnimationUtils.loadAnimation(this, R.anim.bottom_nav_show)
+        } else {
+            AnimationUtils.loadAnimation(this, R.anim.bottom_nav_hide)
+        }
+        binding.bottomNavigationView.startAnimation(animation)
+        binding.bottomNavigationView.isVisible = show
     }
 
 }

@@ -14,7 +14,7 @@
 
         <EditText
             android:id="@+id/et_search_request"
-            style="@style/SearchTextFieldStyle"
+            style="@style/SearchEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/hint_search"
@@ -60,7 +60,7 @@
                     android:id="@+id/rv_track_history_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/mini_indent"
+                    android:layout_marginTop="@dimen/small_indent"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
                     tools:listitem="@layout/layout_tracklist_item"
@@ -85,7 +85,7 @@
         android:id="@+id/rv_track_search_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/mini_indent"
+        android:layout_marginTop="@dimen/small_indent"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="4"

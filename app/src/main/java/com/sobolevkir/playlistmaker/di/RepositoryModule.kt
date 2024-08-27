@@ -1,8 +1,8 @@
 package com.sobolevkir.playlistmaker.di
 
-import com.sobolevkir.playlistmaker.common.data.converter.FavoriteTrackDbConverter
-import com.sobolevkir.playlistmaker.common.data.impl.FavoritesRepositoryImpl
-import com.sobolevkir.playlistmaker.common.domain.db.FavoritesRepository
+import com.sobolevkir.playlistmaker.favorites.data.converter.FavoriteTrackDbConverter
+import com.sobolevkir.playlistmaker.favorites.data.impl.FavoritesRepositoryImpl
+import com.sobolevkir.playlistmaker.favorites.domain.FavoritesRepository
 import com.sobolevkir.playlistmaker.player.data.impl.PlayerImpl
 import com.sobolevkir.playlistmaker.player.domain.Player
 import com.sobolevkir.playlistmaker.search.data.impl.TracksRepositoryImpl

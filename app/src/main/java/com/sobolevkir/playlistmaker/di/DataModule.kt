@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.MediaPlayer
 import androidx.room.Room
 import com.google.gson.Gson
-import com.sobolevkir.playlistmaker.common.data.db.AppDatabase
+import com.sobolevkir.playlistmaker.common.data.AppDatabase
 import com.sobolevkir.playlistmaker.common.data.impl.LocalStorageImpl
 import com.sobolevkir.playlistmaker.common.data.impl.ResourceProviderImpl
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage

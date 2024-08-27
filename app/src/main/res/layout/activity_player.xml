@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/CommonScreenStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".player.ui.PlayerActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -29,7 +30,7 @@
         android:id="@+id/iv_album_cover_large"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/medium_indent"
+        android:layout_marginTop="@dimen/standard_indent"
         android:layout_marginBottom="@dimen/large_indent"
         android:contentDescription="@string/hint_cover_image"
         android:scaleType="fitCenter"
@@ -74,7 +75,7 @@
     <ImageButton
         android:id="@+id/btn_play_control"
         style="@style/PlayControlButtonStyle"
-        android:layout_marginBottom="@dimen/micro_indent"
+        android:layout_marginBottom="@dimen/mini_indent"
         android:alpha="0.25"
         android:contentDescription="@string/hint_play_control"
         android:enabled="false"

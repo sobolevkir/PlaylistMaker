@@ -1,7 +1,7 @@
 package com.sobolevkir.playlistmaker.di
 
-import com.sobolevkir.playlistmaker.media.presentation.FavoritesViewModel
-import com.sobolevkir.playlistmaker.media.presentation.PlaylistsViewModel
+import com.sobolevkir.playlistmaker.favorites.presentation.FavoritesViewModel
+import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistsViewModel
 import com.sobolevkir.playlistmaker.player.presentation.PlayerViewModel
 import com.sobolevkir.playlistmaker.search.presentation.SearchViewModel
 import com.sobolevkir.playlistmaker.settings.presentation.SettingsViewModel
