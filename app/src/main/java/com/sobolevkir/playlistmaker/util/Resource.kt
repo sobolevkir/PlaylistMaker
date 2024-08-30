@@ -1,4 +1,4 @@
-package com.sobolevkir.playlistmaker.common.util
+package com.sobolevkir.playlistmaker.util
 
 import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 

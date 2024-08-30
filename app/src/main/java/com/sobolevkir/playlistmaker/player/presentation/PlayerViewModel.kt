@@ -1,14 +1,19 @@
 package com.sobolevkir.playlistmaker.player.presentation
 
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.common.domain.presentation.SingleLiveEvent
+import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.player.domain.PlayerInteractor
+import com.sobolevkir.playlistmaker.playlists.domain.PlaylistsInteractor
+import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -17,23 +22,36 @@ import kotlinx.coroutines.launch
 class PlayerViewModel(
     track: Track,
     private val playerInteractor: PlayerInteractor,
-    private val favoritesInteractor: FavoritesInteractor
+    private val favoritesInteractor: FavoritesInteractor,
+    private val playlistsInteractor: PlaylistsInteractor
 ) : ViewModel(), DefaultLifecycleObserver {
 
     private var timerJob: Job? = null
     private val playerStateLiveData = MutableLiveData<PlayerState>()
     private val currentTrackLiveData = MutableLiveData<Track>()
+    private val playlistsLiveData = MutableLiveData<List<Playlist>>()
+    private val addingResultSingleLiveEvent = SingleLiveEvent<Pair<Boolean, String>>()
 
     init {
+        currentTrackLiveData.value = track
         playerInteractor.preparePlayer(track.previewUrl) { playerState ->
             playerStateLiveData.postValue(playerState)
             if (playerState !is PlayerState.Playing) timerJob?.cancel()
         }
-        currentTrackLiveData.postValue(track)
+        viewModelScope.launch(Dispatchers.IO) {
+            playlistsInteractor
+                .getPlaylists()
+                .collect { playlists ->
+                    playlistsLiveData.postValue(playlists)
+                }
+        }
     }
 
     fun getPlayerStateLiveData(): LiveData<PlayerState> = playerStateLiveData
     fun getCurrentTrackLiveData(): LiveData<Track> = currentTrackLiveData
+    fun getPlaylistsLiveData(): LiveData<List<Playlist>> = playlistsLiveData
+    fun getAddingResultSingleLiveEvent(): SingleLiveEvent<Pair<Boolean, String>> =
+        addingResultSingleLiveEvent
 
     fun playbackControl() {
         when (playerStateLiveData.value) {
@@ -46,7 +64,7 @@ class PlayerViewModel(
     fun onFavoriteButtonClick() {
         val currentTrack = currentTrackLiveData.value
         currentTrack?.let {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 if (currentTrack.isFavorite) {
                     favoritesInteractor.removeTrackFromFavorites(currentTrack)
                 } else {
@@ -57,9 +75,25 @@ class PlayerViewModel(
         }
     }
 
+    fun onPlaylistSelect(playlist: Playlist) {
+        val currentTrack = currentTrackLiveData.value ?: Track()
+        if (playlist.trackIds.contains(currentTrack.trackId)) {
+            addingResultSingleLiveEvent.value = Pair(false, playlist.name)
+        } else {
+            viewModelScope.launch(Dispatchers.IO) {
+                val result = playlistsInteractor.addTrackToPlaylist(currentTrack, playlist)
+                Log.d("TAG-VM result", result.toString())
+                if (result.toInt() > 0) {
+                    Log.d("TAG-VM result", "SUCCESS")
+                    addingResultSingleLiveEvent.postValue(Pair(true, playlist.name))
+                }
+            }
+        }
+    }
+
     private fun startTimer() {
         timerJob?.cancel()
-        timerJob = viewModelScope.launch {
+        timerJob = viewModelScope.launch(Dispatchers.IO) {
             while (playerInteractor.isPlaying()) {
                 delay(UPDATER_DELAY)
                 if (this.isActive) {

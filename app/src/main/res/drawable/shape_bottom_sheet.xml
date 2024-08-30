@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorOnPrimary"/>
+            <corners
+                android:topLeftRadius="@dimen/standard_indent"
+                android:topRightRadius="@dimen/standard_indent"/>
+        </shape>
+    </item>
+    <item
+        android:gravity="top|center_horizontal"
+        android:top="@dimen/small_indent">
+        <shape android:shape="rectangle">
+            <size
+                android:height="@dimen/mini_indent"
+                android:width="@dimen/bottom_sheet_dash_width"/>
+            <solid android:color="?attr/colorOnSecondaryFixedVariant"/>
+            <corners android:radius="@dimen/radius_small"/>
+        </shape>
+    </item>
+</layer-list>

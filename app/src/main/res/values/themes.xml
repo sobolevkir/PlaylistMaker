@@ -14,6 +14,7 @@
         <item name="colorSecondaryVariant">@color/absolute_white</item>
         <item name="colorSecondaryFixed">@color/light_grey</item>
         <item name="colorOnSecondary">@color/soft_grey</item>
+        <item name="colorOnSecondaryFixedVariant">@color/light_grey</item>
 
         <item name="android:colorBackground">@color/absolute_white</item>
         <item name="colorOnBackground">@color/soft_black</item>

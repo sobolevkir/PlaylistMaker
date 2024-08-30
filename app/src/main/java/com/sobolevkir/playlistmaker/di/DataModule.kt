@@ -47,6 +47,6 @@ val dataModule = module {
 
     single { MediaPlayer() }
 
-    factory { Gson() }
+    single { Gson() }
 
 }

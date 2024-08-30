@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.common.ui.TrackListAdapter
-import com.sobolevkir.playlistmaker.common.util.debounce
-import com.sobolevkir.playlistmaker.common.util.viewBinding
+import com.sobolevkir.playlistmaker.util.debounce
+import com.sobolevkir.playlistmaker.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentFavoritesBinding
 import com.sobolevkir.playlistmaker.favorites.presentation.FavoritesState
 import com.sobolevkir.playlistmaker.favorites.presentation.FavoritesViewModel
@@ -100,7 +100,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     }
 
     private fun openPlayer(track: Track) {
-        val action = MediaFragmentDirections.actionMediaFragmentToPlayerActivity(track)
+        val action = MediaFragmentDirections.actionMediaFragmentToPlayerFragment(track)
         findNavController().navigate(action)
     }
 

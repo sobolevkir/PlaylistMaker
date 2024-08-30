@@ -12,6 +12,7 @@ import com.sobolevkir.playlistmaker.databinding.ActivityRootBinding
 class RootActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRootBinding
+    private var previousDestinationId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +27,16 @@ class RootActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.newPlaylistFragment -> animateBottomNavigationView(false)
-                else -> animateBottomNavigationView(true)
+                R.id.createPlaylistFragment, R.id.playerFragment -> animateBottomNavigationView(false)
+                else -> {
+                    if (previousDestinationId == R.id.createPlaylistFragment ||
+                        previousDestinationId == R.id.playerFragment
+                    ) {
+                        animateBottomNavigationView(true)
+                    }
+                }
             }
+            previousDestinationId = destination.id
         }
 
     }

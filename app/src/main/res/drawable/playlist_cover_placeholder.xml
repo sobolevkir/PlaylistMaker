@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:width="@dimen/playlist_placeholder_size"
-        android:height="@dimen/playlist_placeholder_size"
+        android:width="312dp"
+        android:height="312dp"
         android:gravity="center">
         <shape android:shape="rectangle">
             <stroke

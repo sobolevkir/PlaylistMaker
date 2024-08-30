@@ -11,6 +11,7 @@
 
     <!-- Text sizes -->
     <dimen name="text_size_11">11sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_13">13sp</dimen>
     <dimen name="text_size_16">16sp</dimen>
     <dimen name="text_size_22">22sp</dimen>
@@ -18,10 +19,10 @@
     <dimen name="text_size_19">19sp</dimen>
 
     <!-- Special dimens -->
-    <dimen name="special_element_top_indent">102dp</dimen>
+    <dimen name="special_element_top_indent">100dp</dimen>
     <dimen name="header_height">56dp</dimen>
     <dimen name="list_item_height">61dp</dimen>
-    <dimen name="small_element_height">36dp</dimen>
+    <dimen name="small_button_height">36dp</dimen>
     <dimen name="history_header_height">48dp</dimen>
     <dimen name="album_cover_mini_size">45dp</dimen>
     <dimen name="small_control_player_btn_size">51dp</dimen>
@@ -31,6 +32,9 @@
     <dimen name="playlist_placeholder_size">312dp</dimen>
     <dimen name="stroke_thickness">1dp</dimen>
     <dimen name="dash_size">30dp</dimen>
+    <dimen name="bottom_sheet_dash_width">50dp</dimen>
+    <dimen name="bottom_sheet_height">450dp</dimen>
+    <dimen name="bottom_sheet_top_intent">42dp</dimen>
 
     <!-- Radii -->
     <dimen name="radius_large">54dp</dimen>

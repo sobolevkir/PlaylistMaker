@@ -4,19 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
 
     private val stateLiveData = MutableLiveData<FavoritesState>()
-
     fun observeState(): LiveData<FavoritesState> = stateLiveData
 
     fun fillData() {
         renderState(FavoritesState.Loading)
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             favoritesInteractor
                 .getFavoriteTracks()
                 .collect { favorites ->

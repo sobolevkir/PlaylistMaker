@@ -4,6 +4,7 @@ import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
 
 sealed interface PlaylistsState {
 
+    data object Loading: PlaylistsState
     data object NothingFound : PlaylistsState
 
     data class Content(
