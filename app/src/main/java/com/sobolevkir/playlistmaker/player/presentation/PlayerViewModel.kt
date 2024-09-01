@@ -82,9 +82,7 @@ class PlayerViewModel(
         } else {
             viewModelScope.launch(Dispatchers.IO) {
                 val result = playlistsInteractor.addTrackToPlaylist(currentTrack, playlist)
-                Log.d("TAG-VM result", result.toString())
                 if (result.toInt() > 0) {
-                    Log.d("TAG-VM result", "SUCCESS")
                     addingResultSingleLiveEvent.postValue(Pair(true, playlist.name))
                 }
             }

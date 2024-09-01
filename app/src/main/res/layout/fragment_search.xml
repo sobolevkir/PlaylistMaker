@@ -77,7 +77,7 @@
     </ScrollView>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         style="@style/ProgressBarStyle"
         android:visibility="gone" />
 

@@ -1,6 +1,7 @@
 package com.sobolevkir.playlistmaker.root.ui
 
 import android.os.Bundle
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -12,7 +13,6 @@ import com.sobolevkir.playlistmaker.databinding.ActivityRootBinding
 class RootActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRootBinding
-    private var previousDestinationId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,29 +26,34 @@ class RootActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.createPlaylistFragment, R.id.playerFragment -> animateBottomNavigationView(false)
-                else -> {
-                    if (previousDestinationId == R.id.createPlaylistFragment ||
-                        previousDestinationId == R.id.playerFragment
-                    ) {
-                        animateBottomNavigationView(true)
-                    }
-                }
+            val isInHiddenDestinations =
+                destination.id == R.id.createPlaylistFragment || destination.id == R.id.playerFragment
+            if (binding.bottomNavigationView.isVisible && isInHiddenDestinations) {
+                animateBottomNavigationView(false)
+            } else if (!binding.bottomNavigationView.isVisible && !isInHiddenDestinations) {
+                animateBottomNavigationView(true)
             }
-            previousDestinationId = destination.id
         }
 
     }
 
     private fun animateBottomNavigationView(show: Boolean) {
-        val animation = if (show) {
-            AnimationUtils.loadAnimation(this, R.anim.bottom_nav_show)
-        } else {
-            AnimationUtils.loadAnimation(this, R.anim.bottom_nav_hide)
-        }
+        val animation = AnimationUtils.loadAnimation(
+            this,
+            if (show) R.anim.bottom_nav_show else R.anim.bottom_nav_hide
+        )
+        animation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {
+                if (show) binding.bottomNavigationView.isVisible = true
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                if (!show) binding.bottomNavigationView.isVisible = false
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
         binding.bottomNavigationView.startAnimation(animation)
-        binding.bottomNavigationView.isVisible = show
     }
 
 }

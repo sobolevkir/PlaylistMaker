@@ -60,9 +60,8 @@ class PlaylistsRepositoryImpl(
             inputStream?.close()
             return file.toUri().toString()
         } catch (_: Exception) {
-            Log.e("Error", "Failed to save the cover image!")
+            return ""
         }
-        return ""
     }
 
     companion object {

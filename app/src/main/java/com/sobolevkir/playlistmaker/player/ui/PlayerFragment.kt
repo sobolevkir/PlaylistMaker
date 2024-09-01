@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -110,51 +111,35 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                 .placeholder(R.drawable.cover_placeholder).into(ivAlbumCoverLarge)
             tvTrackName.text = track.trackName
             tvArtistName.text = track.artistName
-            if (track.formattedTrackTime.isNotEmpty()) {
-                tvDurationValue.text = track.formattedTrackTime
-            } else {
-                tvDurationValue.isVisible = false
-                tvDurationTitle.isVisible = false
-            }
-            if (track.collectionName.isNotEmpty()) {
-                tvCollectionNameValue.text = track.collectionName
-            } else {
-                tvCollectionNameValue.isVisible = false
-                tvCollectionNameTitle.isVisible = false
-            }
-            if (track.releaseYear.isNotEmpty()) {
-                tvReleaseYearValue.text = track.releaseYear
-            } else {
-                tvReleaseYearValue.isVisible = false
-                tvReleaseYearTitle.isVisible = false
-            }
-            if (track.primaryGenreName.isNotEmpty()) {
-                tvGenreValue.text = track.primaryGenreName
-            } else {
-                tvGenreValue.isVisible = false
-                tvGenreTitle.isVisible = false
-            }
-            if (track.country.isNotEmpty()) {
-                tvCountryValue.text = track.country
-            } else {
-                tvCountryValue.isVisible = false
-                tvCountryTitle.isVisible = false
-            }
+            setTextViewVisibility(tvDurationValue, tvDurationTitle, track.formattedTrackTime)
+            setTextViewVisibility(tvCollectionNameValue, tvCollectionNameTitle, track.collectionName)
+            setTextViewVisibility(tvReleaseYearValue, tvReleaseYearTitle, track.releaseYear)
+            setTextViewVisibility(tvGenreValue, tvGenreTitle, track.primaryGenreName)
+            setTextViewVisibility(tvCountryValue, tvCountryTitle, track.country)
+        }
+    }
+
+    private fun setTextViewVisibility(valueView: TextView, titleView: TextView, text: String) {
+        if (text.isNotEmpty()) {
+            valueView.text = text
+        } else {
+            valueView.isVisible = false
+            titleView.isVisible = false
         }
     }
 
     private fun changePlayControlButton(playerState: PlayerState) {
-        binding.btnPlayControl.run {
+        with(binding.btnPlayControl) {
             when (playerState) {
                 is PlayerState.Prepared, is PlayerState.Paused -> {
-                    this.alpha = 1.0f
+                    this.alpha = ENABLED_ALPHA
                     this.isEnabled = true
                     this.setImageResource(R.drawable.btn_play_icon)
                 }
 
                 is PlayerState.Playing -> this.setImageResource(R.drawable.btn_pause_icon)
                 else -> {
-                    this.alpha = 0.25f
+                    this.alpha = DISABLED_ALPHA
                     this.isEnabled = false
                 }
             }
@@ -197,6 +182,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     companion object {
+        private const val ENABLED_ALPHA = 1.0f
+        private const val DISABLED_ALPHA = 0.25f
         private const val CLICK_DEBOUNCE_DELAY = 100L
     }
 }

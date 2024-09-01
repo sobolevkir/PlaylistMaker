@@ -7,7 +7,7 @@
     tools:context=".favorites.ui.FavoritesFragment">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         style="@style/ProgressBarStyle"
         android:visibility="gone" />
 

@@ -59,8 +59,8 @@
             app:layout_constraintBottom_toTopOf="@id/tl_playlist_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_playlist_cover">
-
+            app:layout_constraintTop_toBottomOf="@id/iv_playlist_cover"
+            app:cursorColor="?attr/colorAccent">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_playlist_name"
                 android:layout_width="match_parent"
@@ -89,8 +89,8 @@
             app:layout_constraintTop_toBottomOf="@id/tl_playlist_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:cursorColor="?attr/colorAccent">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_playlist_description"
                 android:layout_width="match_parent"
