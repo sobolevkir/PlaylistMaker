@@ -7,9 +7,6 @@ interface LocalStorage {
     fun read(key: String, defValue: String): String
     fun write(key: String, value: String)
 
-    fun read(key: String, defValue: Set<String>): Set<String>
-    fun write(key: String, value: Set<String>)
-
     fun contains(key: String): Boolean
 
     companion object {

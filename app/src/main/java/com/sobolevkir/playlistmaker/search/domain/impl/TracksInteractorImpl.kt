@@ -1,8 +1,8 @@
 package com.sobolevkir.playlistmaker.search.domain.impl
 
-import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
+import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.common.util.Resource
+import com.sobolevkir.playlistmaker.util.Resource
 import com.sobolevkir.playlistmaker.search.domain.TracksInteractor
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
 import kotlinx.coroutines.flow.Flow

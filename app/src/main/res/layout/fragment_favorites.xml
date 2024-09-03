@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".media.ui.FavoritesFragment">
+    tools:context=".favorites.ui.FavoritesFragment">
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         style="@style/ProgressBarStyle"
         android:visibility="gone" />
 
@@ -27,6 +27,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="3"
         tools:listitem="@layout/layout_tracklist_item"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </FrameLayout>

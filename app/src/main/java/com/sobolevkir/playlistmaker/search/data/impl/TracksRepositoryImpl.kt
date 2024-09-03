@@ -1,11 +1,11 @@
 package com.sobolevkir.playlistmaker.search.data.impl
 
 import com.google.gson.Gson
-import com.sobolevkir.playlistmaker.common.data.db.AppDatabase
+import com.sobolevkir.playlistmaker.common.data.AppDatabase
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
-import com.sobolevkir.playlistmaker.common.domain.model.ErrorType
+import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.common.util.Resource
+import com.sobolevkir.playlistmaker.util.Resource
 import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchRequest
 import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchResponse
 import com.sobolevkir.playlistmaker.search.data.mapper.TrackMapper

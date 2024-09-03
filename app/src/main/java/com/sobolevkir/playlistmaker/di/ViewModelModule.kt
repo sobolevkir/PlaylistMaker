@@ -1,8 +1,9 @@
 package com.sobolevkir.playlistmaker.di
 
-import com.sobolevkir.playlistmaker.media.presentation.FavoritesViewModel
-import com.sobolevkir.playlistmaker.media.presentation.PlaylistsViewModel
+import com.sobolevkir.playlistmaker.favorites.presentation.FavoritesViewModel
 import com.sobolevkir.playlistmaker.player.presentation.PlayerViewModel
+import com.sobolevkir.playlistmaker.playlists.presentation.CreatePlaylistViewModel
+import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistsViewModel
 import com.sobolevkir.playlistmaker.search.presentation.SearchViewModel
 import com.sobolevkir.playlistmaker.settings.presentation.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -13,13 +14,15 @@ val viewModelModule = module {
     viewModel { SearchViewModel(get()) }
 
     viewModel { params ->
-        PlayerViewModel(params.get(), get(), get())
+        PlayerViewModel(params.get(), get(), get(), get())
     }
 
     viewModel { SettingsViewModel(get(), get()) }
 
     viewModel { FavoritesViewModel(get()) }
 
-    viewModel { PlaylistsViewModel() }
+    viewModel { PlaylistsViewModel(get()) }
+
+    viewModel { CreatePlaylistViewModel(get()) }
 
 }

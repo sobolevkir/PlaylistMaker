@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".media.ui.PlaylistsFragment">
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".playlists.ui.PlaylistsFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/ProgressBarStyle"
+        android:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create_playlist"
         style="@style/SmallButtonStyle"
         android:layout_gravity="center_horizontal"
-        android:text="@string/btn_create_playlist"
-        android:visibility="gone"
+        android:text="@string/btn_new_playlist"
+        android:visibility="visible"
         tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
@@ -21,4 +28,16 @@
         android:text="@string/error_no_playlists"
         android:visibility="gone"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_playlists_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/medium_indent"
+        android:layout_marginTop="@dimen/standard_indent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="5"
+        android:visibility="visible"
+        tools:listitem="@layout/layout_playlist_large_list_item"/>
+
+</LinearLayout>

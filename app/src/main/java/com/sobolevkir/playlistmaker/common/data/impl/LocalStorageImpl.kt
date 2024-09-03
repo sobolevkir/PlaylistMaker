@@ -19,13 +19,6 @@ class LocalStorageImpl(private val prefs: SharedPreferences) : LocalStorage {
         prefs.edit().putString(key, value).apply()
     }
 
-    override fun read(key: String, defValue: Set<String>): Set<String> {
-        return prefs.getStringSet(key, defValue) ?: emptySet()
-    }
-    override fun write(key: String, value: Set<String>) {
-        prefs.edit().putStringSet(key, value).apply()
-    }
-
     override fun contains(key: String): Boolean {
         return prefs.contains(key)
     }
