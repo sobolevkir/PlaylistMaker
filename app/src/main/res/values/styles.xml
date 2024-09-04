@@ -231,7 +231,17 @@
 
     <!-- Playlist Styles -->
     <style name="CreatePlaylistParamStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    </style>
 
+    <!-- Dialog Styles -->
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomDialogButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/CustomDialogButton</item>
+    </style>
+
+    <style name="CustomDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
 </resources>

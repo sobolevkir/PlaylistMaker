@@ -29,7 +29,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private var strCoverUri = ""
     private val warningDialog: MaterialAlertDialogBuilder by lazy {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle(R.string.warning_finish_creating_playlist)
             .setMessage(R.string.warning_unsaved_data_lost)
             .setNeutralButton(R.string.action_cancel) { _, _ -> }
