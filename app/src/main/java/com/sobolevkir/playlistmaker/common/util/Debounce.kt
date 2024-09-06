@@ -1,4 +1,4 @@
-package com.sobolevkir.playlistmaker.util
+package com.sobolevkir.playlistmaker.common.util
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

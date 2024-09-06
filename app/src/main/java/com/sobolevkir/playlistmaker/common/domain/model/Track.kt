@@ -6,6 +6,7 @@ data class Track(
     val trackId: Long = -1,
     val trackName: String = "",
     val artistName: String = "",
+    val trackTimeMillis: Int = 0,
     val formattedTrackTime: String = "",
     val artworkUrl100: String = "",
     val artworkUrl512: String = "",

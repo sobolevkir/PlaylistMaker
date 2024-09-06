@@ -26,21 +26,25 @@ class RootActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val isInHiddenDestinations =
-                destination.id == R.id.createPlaylistFragment || destination.id == R.id.playerFragment
-            if (binding.bottomNavigationView.isVisible && isInHiddenDestinations) {
-                animateBottomNavigationView(false)
-            } else if (!binding.bottomNavigationView.isVisible && !isInHiddenDestinations) {
-                animateBottomNavigationView(true)
+            val isInHiddenDestinations = when (destination.id) {
+                R.id.playlistCreateFragment, R.id.playerFragment, R.id.playlistInfoFragment -> true
+                else -> false
             }
+
+            val shouldAnimate = when {
+                binding.bottomNavigationView.isVisible && isInHiddenDestinations -> false
+                !binding.bottomNavigationView.isVisible && !isInHiddenDestinations -> true
+                else -> return@addOnDestinationChangedListener
+            }
+
+            animateBottomNavigationView(shouldAnimate)
         }
 
     }
 
     private fun animateBottomNavigationView(show: Boolean) {
         val animation = AnimationUtils.loadAnimation(
-            this,
-            if (show) R.anim.bottom_nav_show else R.anim.bottom_nav_hide
+            this, if (show) R.anim.bottom_nav_show else R.anim.bottom_nav_hide
         )
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation?) {

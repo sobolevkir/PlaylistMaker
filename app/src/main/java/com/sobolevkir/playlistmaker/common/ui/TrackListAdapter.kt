@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.databinding.LayoutTracklistItemBinding
 
-class TrackListAdapter(private val onItemClick: (Track) -> Unit) :
-    RecyclerView.Adapter<TrackListViewHolder>() {
+class TrackListAdapter(
+    private val onItemClick: (Track) -> Unit,
+    private val onItemLongClick: ((Track) -> Unit)? = null
+) : RecyclerView.Adapter<TrackListViewHolder>() {
 
     val tracks = mutableListOf<Track>()
 
@@ -21,6 +23,9 @@ class TrackListAdapter(private val onItemClick: (Track) -> Unit) :
         with(holder) {
             bind(tracks[position])
             binding.root.setOnClickListener { onItemClick(tracks[position]) }
+            binding.root.setOnLongClickListener {
+                onItemLongClick?.invoke(tracks[position])?.let { true } ?: false
+            }
         }
     }
 

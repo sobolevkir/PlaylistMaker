@@ -65,7 +65,7 @@ class PlayerViewModel(
         currentTrack?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 if (currentTrack.isFavorite) {
-                    favoritesInteractor.removeTrackFromFavorites(currentTrack)
+                    favoritesInteractor.removeTrackFromFavorites(currentTrack.trackId)
                 } else {
                     favoritesInteractor.addTrackToFavorites(currentTrack)
                 }
@@ -80,8 +80,8 @@ class PlayerViewModel(
             addingResultSingleLiveEvent.value = Pair(false, playlist.name)
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-                val result = playlistsInteractor.addTrackToPlaylist(currentTrack, playlist)
-                if (result.toInt() > 0) {
+                val result = playlistsInteractor.addTrackToPlaylist(currentTrack, playlist.id)
+                if (result > 0) {
                     addingResultSingleLiveEvent.postValue(Pair(true, playlist.name))
                 }
             }

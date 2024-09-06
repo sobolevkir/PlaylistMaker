@@ -17,15 +17,15 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sobolevkir.playlistmaker.R
-import com.sobolevkir.playlistmaker.databinding.FragmentCreatePlaylistBinding
-import com.sobolevkir.playlistmaker.playlists.presentation.CreatePlaylistViewModel
-import com.sobolevkir.playlistmaker.util.viewBinding
+import com.sobolevkir.playlistmaker.databinding.FragmentPlaylistCreateBinding
+import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistCreateViewModel
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
+class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) {
 
-    private val binding by viewBinding(FragmentCreatePlaylistBinding::bind)
-    private val viewModel: CreatePlaylistViewModel by viewModel()
+    private val binding by viewBinding(FragmentPlaylistCreateBinding::bind)
+    private val viewModel: PlaylistCreateViewModel by viewModel()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private var strCoverUri = ""
     private val warningDialog: MaterialAlertDialogBuilder by lazy {
@@ -133,7 +133,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
     }
 
     private fun showDialogOrGoBack() {
-        if ((strCoverUri.toString().isNotEmpty()) ||
+        if ((strCoverUri.isNotEmpty()) ||
             (binding.etPlaylistName.text.toString().trim().isNotEmpty()) ||
             (binding.etPlaylistDescription.text.toString().trim().isNotEmpty())
         ) {

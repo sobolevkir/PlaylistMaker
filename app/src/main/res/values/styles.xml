@@ -9,6 +9,11 @@
 
 
     <!-- Text Styles -->
+    <style name="YS_Bold_24">
+        <item name="android:textSize">@dimen/text_size_24</item>
+        <item name="android:fontFamily">@font/ys_display_bold</item>
+    </style>
+
     <style name="YS_Medium_22">
         <item name="android:textSize">@dimen/text_size_22</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
@@ -27,6 +32,11 @@
     <style name="YS_Medium_16">
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="YS_Regular_18">
+        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
 
     <style name="YS_Regular_16">

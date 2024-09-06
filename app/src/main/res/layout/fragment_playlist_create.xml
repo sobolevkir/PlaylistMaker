@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorOnPrimary"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".playlists.ui.CreatePlaylistFragment">
+    tools:context=".playlists.ui.PlaylistCreateFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/params_group"
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/standard_indent"
             android:layout_marginBottom="@dimen/standard_indent"
-            android:hint="@string/hint_new_playlist_descr"
+            android:hint="@string/hint_playlist_descr"
             android:maxLength="200"
             android:textColorHint="@color/selector_hint_text_input_color"
             app:boxStrokeColor="@color/selector_box_text_input_color"

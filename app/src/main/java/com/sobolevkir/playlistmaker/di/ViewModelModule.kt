@@ -2,7 +2,8 @@ package com.sobolevkir.playlistmaker.di
 
 import com.sobolevkir.playlistmaker.favorites.presentation.FavoritesViewModel
 import com.sobolevkir.playlistmaker.player.presentation.PlayerViewModel
-import com.sobolevkir.playlistmaker.playlists.presentation.CreatePlaylistViewModel
+import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistCreateViewModel
+import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistInfoViewModel
 import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistsViewModel
 import com.sobolevkir.playlistmaker.search.presentation.SearchViewModel
 import com.sobolevkir.playlistmaker.settings.presentation.SettingsViewModel
@@ -23,6 +24,8 @@ val viewModelModule = module {
 
     viewModel { PlaylistsViewModel(get()) }
 
-    viewModel { CreatePlaylistViewModel(get()) }
+    viewModel { PlaylistCreateViewModel(get()) }
+
+    viewModel { PlaylistInfoViewModel(get(), get()) }
 
 }

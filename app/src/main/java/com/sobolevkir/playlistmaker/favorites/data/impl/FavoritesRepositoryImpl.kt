@@ -16,8 +16,8 @@ class FavoritesRepositoryImpl(
         appDatabase.getFavoriteTrackDao().insertTrack(trackDbConverter.convert(track))
     }
 
-    override suspend fun removeTrackFromFavorites(track: Track) {
-        appDatabase.getFavoriteTrackDao().removeTrack(trackDbConverter.convert(track))
+    override suspend fun removeTrackFromFavorites(trackId: Long) {
+        appDatabase.getFavoriteTrackDao().removeTrack(trackId)
     }
 
     override fun getFavoriteTracks(): Flow<List<Track>> =

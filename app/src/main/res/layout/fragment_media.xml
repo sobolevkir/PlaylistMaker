@@ -14,11 +14,13 @@
         android:id="@+id/tabLayout"
         style="@style/TabLayoutStyle"
         android:layout_marginHorizontal="@dimen/standard_indent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:tabs = "Tab 1,Tab 2"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_favorites"/>
 
 </LinearLayout>

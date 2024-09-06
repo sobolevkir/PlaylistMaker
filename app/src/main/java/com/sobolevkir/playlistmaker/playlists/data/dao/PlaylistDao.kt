@@ -17,6 +17,9 @@ interface PlaylistDao {
     @Update(entity = PlaylistEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun updatePlaylist(playlist: PlaylistEntity): Int
 
+    @Query("SELECT * FROM playlists_table WHERE id = :id")
+    fun getPlaylistById(id: Long): Flow<PlaylistEntity>
+
     @Query("SELECT name FROM playlists_table")
     fun getPlaylistNames(): Flow<List<String>>
 

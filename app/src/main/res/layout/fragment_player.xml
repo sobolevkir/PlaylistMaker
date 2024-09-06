@@ -40,6 +40,7 @@
             android:layout_marginBottom="@dimen/large_indent"
             android:contentDescription="@string/hint_cover"
             android:scaleType="fitCenter"
+            android:src="@drawable/cover_placeholder"
             app:layout_constraintBottom_toTopOf="@+id/tv_track_name"
             app:layout_constraintEnd_toStartOf="@+id/right_guideline"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
@@ -50,9 +51,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium_indent"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@string/hint_track_name"
             android:textAppearance="@style/YS_Medium_22"
-            android:textColor="?attr/colorPrimaryDark"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/tv_artist_name"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline" />
@@ -64,7 +67,7 @@
             android:layout_marginBottom="@dimen/large_indent"
             android:text="@string/hint_artist_name"
             android:textAppearance="@style/YS_Medium_14"
-            android:textColor="?attr/colorPrimaryDark"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/btn_play_control"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline" />
@@ -207,7 +210,6 @@
         android:background="@drawable/shape_bottom_sheet"
         android:elevation="@dimen/large_indent"
         android:orientation="vertical"
-        android:visibility="visible"
         app:behavior_hideable="true"
         app:behavior_peekHeight="@dimen/bottom_sheet_height"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -235,7 +237,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/large_indent"
-            android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="2"
             tools:listitem="@layout/layout_playlist_small_list_item" />
