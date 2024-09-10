@@ -9,6 +9,15 @@ interface PlaylistsInteractor {
 
     suspend fun createPlaylist(name: String, description: String, strCoverUri: String)
 
+    suspend fun removePlaylist(playlistId: Long): Int
+
+    suspend fun getPlaylist(playlistId: Long): Playlist
+
+    suspend fun updatePlaylistInfo(
+        playlistId: Long, name: String,
+        description: String, strCoverUri: String
+    )
+
     fun getPlaylistNames(): Flow<List<String>>
 
     fun getPlaylists(): Flow<List<Playlist>>
@@ -18,5 +27,7 @@ interface PlaylistsInteractor {
     suspend fun removeTrackFromPlaylist(trackId: Long, playlistId: Long): Int
 
     fun getPlaylistWithTracks(playlistId: Long): Flow<PlaylistWithTracks>
+
+    suspend fun sharePlaylist(playlistId: Long)
 
 }

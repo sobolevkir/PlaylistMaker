@@ -159,7 +159,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     private fun initBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.layoutBottomSheet).apply {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
         bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {

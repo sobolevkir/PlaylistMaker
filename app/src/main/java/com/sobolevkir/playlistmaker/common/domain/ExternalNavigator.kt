@@ -1,7 +1,7 @@
-package com.sobolevkir.playlistmaker.settings.domain
+package com.sobolevkir.playlistmaker.common.domain
 
 interface ExternalNavigator {
-    fun shareLink(url: String)
+    fun shareText(text: String)
     fun openLink(url: String)
     fun writeEmail(subject: String, message: String, email: String)
 }

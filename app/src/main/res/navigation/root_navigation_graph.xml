@@ -84,7 +84,8 @@
         tools:layout="@layout/fragment_playlist_info" >
         <argument
             android:name="current_playlist_id"
-            app:argType="long" />
+            app:argType="long"
+            android:defaultValue="-1L" />
         <action
             android:id="@+id/action_playlistInfoFragment_to_playerFragment"
             app:destination="@id/playerFragment"
@@ -92,6 +93,23 @@
             app:exitAnim="@anim/hold"
             app:popEnterAnim="@anim/hold"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_playlistInfoFragment_to_playlistEditFragment"
+            app:destination="@id/playlistEditFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/hold"
+            app:popEnterAnim="@anim/hold"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/playlistEditFragment"
+        android:name="com.sobolevkir.playlistmaker.playlists.ui.PlaylistEditFragment"
+        android:label="PlaylistEditFragment" >
+        <argument
+            android:name="current_playlist_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 
 </navigation>

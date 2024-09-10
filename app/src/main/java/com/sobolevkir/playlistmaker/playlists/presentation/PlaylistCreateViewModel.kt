@@ -6,21 +6,21 @@ import com.sobolevkir.playlistmaker.playlists.domain.PlaylistsInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PlaylistCreateViewModel(private val playlistInteractor: PlaylistsInteractor) : ViewModel() {
+open class PlaylistCreateViewModel(private val playlistsInteractor: PlaylistsInteractor) : ViewModel() {
 
     private var playlistNames: List<String> = emptyList()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            playlistInteractor
+            playlistsInteractor
                 .getPlaylistNames()
                 .collect { playlistNames = it }
         }
     }
 
-    fun createPlaylist(name: String, description: String, strCoverUri: String) {
+    open fun onSubmitButtonClick(name: String, description: String, strCoverUri: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            playlistInteractor.createPlaylist(
+            playlistsInteractor.createPlaylist(
                 name,
                 description,
                 strCoverUri
@@ -28,7 +28,6 @@ class PlaylistCreateViewModel(private val playlistInteractor: PlaylistsInteracto
         }
     }
 
-    fun isNameDuplicated(playlistName: String): Boolean = playlistNames.contains(playlistName)
-
+    open fun isNameDuplicated(playlistName: String): Boolean = playlistNames.contains(playlistName)
 
 }

@@ -1,6 +1,5 @@
 package com.sobolevkir.playlistmaker.search.presentation
 
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,8 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel(),
-    DefaultLifecycleObserver {
+class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel() {
 
     private var latestSearchText: String? = null
     private val trackSearchDebounce =

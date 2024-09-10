@@ -63,6 +63,8 @@ class PlaylistDbConverter(private val gson: Gson) {
     }
 
     fun convertTrackIdsFromJson(trackIds: String): List<Long> =
-        gson.fromJson(trackIds, Array<Long>::class.java).toList()
+        if (trackIds.isNotEmpty()) {
+            gson.fromJson(trackIds, Array<Long>::class.java).toList()
+        } else listOf()
 
 }

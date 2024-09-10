@@ -204,7 +204,7 @@
         android:visibility="gone" />
 
     <LinearLayout
-        android:id="@+id/layout_bottom_sheet"
+        android:id="@+id/playlists_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_bottom_sheet"

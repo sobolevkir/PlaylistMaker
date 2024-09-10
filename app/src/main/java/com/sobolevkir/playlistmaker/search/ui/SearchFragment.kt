@@ -127,7 +127,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initObservers() {
-        lifecycle.addObserver(viewModel)
         viewModel.getStateLiveData().observe(viewLifecycleOwner) { state -> render(state) }
     }
 

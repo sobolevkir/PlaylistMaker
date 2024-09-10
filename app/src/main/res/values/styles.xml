@@ -248,6 +248,8 @@
         <item name="buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/CustomDialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/CustomDialogButton</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
     </style>
 
     <style name="CustomDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">

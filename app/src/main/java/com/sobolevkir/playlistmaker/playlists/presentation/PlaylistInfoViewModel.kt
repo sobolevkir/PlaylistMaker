@@ -18,7 +18,7 @@ class PlaylistInfoViewModel(
 ) : ViewModel() {
 
     private val playlistWithTracksLiveData = MutableLiveData<PlaylistWithTracks>()
-    private val resultSingleLiveEvent = SingleLiveEvent<Pair<PlaylistInfoEvent, String>>()
+    private val resultSingleLiveEvent = SingleLiveEvent<PlaylistInfoEvent>()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,14 +31,39 @@ class PlaylistInfoViewModel(
     }
 
     fun getPlaylistWithTracksLiveData(): LiveData<PlaylistWithTracks> = playlistWithTracksLiveData
-    fun getResultSingleLiveEvent(): SingleLiveEvent<Pair<PlaylistInfoEvent, String>> = resultSingleLiveEvent
+    fun getResultSingleLiveEvent(): SingleLiveEvent<PlaylistInfoEvent> = resultSingleLiveEvent
 
     fun removeTrackFromPlaylist(track: Track) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = playlistsInteractor.removeTrackFromPlaylist(track.trackId, playlistId)
             if (result > 0) {
-                resultSingleLiveEvent.postValue(Pair(PlaylistInfoEvent.TrackRemovedSuccess, track.trackName))
+                resultSingleLiveEvent.postValue(
+                        PlaylistInfoEvent.TrackRemovedSuccess(track.trackName)
+                )
             }
+        }
+    }
+
+    fun removePlaylist() {
+        val playlistName = playlistWithTracksLiveData.value?.name ?: ""
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = playlistsInteractor.removePlaylist(playlistId)
+            if (result > 0) {
+                resultSingleLiveEvent.postValue(
+                        PlaylistInfoEvent.PlaylistRemovedSuccess(playlistName)
+                )
+            }
+        }
+    }
+
+    fun sharePlaylist() {
+        val tracksNumber = playlistWithTracksLiveData.value?.tracksNumber ?: 0
+        if(tracksNumber > 0) {
+            viewModelScope.launch(Dispatchers.IO) {
+                playlistsInteractor.sharePlaylist(playlistId)
+            }
+        } else {
+            resultSingleLiveEvent.postValue(PlaylistInfoEvent.UnsuccessfulSharing)
         }
     }
 

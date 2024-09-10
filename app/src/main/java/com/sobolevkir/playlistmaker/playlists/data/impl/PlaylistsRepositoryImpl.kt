@@ -13,10 +13,8 @@ import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import java.io.File
 import java.io.FileOutputStream
@@ -38,12 +36,39 @@ class PlaylistsRepositoryImpl(
         appDatabase.getPlaylistDao().insertPlaylist(playlistDbConverter.convert(newPlaylist))
     }
 
+    override suspend fun removePlaylist(playlistId: Long): Int {
+        val tracksFromRemovedPlaylist = getPlaylist(playlistId).first().trackIds
+        val result = appDatabase.getPlaylistDao().removePlaylist(playlistId)
+        tracksFromRemovedPlaylist.forEach { removeTrackIfUnnecessary(it) }
+        return result
+    }
+
+    override suspend fun updatePlaylistInfo(
+        playlistId: Long, name: String,
+        description: String, strCoverUri: String
+    ) {
+        val oldPlaylistInfo = appDatabase.getPlaylistDao().getPlaylistById(playlistId).first()
+        if (oldPlaylistInfo != null) {
+            val coverUri = if (oldPlaylistInfo.coverUri != strCoverUri) {
+                saveCoverToPrivateStorage(strCoverUri)
+            } else oldPlaylistInfo.coverUri
+            val editedPlaylist = oldPlaylistInfo.copy(
+                name = name,
+                description = description,
+                coverUri = coverUri
+            )
+            appDatabase.getPlaylistDao().updatePlaylist(editedPlaylist)
+        }
+    }
+
     override fun getPlaylistNames(): Flow<List<String>> =
         appDatabase.getPlaylistDao().getPlaylistNames()
 
     override fun getPlaylist(playlistId: Long): Flow<Playlist> =
         appDatabase.getPlaylistDao().getPlaylistById(playlistId)
-            .map { playlistEntity -> playlistDbConverter.convert(playlistEntity) }
+            .map { playlistEntity ->
+                playlistEntity?.let { playlistDbConverter.convert(it) } ?: Playlist()
+            }
 
     override fun getPlaylists(): Flow<List<Playlist>> =
         appDatabase.getPlaylistDao().getPlaylists()
@@ -63,9 +88,7 @@ class PlaylistsRepositoryImpl(
         val updatedPlaylist = playlist.copy(trackIds = playlist.trackIds - trackId)
         val result = appDatabase.getPlaylistDao()
             .updatePlaylist(playlistDbConverter.convert(updatedPlaylist))
-        if (getPlaylists().first().none { trackId in it.trackIds }) {
-            appDatabase.getTrackFromPlaylistDao().removeTrack(trackId)
-        }
+        removeTrackIfUnnecessary(trackId)
         return result
     }
 
@@ -74,7 +97,8 @@ class PlaylistsRepositoryImpl(
         appDatabase.getPlaylistDao()
             .getPlaylistById(playlistId)
             .flatMapLatest { playlistEntity ->
-                val trackIds = playlistDbConverter.convertTrackIdsFromJson(playlistEntity.trackIds)
+                val trackIds =
+                    playlistDbConverter.convertTrackIdsFromJson(playlistEntity?.trackIds ?: "")
                 val tracksFlow = appDatabase.getTrackFromPlaylistDao()
                     .getTracksFromPlaylistByIds(trackIds)
                     .map { trackEntities ->
@@ -87,6 +111,12 @@ class PlaylistsRepositoryImpl(
                     tracks.withFavoriteFlag(favoriteIds)
                 }
             }
+
+    private suspend fun removeTrackIfUnnecessary(trackId: Long) {
+        if (getPlaylists().first().none { trackId in it.trackIds }) {
+            appDatabase.getTrackFromPlaylistDao().removeTrack(trackId)
+        }
+    }
 
     private fun getFavoriteTrackIds(): Flow<List<Long>> =
         appDatabase.getFavoriteTrackDao().getTrackIds()

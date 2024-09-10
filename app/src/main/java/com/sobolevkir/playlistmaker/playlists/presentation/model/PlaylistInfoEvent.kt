@@ -2,10 +2,12 @@ package com.sobolevkir.playlistmaker.playlists.presentation.model
 
 interface PlaylistInfoEvent {
 
-    data object TrackRemovedSuccess: PlaylistInfoEvent
+    data class TrackRemovedSuccess(val trackName: String) : PlaylistInfoEvent
 
-    data object PlaylistRemovedSuccess: PlaylistInfoEvent
+    data class PlaylistRemovedSuccess(val playlistName: String) : PlaylistInfoEvent
 
-    data object PlaylistEditedSuccess: PlaylistInfoEvent
+    data class PlaylistEditedSuccess(val playlistName: String) : PlaylistInfoEvent
+
+    data object UnsuccessfulSharing : PlaylistInfoEvent
 
 }

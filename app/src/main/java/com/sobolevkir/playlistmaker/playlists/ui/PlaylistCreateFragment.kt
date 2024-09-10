@@ -22,12 +22,12 @@ import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistCreateViewMod
 import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) {
+open class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) {
 
-    private val binding by viewBinding(FragmentPlaylistCreateBinding::bind)
-    private val viewModel: PlaylistCreateViewModel by viewModel()
+    protected val binding by viewBinding(FragmentPlaylistCreateBinding::bind)
+    protected open val viewModel: PlaylistCreateViewModel by viewModel()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
-    private var strCoverUri = ""
+    protected var strCoverUri = ""
     private val warningDialog: MaterialAlertDialogBuilder by lazy {
         MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle(R.string.warning_finish_creating_playlist)
@@ -37,7 +37,7 @@ class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) {
                 findNavController().popBackStack()
             }
     }
-    private val onBackPressedCallback: OnBackPressedCallback =
+    protected val onBackPressedCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showDialogOrGoBack()
@@ -89,32 +89,34 @@ class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) {
             viewLifecycleOwner,
             onBackPressedCallback
         )
-        binding.toolbar.setNavigationOnClickListener { showDialogOrGoBack() }
-        binding.ivPlaylistCover.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        with(binding) {
+            toolbar.setNavigationOnClickListener { showDialogOrGoBack() }
+            ivPlaylistCover.setOnClickListener {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+            btnSubmit.setOnClickListener {
+                viewModel.onSubmitButtonClick(
+                    name = etPlaylistName.text.toString(),
+                    description = etPlaylistDescription.text.toString(),
+                    strCoverUri = strCoverUri
+                )
+                findNavController().popBackStack()
+                showResultMessage(getString(R.string.message_success_creation_playlist, etPlaylistName.text.toString()))
+            }
+            etPlaylistName.addTextChangedListener(inputPlaylistNameTextWatcher)
         }
-        binding.btnCreate.setOnClickListener {
-            viewModel.createPlaylist(
-                name = binding.etPlaylistName.text.toString(),
-                description = binding.etPlaylistDescription.text.toString(),
-                strCoverUri = strCoverUri
-            )
-            findNavController().popBackStack()
-            showPlaylistCreatedMessage(binding.etPlaylistName.text.toString())
-        }
-        binding.etPlaylistName.addTextChangedListener(inputPlaylistNameTextWatcher)
     }
 
-    private fun showPlaylistCreatedMessage(playlistName: String) {
+    protected fun showResultMessage(text: String) {
         Toast.makeText(
-            requireContext(), getString(R.string.message_success_creation_playlist, playlistName),
+            requireContext(), text,
             Toast.LENGTH_LONG
         ).show()
     }
 
     private fun setCreateButtonState(playlistName: String) {
         val isNameDuplicated = viewModel.isNameDuplicated(playlistName)
-        binding.btnCreate.isEnabled = when {
+        binding.btnSubmit.isEnabled = when {
             !isNameDuplicated && playlistName.isNotEmpty() -> {
                 binding.tlPlaylistName.isErrorEnabled = false
                 true
@@ -143,7 +145,7 @@ class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) {
         }
     }
 
-    private fun showCover(uri: String) {
+    protected fun showCover(uri: String) {
         val cornerRadius = binding.root.resources.getDimensionPixelSize(R.dimen.radius_medium)
         Glide.with(binding.root)
             .load(uri.toUri())
