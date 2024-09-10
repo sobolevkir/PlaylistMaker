@@ -17,7 +17,7 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
 
     private var latestSearchText: String? = null
     private val trackSearchDebounce =
-        debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { requestText ->
+        debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { requestText ->
             search(requestText)
         }
 
@@ -90,7 +90,7 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
     private fun renderState(state: SearchState) = stateLiveData.postValue(state)
 
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 
 }

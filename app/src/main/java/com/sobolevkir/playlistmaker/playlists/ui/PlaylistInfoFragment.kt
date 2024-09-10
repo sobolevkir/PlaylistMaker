@@ -217,7 +217,7 @@ class PlaylistInfoFragment : Fragment(R.layout.fragment_playlist_info) {
 
     private fun initClickDebounce() {
         onTrackClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
+            CLICK_DEBOUNCE_DELAY_MILLIS, viewLifecycleOwner.lifecycleScope, false
         ) { track -> openPlayer(track) }
     }
 
@@ -232,7 +232,7 @@ class PlaylistInfoFragment : Fragment(R.layout.fragment_playlist_info) {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
         private const val ENABLED_ALPHA = 1.0f
         private const val TRACKS_BOTTOM_SHEET_HEIGHT_WEIGHT = 0.3
         private const val MENU_BOTTOM_SHEET_HEIGHT_WEIGHT = 0.45

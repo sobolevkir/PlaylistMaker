@@ -1,9 +1,13 @@
 package com.sobolevkir.playlistmaker.root.ui
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewTreeObserver
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -26,38 +30,20 @@ class RootActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val isInHiddenDestinations = when (destination.id) {
-                R.id.playlistCreateFragment, R.id.playerFragment, R.id.playlistInfoFragment -> true
-                else -> false
+            val isInHiddenDestinations = destination.id in listOf(
+                R.id.playlistCreateFragment, R.id.playerFragment, R.id.playlistInfoFragment
+            )
+            binding.rootFragmentContainerView.doOnNextLayout {
+                setBottomNavigationViewVisibility(!isInHiddenDestinations)
             }
-
-            val shouldAnimate = when {
-                binding.bottomNavigationView.isVisible && isInHiddenDestinations -> false
-                !binding.bottomNavigationView.isVisible && !isInHiddenDestinations -> true
-                else -> return@addOnDestinationChangedListener
-            }
-
-            animateBottomNavigationView(shouldAnimate)
         }
-
     }
 
-    private fun animateBottomNavigationView(show: Boolean) {
-        val animation = AnimationUtils.loadAnimation(
-            this, if (show) R.anim.bottom_nav_show else R.anim.bottom_nav_hide
-        )
-        animation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation?) {
-                if (show) binding.bottomNavigationView.isVisible = true
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                if (!show) binding.bottomNavigationView.isVisible = false
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {}
-        })
-        binding.bottomNavigationView.startAnimation(animation)
+    private fun setBottomNavigationViewVisibility(isVisible: Boolean) {
+        val animRes = if (isVisible) R.anim.bottom_nav_show else R.anim.bottom_nav_hide
+        binding.bottomNavigationView.apply {
+            startAnimation(AnimationUtils.loadAnimation(this@RootActivity, animRes))
+            visibility = if (isVisible) View.VISIBLE else View.GONE
+        }
     }
-
 }

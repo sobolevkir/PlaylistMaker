@@ -50,7 +50,7 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
 
     private fun initClickDebounce() {
         onPlaylistClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false
         ) { playlist -> openPlaylist(playlist.id) }
@@ -109,6 +109,6 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
 
     companion object {
         fun newInstance() = PlaylistsFragment()
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
     }
 }

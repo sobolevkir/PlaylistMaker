@@ -95,7 +95,7 @@ class PlayerViewModel(
         timerJob?.cancel()
         timerJob = viewModelScope.launch(Dispatchers.IO) {
             while (playerInteractor.isPlaying()) {
-                delay(UPDATER_DELAY)
+                delay(UPDATER_DELAY_MILLIS)
                 if (this.isActive) {
                     playerStateLiveData.postValue(
                         PlayerState.Playing(playerInteractor.getCurrentPlayerPosition())
@@ -138,6 +138,6 @@ class PlayerViewModel(
     }
 
     companion object {
-        private const val UPDATER_DELAY = 100L
+        private const val UPDATER_DELAY_MILLIS = 100L
     }
 }

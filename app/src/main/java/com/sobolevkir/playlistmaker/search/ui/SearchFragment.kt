@@ -58,7 +58,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun initClickDebounce() {
         onTrackClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false
         ) { track -> openPlayer(track) }
@@ -231,7 +231,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
     }
 
 }

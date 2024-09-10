@@ -26,7 +26,7 @@ open class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) 
 
     protected val binding by viewBinding(FragmentPlaylistCreateBinding::bind)
     protected open val viewModel: PlaylistCreateViewModel by viewModel()
-    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+    private var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>? = null
     protected var strCoverUri = ""
     private val warningDialog: MaterialAlertDialogBuilder by lazy {
         MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
@@ -80,7 +80,7 @@ open class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) 
     override fun onDestroyView() {
         super.onDestroyView()
         onBackPressedCallback.remove()
-        pickMedia.unregister()
+        pickMedia?.unregister()
         inputPlaylistNameTextWatcher.let { binding.etPlaylistName.removeTextChangedListener(it) }
     }
 
@@ -92,7 +92,7 @@ open class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) 
         with(binding) {
             toolbar.setNavigationOnClickListener { showDialogOrGoBack() }
             ivPlaylistCover.setOnClickListener {
-                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                pickMedia?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
             btnSubmit.setOnClickListener {
                 viewModel.onSubmitButtonClick(

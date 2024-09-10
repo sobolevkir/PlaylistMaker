@@ -109,7 +109,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
     private fun initClickDebounce() {
         onPlaylistClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
+            CLICK_DEBOUNCE_DELAY_MILLIS, viewLifecycleOwner.lifecycleScope, false
         ) { playlist -> viewModel.onPlaylistSelect(playlist) }
     }
 
@@ -196,6 +196,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     companion object {
         private const val ENABLED_ALPHA = 1.0f
         private const val DISABLED_ALPHA = 0.25f
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
     }
 }
