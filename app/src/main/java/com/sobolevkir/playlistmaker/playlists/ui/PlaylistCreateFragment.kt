@@ -17,19 +17,19 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.sobolevkir.playlistmaker.R
-import com.sobolevkir.playlistmaker.databinding.FragmentCreatePlaylistBinding
-import com.sobolevkir.playlistmaker.playlists.presentation.CreatePlaylistViewModel
-import com.sobolevkir.playlistmaker.util.viewBinding
+import com.sobolevkir.playlistmaker.databinding.FragmentPlaylistCreateBinding
+import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistCreateViewModel
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
+open class PlaylistCreateFragment : Fragment(R.layout.fragment_playlist_create) {
 
-    private val binding by viewBinding(FragmentCreatePlaylistBinding::bind)
-    private val viewModel: CreatePlaylistViewModel by viewModel()
-    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
-    private var strCoverUri = ""
+    protected val binding by viewBinding(FragmentPlaylistCreateBinding::bind)
+    protected open val viewModel: PlaylistCreateViewModel by viewModel()
+    private var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>? = null
+    protected var strCoverUri = ""
     private val warningDialog: MaterialAlertDialogBuilder by lazy {
-        MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle(R.string.warning_finish_creating_playlist)
             .setMessage(R.string.warning_unsaved_data_lost)
             .setNeutralButton(R.string.action_cancel) { _, _ -> }
@@ -37,7 +37,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
                 findNavController().popBackStack()
             }
     }
-    private val onBackPressedCallback: OnBackPressedCallback =
+    protected val onBackPressedCallback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 showDialogOrGoBack()
@@ -80,7 +80,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
     override fun onDestroyView() {
         super.onDestroyView()
         onBackPressedCallback.remove()
-        pickMedia.unregister()
+        pickMedia?.unregister()
         inputPlaylistNameTextWatcher.let { binding.etPlaylistName.removeTextChangedListener(it) }
     }
 
@@ -89,32 +89,34 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
             viewLifecycleOwner,
             onBackPressedCallback
         )
-        binding.toolbar.setNavigationOnClickListener { showDialogOrGoBack() }
-        binding.ivPlaylistCover.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        with(binding) {
+            toolbar.setNavigationOnClickListener { showDialogOrGoBack() }
+            ivPlaylistCover.setOnClickListener {
+                pickMedia?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+            btnSubmit.setOnClickListener {
+                viewModel.onSubmitButtonClick(
+                    name = etPlaylistName.text.toString(),
+                    description = etPlaylistDescription.text.toString(),
+                    strCoverUri = strCoverUri
+                )
+                findNavController().popBackStack()
+                showResultMessage(getString(R.string.message_success_creation_playlist, etPlaylistName.text.toString()))
+            }
+            etPlaylistName.addTextChangedListener(inputPlaylistNameTextWatcher)
         }
-        binding.btnCreate.setOnClickListener {
-            viewModel.createPlaylist(
-                name = binding.etPlaylistName.text.toString(),
-                description = binding.etPlaylistDescription.text.toString(),
-                strCoverUri = strCoverUri
-            )
-            findNavController().popBackStack()
-            showPlaylistCreatedMessage(binding.etPlaylistName.text.toString())
-        }
-        binding.etPlaylistName.addTextChangedListener(inputPlaylistNameTextWatcher)
     }
 
-    private fun showPlaylistCreatedMessage(playlistName: String) {
+    protected fun showResultMessage(text: String) {
         Toast.makeText(
-            requireContext(), getString(R.string.message_success_creation_playlist, playlistName),
+            requireContext(), text,
             Toast.LENGTH_LONG
         ).show()
     }
 
     private fun setCreateButtonState(playlistName: String) {
         val isNameDuplicated = viewModel.isNameDuplicated(playlistName)
-        binding.btnCreate.isEnabled = when {
+        binding.btnSubmit.isEnabled = when {
             !isNameDuplicated && playlistName.isNotEmpty() -> {
                 binding.tlPlaylistName.isErrorEnabled = false
                 true
@@ -133,7 +135,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
     }
 
     private fun showDialogOrGoBack() {
-        if ((strCoverUri.toString().isNotEmpty()) ||
+        if ((strCoverUri.isNotEmpty()) ||
             (binding.etPlaylistName.text.toString().trim().isNotEmpty()) ||
             (binding.etPlaylistDescription.text.toString().trim().isNotEmpty())
         ) {
@@ -143,7 +145,7 @@ class CreatePlaylistFragment : Fragment(R.layout.fragment_create_playlist) {
         }
     }
 
-    private fun showCover(uri: String) {
+    protected fun showCover(uri: String) {
         val cornerRadius = binding.root.resources.getDimensionPixelSize(R.dimen.radius_medium)
         Glide.with(binding.root)
             .load(uri.toUri())

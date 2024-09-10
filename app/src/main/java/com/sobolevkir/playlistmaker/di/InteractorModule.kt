@@ -20,7 +20,7 @@ val interactorModule = module {
 
     factory<TracksInteractor> { TracksInteractorImpl(get()) }
 
-    factory<PlaylistsInteractor> { PlaylistsInteractorImpl(get()) }
+    factory<PlaylistsInteractor> { PlaylistsInteractorImpl(get(), get(), get()) }
 
     factory<PlayerInteractor> { PlayerInteractorImpl(get()) }
 

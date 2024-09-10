@@ -14,8 +14,8 @@ interface FavoriteTrackDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTrack(track: FavoriteTrackEntity)
 
-    @Delete
-    suspend fun removeTrack(track: FavoriteTrackEntity)
+    @Query("DELETE FROM favorite_tracks_table WHERE track_id = :trackId")
+    suspend fun removeTrack(trackId: Long)
 
     @Query("SELECT * FROM favorite_tracks_table ORDER BY timestamp DESC")
     fun getTracks(): Flow<List<FavoriteTrackEntity>>

@@ -22,8 +22,8 @@ import com.sobolevkir.playlistmaker.databinding.FragmentPlayerBinding
 import com.sobolevkir.playlistmaker.player.presentation.PlayerState
 import com.sobolevkir.playlistmaker.player.presentation.PlayerViewModel
 import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
-import com.sobolevkir.playlistmaker.util.debounce
-import com.sobolevkir.playlistmaker.util.viewBinding
+import com.sobolevkir.playlistmaker.common.util.debounce
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -58,6 +58,13 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     private fun initObservers() {
         lifecycle.addObserver(viewModel)
         viewModel.getCurrentTrackLiveData().observe(viewLifecycleOwner) { setTrackInfo(it) }
+        viewModel.getIsTrackInPlaylistLiveData().observe(viewLifecycleOwner) { isTrackInPlaylist ->
+            if (isTrackInPlaylist) {
+                binding.btnAddToPlaylist.setImageResource(R.drawable.btn_in_playlist_icon)
+            } else {
+                binding.btnAddToPlaylist.setImageResource(R.drawable.btn_add_icon)
+            }
+        }
         viewModel.getPlayerStateLiveData().observe(viewLifecycleOwner) { playerState ->
             changePlayControlButton(playerState)
             when (playerState) {
@@ -67,9 +74,11 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             }
         }
         viewModel.getPlaylistsLiveData().observe(viewLifecycleOwner) { playlists ->
-            playlistsAdapter?.playlists?.clear()
-            playlistsAdapter?.playlists?.addAll(playlists)
-            playlistsAdapter?.notifyDataSetChanged()
+            playlistsAdapter?.apply {
+                this.playlists.clear()
+                this.playlists.addAll(playlists)
+                notifyDataSetChanged()
+            }
         }
         viewModel.getAddingResultSingleLiveEvent().observe(viewLifecycleOwner) { (isAddingSuccess, playlistName) ->
             if (isAddingSuccess) {
@@ -83,7 +92,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
     private fun initListeners() {
         with(binding) {
-            binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+            toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
             btnPlayControl.setOnClickListener { viewModel.playbackControl() }
             btnFavorite.setOnClickListener { viewModel.onFavoriteButtonClick() }
             btnAddToPlaylist.setOnClickListener {
@@ -100,15 +109,18 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
     private fun initClickDebounce() {
         onPlaylistClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY, viewLifecycleOwner.lifecycleScope, false
+            CLICK_DEBOUNCE_DELAY_MILLIS, viewLifecycleOwner.lifecycleScope, false
         ) { playlist -> viewModel.onPlaylistSelect(playlist) }
     }
 
     private fun setTrackInfo(track: Track) {
         with(binding) {
             btnFavorite.setImageDrawable(getFavoriteButtonDrawable(track.isFavorite))
-            Glide.with(this@PlayerFragment).load(track.artworkUrl512).centerInside()
-                .placeholder(R.drawable.cover_placeholder).into(ivAlbumCoverLarge)
+            Glide.with(this@PlayerFragment)
+                .load(track.artworkUrl512)
+                .centerInside()
+                .placeholder(R.drawable.cover_placeholder)
+                .into(ivAlbumCoverLarge)
             tvTrackName.text = track.trackName
             tvArtistName.text = track.artistName
             setTextViewVisibility(tvDurationValue, tvDurationTitle, track.formattedTrackTime)
@@ -154,7 +166,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     private fun initBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.layoutBottomSheet).apply {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.playlistsBottomSheet).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
         bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -166,7 +178,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                binding.overlay.alpha = slideOffset + 1
+                binding.overlay.alpha = slideOffset + ENABLED_ALPHA
             }
         }
         bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
@@ -177,13 +189,13 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     private fun openPlaylistCreation() {
-        val action = PlayerFragmentDirections.actionPlayerFragmentToCreatePlaylistFragment()
+        val action = PlayerFragmentDirections.actionPlayerFragmentToPlaylistCreateFragment()
         findNavController().navigate(action)
     }
 
     companion object {
         private const val ENABLED_ALPHA = 1.0f
         private const val DISABLED_ALPHA = 0.25f
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
     }
 }

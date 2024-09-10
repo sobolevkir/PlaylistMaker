@@ -1,4 +1,4 @@
- package com.sobolevkir.playlistmaker.util
+ package com.sobolevkir.playlistmaker.common.util
 
 import android.view.View
 import androidx.fragment.app.Fragment

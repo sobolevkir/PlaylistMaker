@@ -1,14 +1,14 @@
-package com.sobolevkir.playlistmaker.settings.data.impl
+package com.sobolevkir.playlistmaker.common.data.impl
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.sobolevkir.playlistmaker.settings.domain.ExternalNavigator
+import com.sobolevkir.playlistmaker.common.domain.ExternalNavigator
 
 class ExternalNavigatorImpl(private val appContext: Context) : ExternalNavigator {
-    override fun shareLink(url: String) {
+    override fun shareText(text: String) {
         Intent(Intent.ACTION_SEND).run {
-            putExtra(Intent.EXTRA_TEXT, url)
+            putExtra(Intent.EXTRA_TEXT, text)
             type = "text/plain"
             startIntent(this)
         }

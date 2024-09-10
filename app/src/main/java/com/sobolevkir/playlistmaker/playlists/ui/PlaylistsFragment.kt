@@ -12,10 +12,10 @@ import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.databinding.FragmentPlaylistsBinding
 import com.sobolevkir.playlistmaker.media.ui.MediaFragmentDirections
 import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
-import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistsState
+import com.sobolevkir.playlistmaker.playlists.presentation.model.PlaylistsState
 import com.sobolevkir.playlistmaker.playlists.presentation.PlaylistsViewModel
-import com.sobolevkir.playlistmaker.util.debounce
-import com.sobolevkir.playlistmaker.util.viewBinding
+import com.sobolevkir.playlistmaker.common.util.debounce
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
@@ -32,7 +32,7 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
         viewModel.fillData()
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         binding.btnCreatePlaylist.setOnClickListener {
-            val action = MediaFragmentDirections.actionMediaFragmentToCreatePlaylistFragment()
+            val action = MediaFragmentDirections.actionMediaFragmentToPlaylistCreateFragment()
             findNavController().navigate(action)
         }
     }
@@ -50,10 +50,10 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
 
     private fun initClickDebounce() {
         onPlaylistClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false
-        ) { playlist -> openPlaylist(playlist) }
+        ) { playlist -> openPlaylist(playlist.id) }
     }
 
     private fun initAdapters() {
@@ -94,17 +94,21 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
             rvPlaylistsList.isVisible = true
             tvNothingFound.isVisible = false
             btnCreatePlaylist.isVisible = true
-            playlistsAdapter?.playlists?.clear()
-            playlistsAdapter?.playlists?.addAll(playlists)
-            playlistsAdapter?.notifyDataSetChanged()
+        }
+        playlistsAdapter?.apply {
+            this.playlists.clear()
+            this.playlists.addAll(playlists)
+            notifyDataSetChanged()
         }
     }
 
-    private fun openPlaylist(playlist: Playlist) {
+    private fun openPlaylist(playlistId: Long) {
+        val action = MediaFragmentDirections.actionMediaFragmentToPlaylistInfoFragment(playlistId)
+        findNavController().navigate(action)
     }
 
     companion object {
         fun newInstance() = PlaylistsFragment()
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
     }
 }

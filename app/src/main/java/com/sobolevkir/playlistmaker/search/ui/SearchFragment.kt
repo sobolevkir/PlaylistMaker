@@ -19,8 +19,8 @@ import com.sobolevkir.playlistmaker.common.ui.TrackListAdapter
 import com.sobolevkir.playlistmaker.databinding.FragmentSearchBinding
 import com.sobolevkir.playlistmaker.search.presentation.SearchState
 import com.sobolevkir.playlistmaker.search.presentation.SearchViewModel
-import com.sobolevkir.playlistmaker.util.debounce
-import com.sobolevkir.playlistmaker.util.viewBinding
+import com.sobolevkir.playlistmaker.common.util.debounce
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -58,18 +58,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun initClickDebounce() {
         onTrackClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false
         ) { track -> openPlayer(track) }
     }
 
     private fun initAdapters() {
-        foundTracksAdapter = TrackListAdapter {
+        foundTracksAdapter = TrackListAdapter(onItemClick = {
             viewModel.onFoundTrackClick(it)
             onTrackClickDebounce(it)
-        }
-        historyTracksAdapter = TrackListAdapter { onTrackClickDebounce(it) }
+        })
+        historyTracksAdapter = TrackListAdapter(onItemClick = { onTrackClickDebounce(it) })
         with(binding) {
             rvTrackSearchList.adapter = foundTracksAdapter
             rvTrackHistoryList.adapter = historyTracksAdapter
@@ -127,7 +127,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initObservers() {
-        lifecycle.addObserver(viewModel)
         viewModel.getStateLiveData().observe(viewLifecycleOwner) { state -> render(state) }
     }
 
@@ -232,7 +231,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
     }
 
 }

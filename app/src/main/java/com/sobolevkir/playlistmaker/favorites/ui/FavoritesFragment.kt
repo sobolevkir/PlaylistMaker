@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.common.ui.TrackListAdapter
-import com.sobolevkir.playlistmaker.util.debounce
-import com.sobolevkir.playlistmaker.util.viewBinding
+import com.sobolevkir.playlistmaker.common.util.debounce
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentFavoritesBinding
 import com.sobolevkir.playlistmaker.favorites.presentation.FavoritesState
 import com.sobolevkir.playlistmaker.favorites.presentation.FavoritesViewModel
@@ -27,15 +27,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initClickDebounce()
         initAdapters()
-
         viewModel.fillData()
-
-        viewModel.observeState().observe(viewLifecycleOwner) {
-            render(it)
-        }
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
     }
 
     override fun onDestroyView() {
@@ -51,14 +46,14 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     private fun initClickDebounce() {
         onTrackClickDebounce = debounce(
-            CLICK_DEBOUNCE_DELAY,
+            CLICK_DEBOUNCE_DELAY_MILLIS,
             viewLifecycleOwner.lifecycleScope,
             false
         ) { track -> openPlayer(track) }
     }
 
     private fun initAdapters() {
-        favoritesAdapter = TrackListAdapter { onTrackClickDebounce(it) }
+        favoritesAdapter = TrackListAdapter(onItemClick = { onTrackClickDebounce(it) })
         binding.rvFavoritesList.adapter = favoritesAdapter
     }
 
@@ -92,10 +87,11 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
             progressBar.isVisible = false
             rvFavoritesList.isVisible = true
             tvNothingFound.isVisible = false
-
-            favoritesAdapter?.tracks?.clear()
-            favoritesAdapter?.tracks?.addAll(tracks)
-            favoritesAdapter?.notifyDataSetChanged()
+        }
+        favoritesAdapter?.apply {
+            this.tracks.clear()
+            this.tracks.addAll(tracks)
+            notifyDataSetChanged()
         }
     }
 
@@ -106,7 +102,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
     companion object {
         fun newInstance() = FavoritesFragment()
-        private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 100L
     }
 
 }

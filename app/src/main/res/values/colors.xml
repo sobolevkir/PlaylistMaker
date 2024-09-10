@@ -8,4 +8,5 @@
     <color name="light_grey">#E6E8EB</color>
     <color name="yellow">#FCD452</color>
     <color name="transparent_overlay">#80000000</color>
+    <color name="soft_red">#F56B6C</color>
 </resources>

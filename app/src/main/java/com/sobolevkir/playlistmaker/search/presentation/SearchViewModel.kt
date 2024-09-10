@@ -1,12 +1,11 @@
 package com.sobolevkir.playlistmaker.search.presentation
 
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.util.debounce
+import com.sobolevkir.playlistmaker.common.util.debounce
 import com.sobolevkir.playlistmaker.search.domain.TracksInteractor
 import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 import kotlinx.coroutines.Dispatchers
@@ -14,12 +13,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel(),
-    DefaultLifecycleObserver {
+class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewModel() {
 
     private var latestSearchText: String? = null
     private val trackSearchDebounce =
-        debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { requestText ->
+        debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { requestText ->
             search(requestText)
         }
 
@@ -92,7 +90,7 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
     private fun renderState(state: SearchState) = stateLiveData.postValue(state)
 
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 
 }

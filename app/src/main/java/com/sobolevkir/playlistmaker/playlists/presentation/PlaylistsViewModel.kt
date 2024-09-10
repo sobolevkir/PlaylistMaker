@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobolevkir.playlistmaker.playlists.domain.PlaylistsInteractor
 import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
+import com.sobolevkir.playlistmaker.playlists.presentation.model.PlaylistsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

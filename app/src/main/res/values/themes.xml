@@ -32,6 +32,8 @@
         <item name="android:letterSpacing">0.01</item>
         <item name="android:textColorPrimary">@color/soft_black</item>
 
+        <item name="materialAlertDialogTheme">@style/CustomAlertDialog</item>
+
     </style>
 
 </resources>

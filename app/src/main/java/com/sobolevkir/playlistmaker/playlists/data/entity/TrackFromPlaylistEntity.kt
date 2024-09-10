@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tracks_from_playlist_table")
 data class TrackFromPlaylistEntity(
-    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "track_id")
+    @PrimaryKey(autoGenerate = false) @ColumnInfo(name = "id")
     val trackId: Long = -1,
     val trackName: String = "",
     val artistName: String = "",
+    val trackTimeMillis: Int = 0,
     val formattedTrackTime: String = "",
     val artworkUrl100: String = "",
     val artworkUrl512: String = "",

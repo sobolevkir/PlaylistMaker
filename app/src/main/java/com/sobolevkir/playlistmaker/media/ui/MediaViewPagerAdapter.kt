@@ -15,7 +15,7 @@ class MediaViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecyc
         PlaylistsFragment.newInstance()
     )
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = tabs.size
 
     override fun createFragment(position: Int): Fragment {
         return tabs[position]

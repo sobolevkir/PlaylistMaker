@@ -10,9 +10,9 @@ import com.sobolevkir.playlistmaker.playlists.data.impl.PlaylistsRepositoryImpl
 import com.sobolevkir.playlistmaker.playlists.domain.PlaylistsRepository
 import com.sobolevkir.playlistmaker.search.data.impl.TracksRepositoryImpl
 import com.sobolevkir.playlistmaker.search.domain.TracksRepository
-import com.sobolevkir.playlistmaker.settings.data.impl.ExternalNavigatorImpl
+import com.sobolevkir.playlistmaker.common.data.impl.ExternalNavigatorImpl
 import com.sobolevkir.playlistmaker.settings.data.impl.SettingsRepositoryImpl
-import com.sobolevkir.playlistmaker.settings.domain.ExternalNavigator
+import com.sobolevkir.playlistmaker.common.domain.ExternalNavigator
 import com.sobolevkir.playlistmaker.settings.domain.SettingsRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module

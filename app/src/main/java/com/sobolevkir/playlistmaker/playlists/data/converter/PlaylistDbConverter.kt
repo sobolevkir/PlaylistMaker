@@ -18,13 +18,13 @@ class PlaylistDbConverter(private val gson: Gson) {
         )
     }
 
-    fun convert(playlist: PlaylistEntity): Playlist {
+    fun convert(playlistEntity: PlaylistEntity): Playlist {
         return Playlist(
-            id = playlist.id,
-            name = playlist.name,
-            description = playlist.description,
-            coverUri = playlist.coverUri,
-            trackIds = gson.fromJson(playlist.trackIds, Array<Long>::class.java).toList()
+            id = playlistEntity.id,
+            name = playlistEntity.name,
+            description = playlistEntity.description,
+            coverUri = playlistEntity.coverUri,
+            trackIds = convertTrackIdsFromJson(playlistEntity.trackIds)
         )
     }
 
@@ -33,6 +33,7 @@ class PlaylistDbConverter(private val gson: Gson) {
             track.trackId,
             track.trackName,
             track.artistName,
+            track.trackTimeMillis,
             track.formattedTrackTime,
             track.artworkUrl100,
             track.artworkUrl512,
@@ -43,5 +44,27 @@ class PlaylistDbConverter(private val gson: Gson) {
             track.previewUrl
         )
     }
+
+    fun convert(trackEntity: TrackFromPlaylistEntity): Track {
+        return Track(
+            trackEntity.trackId,
+            trackEntity.trackName,
+            trackEntity.artistName,
+            trackEntity.trackTimeMillis,
+            trackEntity.formattedTrackTime,
+            trackEntity.artworkUrl100,
+            trackEntity.artworkUrl512,
+            trackEntity.collectionName,
+            trackEntity.releaseYear,
+            trackEntity.primaryGenreName,
+            trackEntity.country,
+            trackEntity.previewUrl
+        )
+    }
+
+    fun convertTrackIdsFromJson(trackIds: String): List<Long> =
+        if (trackIds.isNotEmpty()) {
+            gson.fromJson(trackIds, Array<Long>::class.java).toList()
+        } else listOf()
 
 }

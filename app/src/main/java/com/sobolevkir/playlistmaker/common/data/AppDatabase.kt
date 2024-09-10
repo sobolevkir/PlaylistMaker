@@ -9,8 +9,11 @@ import com.sobolevkir.playlistmaker.playlists.data.dao.TrackFromPlaylistDao
 import com.sobolevkir.playlistmaker.playlists.data.entity.PlaylistEntity
 import com.sobolevkir.playlistmaker.playlists.data.entity.TrackFromPlaylistEntity
 
-@Database(version = 2, entities = [FavoriteTrackEntity::class, PlaylistEntity::class, TrackFromPlaylistEntity::class])
-abstract class AppDatabase : RoomDatabase(){
+@Database(
+    version = 2,
+    entities = [FavoriteTrackEntity::class, PlaylistEntity::class, TrackFromPlaylistEntity::class]
+)
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getFavoriteTrackDao(): FavoriteTrackDao
 

@@ -9,17 +9,18 @@ object TrackMapper {
     fun map(trackListDto: List<TrackDto>): List<Track> {
         return trackListDto.map {
             Track(
-                it.trackId,
-                it.trackName ?: "",
-                it.artistName ?: "",
-                getFormattedTime(it.trackTimeMillis),
-                it.artworkUrl100 ?: "",
-                getLargeCoverArtwork(it.artworkUrl100) ?: "",
-                it.collectionName ?: "",
-                getReleaseYear(it.releaseDate) ?: "",
-                it.primaryGenreName ?: "",
-                it.country ?: "",
-                it.previewUrl ?: "",
+                trackId = it.trackId,
+                trackName = it.trackName ?: "",
+                artistName = it.artistName ?: "",
+                trackTimeMillis = it.trackTimeMillis ?: 0,
+                formattedTrackTime = getFormattedTime(it.trackTimeMillis),
+                artworkUrl100 = it.artworkUrl100 ?: "",
+                artworkUrl512 = getLargeCoverArtwork(it.artworkUrl100) ?: "",
+                collectionName = it.collectionName ?: "",
+                releaseYear = getReleaseYear(it.releaseDate) ?: "",
+                primaryGenreName = it.primaryGenreName ?: "",
+                country = it.country ?: "",
+                previewUrl = it.previewUrl ?: "",
             )
         }
     }

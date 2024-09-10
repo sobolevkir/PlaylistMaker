@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.sobolevkir.playlistmaker.R
-import com.sobolevkir.playlistmaker.util.viewBinding
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentSettingsBinding
 import com.sobolevkir.playlistmaker.settings.presentation.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

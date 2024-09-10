@@ -1,6 +1,5 @@
 package com.sobolevkir.playlistmaker.player.presentation
 
-import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -31,6 +30,7 @@ class PlayerViewModel(
     private val currentTrackLiveData = MutableLiveData<Track>()
     private val playlistsLiveData = MutableLiveData<List<Playlist>>()
     private val addingResultSingleLiveEvent = SingleLiveEvent<Pair<Boolean, String>>()
+    private val isTrackInPlaylistLiveData = MutableLiveData<Boolean>()
 
     init {
         currentTrackLiveData.value = track
@@ -43,6 +43,7 @@ class PlayerViewModel(
                 .getPlaylists()
                 .collect { playlists ->
                     playlistsLiveData.postValue(playlists)
+                    checkIfTrackInPlaylist(track.trackId, playlists)
                 }
         }
     }
@@ -52,6 +53,7 @@ class PlayerViewModel(
     fun getPlaylistsLiveData(): LiveData<List<Playlist>> = playlistsLiveData
     fun getAddingResultSingleLiveEvent(): SingleLiveEvent<Pair<Boolean, String>> =
         addingResultSingleLiveEvent
+    fun getIsTrackInPlaylistLiveData(): LiveData<Boolean> = isTrackInPlaylistLiveData
 
     fun playbackControl() {
         when (playerStateLiveData.value) {
@@ -66,7 +68,7 @@ class PlayerViewModel(
         currentTrack?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 if (currentTrack.isFavorite) {
-                    favoritesInteractor.removeTrackFromFavorites(currentTrack)
+                    favoritesInteractor.removeTrackFromFavorites(currentTrack.trackId)
                 } else {
                     favoritesInteractor.addTrackToFavorites(currentTrack)
                 }
@@ -81,8 +83,8 @@ class PlayerViewModel(
             addingResultSingleLiveEvent.value = Pair(false, playlist.name)
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-                val result = playlistsInteractor.addTrackToPlaylist(currentTrack, playlist)
-                if (result.toInt() > 0) {
+                val result = playlistsInteractor.addTrackToPlaylist(currentTrack, playlist.id)
+                if (result > 0) {
                     addingResultSingleLiveEvent.postValue(Pair(true, playlist.name))
                 }
             }
@@ -93,7 +95,7 @@ class PlayerViewModel(
         timerJob?.cancel()
         timerJob = viewModelScope.launch(Dispatchers.IO) {
             while (playerInteractor.isPlaying()) {
-                delay(UPDATER_DELAY)
+                delay(UPDATER_DELAY_MILLIS)
                 if (this.isActive) {
                     playerStateLiveData.postValue(
                         PlayerState.Playing(playerInteractor.getCurrentPlayerPosition())
@@ -117,6 +119,13 @@ class PlayerViewModel(
         }
     }
 
+    private fun checkIfTrackInPlaylist(trackId: Long, playlists: List<Playlist>) {
+        val isTrackInPlaylist = playlists.any { playlist ->
+            playlist.trackIds.contains(trackId)
+        }
+        isTrackInPlaylistLiveData.postValue(isTrackInPlaylist)
+    }
+
     override fun onPause(owner: LifecycleOwner) {
         if (playerStateLiveData.value is PlayerState.Playing) {
             pausePlayer()
@@ -129,6 +138,6 @@ class PlayerViewModel(
     }
 
     companion object {
-        private const val UPDATER_DELAY = 100L
+        private const val UPDATER_DELAY_MILLIS = 100L
     }
 }

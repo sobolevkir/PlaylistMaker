@@ -2,7 +2,7 @@ package com.sobolevkir.playlistmaker.settings.domain.impl
 
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.ResourceProvider
-import com.sobolevkir.playlistmaker.settings.domain.ExternalNavigator
+import com.sobolevkir.playlistmaker.common.domain.ExternalNavigator
 import com.sobolevkir.playlistmaker.settings.domain.SharingInteractor
 
 class SharingInteractorImpl(
@@ -11,7 +11,7 @@ class SharingInteractorImpl(
 ) : SharingInteractor {
     override fun shareApp() {
         val appUrl = resourceProvider.getString(R.string.url_share_app)
-        externalNavigator.shareLink(appUrl)
+        externalNavigator.shareText(appUrl)
     }
 
     override fun openUserAgreement() {

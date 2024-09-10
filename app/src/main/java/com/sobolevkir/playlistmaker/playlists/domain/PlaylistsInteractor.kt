@@ -2,18 +2,32 @@ package com.sobolevkir.playlistmaker.playlists.domain
 
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
+import com.sobolevkir.playlistmaker.playlists.domain.model.PlaylistWithTracks
 import kotlinx.coroutines.flow.Flow
 
 interface PlaylistsInteractor {
 
-    suspend fun createPlaylist(playlist: Playlist)
+    suspend fun createPlaylist(name: String, description: String, strCoverUri: String)
+
+    suspend fun removePlaylist(playlistId: Long): Int
+
+    suspend fun getPlaylist(playlistId: Long): Playlist
+
+    suspend fun updatePlaylistInfo(
+        playlistId: Long, name: String,
+        description: String, strCoverUri: String
+    )
 
     fun getPlaylistNames(): Flow<List<String>>
 
     fun getPlaylists(): Flow<List<Playlist>>
 
-    suspend fun addTrackToPlaylist(track: Track, playlist: Playlist): Int
+    suspend fun addTrackToPlaylist(track: Track, playlistId: Long): Int
 
-    fun saveCoverToPrivateStorage(uri: String): String
+    suspend fun removeTrackFromPlaylist(trackId: Long, playlistId: Long): Int
+
+    fun getPlaylistWithTracks(playlistId: Long): Flow<PlaylistWithTracks>
+
+    suspend fun sharePlaylist(playlistId: Long)
 
 }

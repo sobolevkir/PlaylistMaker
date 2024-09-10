@@ -5,7 +5,7 @@ import com.sobolevkir.playlistmaker.common.data.AppDatabase
 import com.sobolevkir.playlistmaker.common.domain.LocalStorage
 import com.sobolevkir.playlistmaker.search.domain.model.ErrorType
 import com.sobolevkir.playlistmaker.common.domain.model.Track
-import com.sobolevkir.playlistmaker.util.Resource
+import com.sobolevkir.playlistmaker.common.util.Resource
 import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchRequest
 import com.sobolevkir.playlistmaker.search.data.dto.TracksSearchResponse
 import com.sobolevkir.playlistmaker.search.data.mapper.TrackMapper
@@ -60,9 +60,8 @@ class TracksRepositoryImpl(
         }
     }
 
-    override suspend fun getSavedHistory(): List<Track> {
-        return historyList.withFavoriteFlag(getFavoriteTrackIds().first())
-    }
+    override suspend fun getSavedHistory(): List<Track> =
+        historyList.withFavoriteFlag(getFavoriteTrackIds().first())
 
     override suspend fun addTrackToHistory(track: Track) {
         with(historyList) {
@@ -80,15 +79,11 @@ class TracksRepositoryImpl(
         historyList.clear()
     }
 
-    private fun getFavoriteTrackIds(): Flow<List<Long>> {
-        return appDatabase.getFavoriteTrackDao().getTrackIds()
-    }
+    private fun getFavoriteTrackIds(): Flow<List<Long>> =
+        appDatabase.getFavoriteTrackDao().getTrackIds()
 
-    private fun List<Track>.withFavoriteFlag(favoriteTrackIds: List<Long>): List<Track> {
-        return this.map { track ->
-            track.copy(isFavorite = favoriteTrackIds.contains(track.trackId))
-        }
-    }
+    private fun List<Track>.withFavoriteFlag(favoriteTrackIds: List<Long>): List<Track> =
+        this.map { track -> track.copy(isFavorite = favoriteTrackIds.contains(track.trackId)) }
 
     companion object {
         private const val TRACK_HISTORY_LIST = "track_history_list"
