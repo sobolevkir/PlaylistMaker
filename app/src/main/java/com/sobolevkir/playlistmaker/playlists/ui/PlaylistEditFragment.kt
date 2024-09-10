@@ -21,7 +21,7 @@ class PlaylistEditFragment : PlaylistCreateFragment() {
         onBackPressedCallback.remove()
         with(binding) {
             toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-            toolbar.title = getString(R.string.title_edit_playlist)
+            toolbar.title = getString(R.string.title_edit)
             btnSubmit.text = getString(R.string.btn_save)
             btnSubmit.setOnClickListener {
                 viewModel.onSubmitButtonClick(

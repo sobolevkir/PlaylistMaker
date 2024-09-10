@@ -48,7 +48,8 @@
             style="@style/ToolbarWithBackButtonStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:navigationIconTint="?attr/colorOnPrimaryFixedVariant"/>
 
         <TextView
             android:id="@+id/tv_playlist_name"
@@ -59,7 +60,7 @@
             android:ellipsize="end"
             android:text="@string/hint_playlist_name"
             android:textAppearance="@style/YS_Bold_24"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimaryFixedVariant"
             app:layout_constraintTop_toBottomOf="@id/iv_playlist_cover_large"
             app:layout_constraintBottom_toTopOf="@id/tv_playlist_description"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
@@ -74,7 +75,7 @@
             android:ellipsize="end"
             android:text="@string/hint_playlist_descr"
             android:textAppearance="@style/YS_Regular_18"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimaryFixedVariant"
             app:layout_constraintTop_toBottomOf="@id/tv_playlist_name"
             app:layout_constraintBottom_toTopOf="@id/tv_playlist_duration"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
@@ -88,7 +89,7 @@
             android:maxLines="1"
             android:text="@string/hint_playlist_duration"
             android:textAppearance="@style/YS_Regular_18"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimaryFixedVariant"
             app:layout_constraintTop_toBottomOf="@id/tv_playlist_description"
             app:layout_constraintBottom_toBottomOf="@id/btn_share_playlist_small"
             app:layout_constraintStart_toStartOf="@id/left_guideline" />
@@ -98,7 +99,7 @@
             android:layout_width="@dimen/track_item_second_size"
             android:layout_height="@dimen/track_item_second_size"
             android:src="@drawable/dot_separator"
-            app:tint="?attr/colorPrimary"
+            app:tint="?attr/colorOnPrimaryFixedVariant"
             android:importantForAccessibility="no"
             app:layout_constraintStart_toEndOf="@id/tv_playlist_duration"
             app:layout_constraintTop_toTopOf="@id/tv_playlist_duration"
@@ -112,7 +113,7 @@
             android:maxLines="1"
             android:text="@string/hint_playlist_tracks_number"
             android:textAppearance="@style/YS_Regular_18"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimaryFixedVariant"
             app:layout_constraintBottom_toBottomOf="@id/tv_playlist_duration"
             app:layout_constraintStart_toEndOf="@id/iv_dot_separator" />
 
@@ -124,7 +125,7 @@
             android:layout_marginBottom="@dimen/large_indent"
             android:contentDescription="@string/btn_share_playlist"
             android:src="@drawable/ic_share"
-            app:tint="?attr/colorPrimary"
+            app:tint="?attr/colorOnPrimaryFixedVariant"
             app:layout_constraintStart_toStartOf="@id/left_guideline"
             app:layout_constraintTop_toBottomOf="@id/tv_playlist_duration"
             app:layout_constraintBottom_toBottomOf="parent" />
@@ -136,7 +137,7 @@
             android:layout_marginStart="@dimen/standard_indent"
             android:contentDescription="@string/hint_menu"
             android:src="@drawable/ic_menu"
-            app:tint="?attr/colorPrimary"
+            app:tint="?attr/colorOnPrimaryFixedVariant"
             app:layout_constraintStart_toEndOf="@id/btn_share_playlist_small"
             app:layout_constraintTop_toTopOf="@id/btn_share_playlist_small" />
 

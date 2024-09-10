@@ -58,6 +58,13 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     private fun initObservers() {
         lifecycle.addObserver(viewModel)
         viewModel.getCurrentTrackLiveData().observe(viewLifecycleOwner) { setTrackInfo(it) }
+        viewModel.getIsTrackInPlaylistLiveData().observe(viewLifecycleOwner) { isTrackInPlaylist ->
+            if (isTrackInPlaylist) {
+                binding.btnAddToPlaylist.setImageResource(R.drawable.btn_in_playlist_icon)
+            } else {
+                binding.btnAddToPlaylist.setImageResource(R.drawable.btn_add_icon)
+            }
+        }
         viewModel.getPlayerStateLiveData().observe(viewLifecycleOwner) { playerState ->
             changePlayControlButton(playerState)
             when (playerState) {

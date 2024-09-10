@@ -30,6 +30,7 @@ class PlayerViewModel(
     private val currentTrackLiveData = MutableLiveData<Track>()
     private val playlistsLiveData = MutableLiveData<List<Playlist>>()
     private val addingResultSingleLiveEvent = SingleLiveEvent<Pair<Boolean, String>>()
+    private val isTrackInPlaylistLiveData = MutableLiveData<Boolean>()
 
     init {
         currentTrackLiveData.value = track
@@ -42,6 +43,7 @@ class PlayerViewModel(
                 .getPlaylists()
                 .collect { playlists ->
                     playlistsLiveData.postValue(playlists)
+                    checkIfTrackInPlaylist(track.trackId, playlists)
                 }
         }
     }
@@ -51,6 +53,7 @@ class PlayerViewModel(
     fun getPlaylistsLiveData(): LiveData<List<Playlist>> = playlistsLiveData
     fun getAddingResultSingleLiveEvent(): SingleLiveEvent<Pair<Boolean, String>> =
         addingResultSingleLiveEvent
+    fun getIsTrackInPlaylistLiveData(): LiveData<Boolean> = isTrackInPlaylistLiveData
 
     fun playbackControl() {
         when (playerStateLiveData.value) {
@@ -114,6 +117,13 @@ class PlayerViewModel(
         playerInteractor.pausePlayer { playerState ->
             playerStateLiveData.postValue(playerState)
         }
+    }
+
+    private fun checkIfTrackInPlaylist(trackId: Long, playlists: List<Playlist>) {
+        val isTrackInPlaylist = playlists.any { playlist ->
+            playlist.trackIds.contains(trackId)
+        }
+        isTrackInPlaylistLiveData.postValue(isTrackInPlaylist)
     }
 
     override fun onPause(owner: LifecycleOwner) {

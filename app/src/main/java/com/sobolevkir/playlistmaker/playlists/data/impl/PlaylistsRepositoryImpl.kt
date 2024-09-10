@@ -37,9 +37,10 @@ class PlaylistsRepositoryImpl(
     }
 
     override suspend fun removePlaylist(playlistId: Long): Int {
-        val tracksFromRemovedPlaylist = getPlaylist(playlistId).first().trackIds
+        val removingPlaylist = getPlaylist(playlistId).first()
+        deleteCoverFromPrivateStorage(removingPlaylist.coverUri)
         val result = appDatabase.getPlaylistDao().removePlaylist(playlistId)
-        tracksFromRemovedPlaylist.forEach { removeTrackIfUnnecessary(it) }
+        removingPlaylist.trackIds.forEach { removeTrackIfUnnecessary(it) }
         return result
     }
 
@@ -50,6 +51,7 @@ class PlaylistsRepositoryImpl(
         val oldPlaylistInfo = appDatabase.getPlaylistDao().getPlaylistById(playlistId).first()
         if (oldPlaylistInfo != null) {
             val coverUri = if (oldPlaylistInfo.coverUri != strCoverUri) {
+                deleteCoverFromPrivateStorage(oldPlaylistInfo.coverUri)
                 saveCoverToPrivateStorage(strCoverUri)
             } else oldPlaylistInfo.coverUri
             val editedPlaylist = oldPlaylistInfo.copy(
@@ -142,6 +144,17 @@ class PlaylistsRepositoryImpl(
             return file.toUri().toString()
         } catch (_: Exception) {
             return ""
+        }
+    }
+
+    private fun deleteCoverFromPrivateStorage(uri: String) {
+        try {
+            val file = File(uri.toUri().path ?: return)
+            if (file.exists()) {
+                file.delete()
+            }
+        } catch (e: Exception) {
+            return
         }
     }
 
