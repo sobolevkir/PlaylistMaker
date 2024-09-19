@@ -15,7 +15,11 @@ class PlaylistsViewModel(private val playlistsInteractor: PlaylistsInteractor) :
     private val stateLiveData = MutableLiveData<PlaylistsState>()
     fun observeState(): LiveData<PlaylistsState> = stateLiveData
 
-    fun fillData() {
+    init {
+        fillData()
+    }
+
+    private fun fillData() {
         renderState(PlaylistsState.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             playlistsInteractor

@@ -29,7 +29,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         super.onViewCreated(view, savedInstanceState)
         initClickDebounce()
         initAdapters()
-        viewModel.fillData()
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
     }
 
@@ -37,11 +36,6 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         super.onDestroyView()
         favoritesAdapter = null
         binding.rvFavoritesList.adapter = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.fillData()
     }
 
     private fun initClickDebounce() {

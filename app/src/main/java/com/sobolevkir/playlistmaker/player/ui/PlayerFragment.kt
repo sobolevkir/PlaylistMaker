@@ -3,6 +3,7 @@ package com.sobolevkir.playlistmaker.player.ui
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.logEvent
 import com.msaggik.playlistmaker.media.presentation.ui.adapters.PlaylistSmallListAdapter
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
@@ -45,6 +48,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         initObservers()
         initListeners()
         initBottomSheet()
+        binding.tvTrackName.isSelected = true
+        binding.tvArtistName.isSelected = true
     }
 
     override fun onDestroyView() {
@@ -91,11 +96,33 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     private fun initListeners() {
+        val analytics = FirebaseAnalytics.getInstance(requireContext())
         with(binding) {
             toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
             btnPlayControl.setOnClickListener { viewModel.playbackControl() }
-            btnFavorite.setOnClickListener { viewModel.onFavoriteButtonClick() }
+            btnFavorite.setOnClickListener {
+                val currentTrackInfo = viewModel.getCurrentTrackLiveData().value
+                currentTrackInfo?.let {
+                    if(!it.isFavorite) {
+                        Log.d("analytics_firebase", currentTrackInfo.trackId.toString())
+                        analytics.logEvent("Add_to_favorites") {
+                            param("track_id", currentTrackInfo.trackId.toString())
+                        }
+                        analytics.logEvent("Add_to_favs", ) {
+                            param("track_id", currentTrackInfo.trackId.toString())
+                        }
+                        analytics.logEvent("Add_to_favorites") {
+                            param("track_id_new", currentTrackInfo.trackId.toString())
+                        }
+                        analytics.logEvent("Add_to_favorites_new", Bundle().apply {
+                            putString("track_id_new", currentTrackInfo.trackId.toString())  // Преобразуем trackId в строку
+                        })
+                    }
+                }
+                viewModel.onFavoriteButtonClick()
+            }
             btnAddToPlaylist.setOnClickListener {
+                playlistsBottomSheet.isVisible = true
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
             btnCreatePlaylist.setOnClickListener { openPlaylistCreation() }
