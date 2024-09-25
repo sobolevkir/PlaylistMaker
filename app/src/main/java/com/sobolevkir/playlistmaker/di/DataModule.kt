@@ -12,7 +12,10 @@ import com.sobolevkir.playlistmaker.common.domain.ResourceProvider
 import com.sobolevkir.playlistmaker.search.data.network.ITunesApiService
 import com.sobolevkir.playlistmaker.search.data.network.NetworkClient
 import com.sobolevkir.playlistmaker.search.data.network.RetrofitNetworkClient
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -48,5 +51,7 @@ val dataModule = module {
     single { MediaPlayer() }
 
     single { Gson() }
+
+    single<CoroutineDispatcher>(named("ioDispatcher")) { Dispatchers.IO }
 
 }

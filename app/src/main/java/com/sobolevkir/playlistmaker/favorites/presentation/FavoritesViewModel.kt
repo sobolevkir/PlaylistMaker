@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.favorites.domain.FavoritesInteractor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
 
@@ -20,13 +20,12 @@ class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) :
 
     private fun fillData() {
         renderState(FavoritesState.Loading)
-        viewModelScope.launch(Dispatchers.IO) {
-            favoritesInteractor
-                .getFavoriteTracks()
-                .collect { favorites ->
-                    processResult(favorites)
-                }
-        }
+        favoritesInteractor
+            .getFavoriteTracks()
+            .onEach { favorites ->
+                processResult(favorites)
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun processResult(favorites: List<Track>) {
@@ -38,5 +37,4 @@ class FavoritesViewModel(private val favoritesInteractor: FavoritesInteractor) :
     }
 
     private fun renderState(state: FavoritesState) = stateLiveData.postValue(state)
-
 }
