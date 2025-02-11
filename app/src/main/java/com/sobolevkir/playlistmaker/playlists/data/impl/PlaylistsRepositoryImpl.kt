@@ -67,14 +67,14 @@ class PlaylistsRepositoryImpl(
         appDatabase.getPlaylistDao().getPlaylistNames()
 
     override fun getPlaylist(playlistId: Long): Flow<Playlist> =
-        appDatabase.getPlaylistDao().getPlaylistById(playlistId)
-            .map { playlistEntity ->
+        appDatabase.getPlaylistDao().getPlaylistById(playlistId).map { playlistEntity ->
                 playlistEntity?.let { playlistDbConverter.convert(it) } ?: Playlist()
             }
 
     override fun getPlaylists(): Flow<List<Playlist>> =
-        appDatabase.getPlaylistDao().getPlaylists()
-            .map { playlistEntities -> playlistEntities.map { playlistDbConverter.convert(it) } }
+        appDatabase.getPlaylistDao().getPlaylists().map { playlistEntities ->
+            playlistEntities.map { playlistDbConverter.convert(it) }
+        }
 
     override suspend fun addTrackToPlaylist(track: Track, playlistId: Long): Int {
         appDatabase.getTrackFromPlaylistDao().insertTrack(playlistDbConverter.convert(track))
