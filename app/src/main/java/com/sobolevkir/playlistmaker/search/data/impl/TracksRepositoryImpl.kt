@@ -68,7 +68,7 @@ class TracksRepositoryImpl(
             this.removeIf { it.trackId == track.trackId }
             this.add(0, track)
             if (this.size > HISTORY_LIST_MAX_SIZE) {
-                this.removeLast()
+                this.removeAt(this.lastIndex)
             }
         }
         localStorage.write(TRACK_HISTORY_LIST, gson.toJson(historyList))

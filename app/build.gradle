@@ -4,7 +4,7 @@ plugins {
     id "androidx.navigation.safeargs.kotlin"
     id "kotlin-kapt"
     id "androidx.room"
-    id "com.google.gms.google-services"
+    //id "com.google.gms.google-services"
 }
 
 android {
@@ -56,7 +56,7 @@ dependencies {
     //Glide
     def glide_version = "4.14.2"
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     //DI
     implementation "io.insert-koin:koin-android:3.4.2"
@@ -75,8 +75,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
 
     //Firebase
-    implementation platform('com.google.firebase:firebase-bom:33.3.0')
-    implementation 'com.google.firebase:firebase-analytics'
+    /*implementation platform('com.google.firebase:firebase-bom:33.3.0')
+    implementation 'com.google.firebase:firebase-analytics'*/
 
 }
 
