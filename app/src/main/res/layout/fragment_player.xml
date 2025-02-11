@@ -51,11 +51,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/medium_indent"
-            android:ellipsize="end"
-            android:maxLines="2"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
             android:text="@string/hint_track_name"
             android:textAppearance="@style/YS_Medium_22"
             android:textColor="?attr/colorPrimary"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
             app:layout_constraintBottom_toTopOf="@id/tv_artist_name"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline" />
@@ -67,7 +72,13 @@
             android:layout_marginBottom="@dimen/large_indent"
             android:text="@string/hint_artist_name"
             android:textAppearance="@style/YS_Medium_14"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
             android:textColor="?attr/colorPrimary"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
             app:layout_constraintBottom_toTopOf="@id/btn_play_control"
             app:layout_constraintEnd_toStartOf="@id/right_guideline"
             app:layout_constraintStart_toStartOf="@id/left_guideline" />
@@ -212,7 +223,8 @@
         android:orientation="vertical"
         app:behavior_hideable="true"
         app:behavior_peekHeight="@dimen/bottom_sheet_height"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:visibility="invisible">
 
         <TextView
             android:layout_width="match_parent"

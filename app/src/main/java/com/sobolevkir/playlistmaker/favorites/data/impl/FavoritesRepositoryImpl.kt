@@ -4,12 +4,15 @@ import com.sobolevkir.playlistmaker.favorites.data.converter.FavoriteTrackDbConv
 import com.sobolevkir.playlistmaker.common.data.AppDatabase
 import com.sobolevkir.playlistmaker.favorites.domain.FavoritesRepository
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class FavoritesRepositoryImpl(
     private val appDatabase: AppDatabase,
-    private val trackDbConverter: FavoriteTrackDbConverter
+    private val trackDbConverter: FavoriteTrackDbConverter,
+    private val ioDispatcher: CoroutineDispatcher
 ) : FavoritesRepository {
 
     override suspend fun addTrackToFavorites(track: Track) {
@@ -23,5 +26,6 @@ class FavoritesRepositoryImpl(
     override fun getFavoriteTracks(): Flow<List<Track>> =
         appDatabase.getFavoriteTrackDao().getTracks()
             .map { tracks -> tracks.map { trackDbConverter.convert(it) } }
+            .flowOn(ioDispatcher)
 
 }

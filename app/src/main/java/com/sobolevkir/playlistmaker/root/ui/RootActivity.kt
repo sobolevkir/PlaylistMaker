@@ -2,13 +2,9 @@ package com.sobolevkir.playlistmaker.root.ui
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewTreeObserver
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.doOnLayout
 import androidx.core.view.doOnNextLayout
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.sobolevkir.playlistmaker.R
@@ -34,16 +30,33 @@ class RootActivity : AppCompatActivity() {
                 R.id.playlistCreateFragment, R.id.playerFragment, R.id.playlistInfoFragment
             )
             binding.rootFragmentContainerView.doOnNextLayout {
-                setBottomNavigationViewVisibility(!isInHiddenDestinations)
+                toggleBottomNavigationView(!isInHiddenDestinations)
             }
         }
     }
 
-    private fun setBottomNavigationViewVisibility(isVisible: Boolean) {
-        val animRes = if (isVisible) R.anim.bottom_nav_show else R.anim.bottom_nav_hide
-        binding.bottomNavigationView.apply {
-            startAnimation(AnimationUtils.loadAnimation(this@RootActivity, animRes))
-            visibility = if (isVisible) View.VISIBLE else View.GONE
+    private fun toggleBottomNavigationView(isVisible: Boolean) {
+        if (isVisible && binding.bottomNavigationView.visibility != View.VISIBLE) {
+            binding.bottomNavigationView.apply {
+                startAnimation(
+                    AnimationUtils.loadAnimation(
+                        this@RootActivity,
+                        R.anim.bottom_nav_show
+                    )
+                )
+                visibility = View.VISIBLE
+            }
+        } else if (!isVisible && binding.bottomNavigationView.visibility != View.GONE) {
+            binding.bottomNavigationView.apply {
+                startAnimation(
+                    AnimationUtils.loadAnimation(
+                        this@RootActivity,
+                        R.anim.bottom_nav_hide
+                    )
+                )
+                visibility = View.GONE
+            }
         }
     }
+
 }

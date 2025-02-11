@@ -29,7 +29,6 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
         super.onViewCreated(view, savedInstanceState)
         initClickDebounce()
         initAdapters()
-        viewModel.fillData()
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
         binding.btnCreatePlaylist.setOnClickListener {
             val action = MediaFragmentDirections.actionMediaFragmentToPlaylistCreateFragment()
@@ -41,11 +40,6 @@ class PlaylistsFragment : Fragment(R.layout.fragment_playlists) {
         super.onDestroyView()
         playlistsAdapter = null
         binding.rvPlaylistsList.adapter = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.fillData()
     }
 
     private fun initClickDebounce() {
