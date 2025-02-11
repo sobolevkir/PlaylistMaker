@@ -14,13 +14,12 @@ import androidx.navigation.fragment.findNavController
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
 import com.sobolevkir.playlistmaker.common.ext.hideKeyboard
-import com.sobolevkir.playlistmaker.common.ext.showKeyboard
 import com.sobolevkir.playlistmaker.common.ui.TrackListAdapter
+import com.sobolevkir.playlistmaker.common.util.debounce
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentSearchBinding
 import com.sobolevkir.playlistmaker.search.presentation.SearchState
 import com.sobolevkir.playlistmaker.search.presentation.SearchViewModel
-import com.sobolevkir.playlistmaker.common.util.debounce
-import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -35,7 +34,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onStart() {
         super.onStart()
         binding.etSearchRequest.requestFocus()
-        activity?.showKeyboard()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,6 +97,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             if (hasFocus && binding.etSearchRequest.text.isEmpty()) {
                 viewModel.showHistoryOrDefault()
             }
+        }
+        binding.rvTrackSearchList.setOnScrollChangeListener { _: View, _: Int, _: Int, _: Int, _: Int ->
+            activity?.hideKeyboard()
+            binding.etSearchRequest.clearFocus()
         }
         binding.vgSearchTrackHistory.setOnScrollChangeListener { _: View, _: Int, _: Int, _: Int, _: Int ->
             activity?.hideKeyboard()

@@ -26,7 +26,7 @@ interface PlaylistDao {
     @Query("SELECT name FROM playlists_table")
     fun getPlaylistNames(): Flow<List<String>>
 
-    @Query("SELECT * FROM playlists_table")
+    @Query("SELECT * FROM playlists_table ORDER BY id DESC")
     fun getPlaylists(): Flow<List<PlaylistEntity>>
 
 }

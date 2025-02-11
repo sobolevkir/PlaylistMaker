@@ -25,6 +25,7 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
     fun getStateLiveData(): LiveData<SearchState> = stateLiveData
 
     fun onClearRequestButtonClick() {
+        latestSearchText = null
         viewModelScope.coroutineContext[Job]?.cancelChildren()
         renderState(SearchState.Default)
     }

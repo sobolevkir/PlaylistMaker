@@ -45,7 +45,7 @@ class TracksRepositoryImpl(
                 } else {
                     val tracksWithFavoriteFlag = getFavoriteTrackIds()
                         .map { favoriteIds ->
-                            foundTracks.withFavoriteFlag(favoriteIds)
+                            foundTracks.reversed().withFavoriteFlag(favoriteIds)
                         }
                         .map { Resource.Success(it) }
                     emitAll(tracksWithFavoriteFlag)
