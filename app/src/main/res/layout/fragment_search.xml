@@ -70,6 +70,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_clear_history"
                 style="@style/SmallButtonStyle"
+                android:layout_marginBottom="@dimen/standard_indent"
                 android:layout_gravity="center"
                 android:text="@string/btn_clear_history" />
         </LinearLayout>
