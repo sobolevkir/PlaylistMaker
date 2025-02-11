@@ -9,8 +9,6 @@
 <img alt="Fragments" src="https://img.shields.io/static/v1?style=for-the-badge&message=Fragments&color=4285F4&label="/>
   <img alt="Material" src="https://custom-icon-badges.demolab.com/badge/material-lightblue?style=for-the-badge"/>
   </br>
-  <a href="https://github.com/sobolevkir/PlaylistMaker/releases"><img src="https://img.shields.io/github/downloads/sobolevkir/PlaylistMaker/total?color=orange&style=for-the-badge"/></a>
-  <a href=""><img src="https://tokei.rs/b1/github/sobolevkir/playlistmaker?category=code&color=purple&include_prereleases&logo=github&style=for-the-badge"/></a>
   <a href="https://hits.sh/github.com/sobolevkir/PlaylistMaker/"><img alt="Hits" src="https://hits.sh/github.com/sobolevkir/playlistmaker.svg?style=for-the-badge&label=Views&extraCount=10&color=54856b"/></a>
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/sobolevkir/playlistmaker?style=for-the-badge&color=ggff20">
   </br>
