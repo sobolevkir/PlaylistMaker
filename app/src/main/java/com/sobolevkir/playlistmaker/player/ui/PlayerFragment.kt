@@ -3,7 +3,6 @@ package com.sobolevkir.playlistmaker.player.ui
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,17 +15,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.logEvent
 import com.msaggik.playlistmaker.media.presentation.ui.adapters.PlaylistSmallListAdapter
 import com.sobolevkir.playlistmaker.R
 import com.sobolevkir.playlistmaker.common.domain.model.Track
+import com.sobolevkir.playlistmaker.common.util.debounce
+import com.sobolevkir.playlistmaker.common.util.viewBinding
 import com.sobolevkir.playlistmaker.databinding.FragmentPlayerBinding
 import com.sobolevkir.playlistmaker.player.presentation.PlayerState
 import com.sobolevkir.playlistmaker.player.presentation.PlayerViewModel
 import com.sobolevkir.playlistmaker.playlists.domain.model.Playlist
-import com.sobolevkir.playlistmaker.common.util.debounce
-import com.sobolevkir.playlistmaker.common.util.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -85,24 +82,25 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                 notifyDataSetChanged()
             }
         }
-        viewModel.getAddingResultSingleLiveEvent().observe(viewLifecycleOwner) { (isAddingSuccess, playlistName) ->
-            if (isAddingSuccess) {
-                showMessage(getString(R.string.message_success_track_adding, playlistName))
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            } else {
-                showMessage(getString(R.string.message_duplicate_track, playlistName))
+        viewModel.getAddingResultSingleLiveEvent()
+            .observe(viewLifecycleOwner) { (isAddingSuccess, playlistName) ->
+                if (isAddingSuccess) {
+                    showMessage(getString(R.string.message_success_track_adding, playlistName))
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                } else {
+                    showMessage(getString(R.string.message_duplicate_track, playlistName))
+                }
             }
-        }
     }
 
     private fun initListeners() {
-        val analytics = FirebaseAnalytics.getInstance(requireContext())
+        //val analytics = FirebaseAnalytics.getInstance(requireContext())
         with(binding) {
             toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
             btnPlayControl.setOnClickListener { viewModel.playbackControl() }
             btnFavorite.setOnClickListener {
-                val currentTrackInfo = viewModel.getCurrentTrackLiveData().value
-                currentTrackInfo?.let {
+                //val currentTrackInfo = viewModel.getCurrentTrackLiveData().value
+                /*currentTrackInfo?.let {
                     if(!it.isFavorite) {
                         Log.d("analytics_firebase", currentTrackInfo.trackId.toString())
                         analytics.logEvent("Add_to_favorites") {
@@ -118,7 +116,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                             putString("track_id_new", currentTrackInfo.trackId.toString())  // Преобразуем trackId в строку
                         })
                     }
-                }
+                }*/
                 viewModel.onFavoriteButtonClick()
             }
             btnAddToPlaylist.setOnClickListener {
@@ -151,7 +149,11 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             tvTrackName.text = track.trackName
             tvArtistName.text = track.artistName
             setTextViewVisibility(tvDurationValue, tvDurationTitle, track.formattedTrackTime)
-            setTextViewVisibility(tvCollectionNameValue, tvCollectionNameTitle, track.collectionName)
+            setTextViewVisibility(
+                tvCollectionNameValue,
+                tvCollectionNameTitle,
+                track.collectionName
+            )
             setTextViewVisibility(tvReleaseYearValue, tvReleaseYearTitle, track.releaseYear)
             setTextViewVisibility(tvGenreValue, tvGenreTitle, track.primaryGenreName)
             setTextViewVisibility(tvCountryValue, tvCountryTitle, track.country)
